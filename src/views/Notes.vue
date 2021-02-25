@@ -1,17 +1,17 @@
 <template>
     <div id="app">
-        <h1 class="header">MyNotes</h1>
+        <h1 class="header">My<span style="color:rgb(215, 0, 0);">N</span>otes</h1>
         <hr class="whiteLine">
-        <h2><span style="color: green">Notes</span>
-        <router-link to="/Lists" style="color: white; margin-left: 0.6rem;">Lists</router-link></h2>
+        <!-- <h2><span style="color: green">Notes</span>
+        <router-link to="/Lists" style="color: white; margin-left: 0.6rem;">Lists</router-link></h2> -->
         <br>
         <!--<hr class="line">-->
         <ul id="listParent">
             <li v-for="(note, idx) in storedNotes" v-bind:key="idx">
-                <hr id="whiteLine">
                 <button class="noteDiv" @click="openNote(note.id)">
                     <h5><b>{{note.title}}</b></h5>
                 </button>
+                <hr id="whiteLine">
             </li>
         </ul>
 
@@ -85,7 +85,7 @@ ul li {
     margin-bottom: 1rem;
 }
 #whiteLine{
-    border-top: 3px solid rgb(134, 134, 134);
+    border-top: 3px solid rgb(215, 0, 0);
     margin-top: -0.5rem;
     margin-bottom: 1rem;
     margin-left: -2.5rem;

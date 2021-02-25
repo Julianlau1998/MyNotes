@@ -1,9 +1,9 @@
 <template>
     <div id="app">
-        <h1 class="header">MyNotes</h1>
+        <h1 class="header">My<span style="color:rgb(215, 0, 0);">N</span>otes</h1>
         <hr class="whiteLine">
-        <h2><router-link to="/" style="color: white;">Notes</router-link>
-        <span style="color: green; margin-left: 0.6rem;">Lists</span></h2>
+        <!-- <h2><router-link to="/" style="color: white;">Notes</router-link>
+        <span style="color: green; margin-left: 0.6rem;">Lists</span></h2> -->
         <br>
         <!--<hr class="line">-->
         <ul id="listParent">
