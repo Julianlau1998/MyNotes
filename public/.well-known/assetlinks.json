@@ -1,0 +1,10 @@
+[
+  {
+    "relation": ["delegate_permission/common.handle_all_urls"],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "xyz.appmaker.jubtfx",
+      "sha256_cert_fingerprints": ["EF:6E:A1:AD:8B:0F:0C:3D:EA:3C:63:14:0E:9C:9F:F6:82:AA:CC:B8:25:25:EC:F0:4E:79:BD:2C:49:71:A9:B0"]
+    }
+  }
+]

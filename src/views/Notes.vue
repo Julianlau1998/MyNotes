@@ -89,6 +89,9 @@ ul li {
     margin-bottom: 1rem;
     margin-left: -2.5rem;
 }
+#listParent{
+    margin-left: -0.5rem;
+}
 @media (max-width: 390px) { 
     .noteDiv {
         width: 7rem;
