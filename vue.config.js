@@ -13,6 +13,12 @@ module.exports = {
       // swSrc is required in InjectManifest mode.
       swSrc: 'dev/sw.js',
       // ...other Workbox options...
+    },
+    manifestOptions: {
+      start_url: '.',
+      name: 'MyNotes',
+      themeColor: '#0f1820',
+      display: 'standalone',
     }
   }
 }
