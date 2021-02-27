@@ -10,7 +10,7 @@ module.exports = {
     // configure the workbox plugin
     workboxPluginMode: 'InjectManifest',
      workboxOptions: {
-      swSrc: `${process.env.BASE_URL}service-worker.js`,
+      swSrc: `https://mynotesjl.netlify.app/service-worker.js`,
     }
   }
 }
