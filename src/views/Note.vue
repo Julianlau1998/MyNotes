@@ -15,12 +15,13 @@
         <form @submit.prevent="handleSubmit(onSubmit)">
             <div class="form-group">
                 <ValidationProvider name="email" rules="required" v-slot="{ errors }">
-                    <input type="test" class="form-control" id="title" autocomplete="off" placeholder="Title" value="title" v-model="title" ref="title" autofocus>        
+                    <input type="test" class="form-control" id="title" autocomplete="off" placeholder="Title" value="title" v-model="title">        
                 <span class="errorMessage">{{ errors[0] }}</span>
                 </ValidationProvider>
             </div>
             <div class="form-group">
-                <textarea type="test" class="form-control" id="note"  placeholder="Note" value="note" v-model="note"> </textarea>        
+                <textarea type="test" class="form-control" id="note"  placeholder="Note" value="note" v-model="note" autofocus> 
+                </textarea>        
             </div>
             <button class="saveButton" type="submit">Save</button>
         </form>
