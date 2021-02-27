@@ -3,7 +3,7 @@ module.exports = {
     name: 'MyNotes',
     themeColor: '#003840',
     msTileColor: '#0f1820',
-    appleMobileWebAppCapable: 'yes',
+    mobileWebAppCapable: 'yes',
     appleMobileWebAppStatusBarStyle: '#0f1820',
     start_url: '.',
 
