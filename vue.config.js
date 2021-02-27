@@ -9,7 +9,7 @@ module.exports = {
     // configure the workbox plugin
     workboxPluginMode: 'InjectManifest',
      workboxOptions: {
-      swSrc: 'public/service-worker.js',
+      swSrc: './public/service-worker.js',
     },
     manifestOptions: {
       start_url: '.',
