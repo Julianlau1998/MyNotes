@@ -1,4 +1,3 @@
-
 import { Workbox } from "workbox-window";
 
 let wb;
