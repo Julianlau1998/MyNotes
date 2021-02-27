@@ -10,12 +10,13 @@ module.exports = {
     workboxPluginMode: 'InjectManifest',
      workboxOptions: {
       swSrc: './public/service-worker.js',
-    },
-    manifestOptions: {
-      start_url: '.',
-      name: 'MyNotes',
-      themeColor: '#0f1820',
-      display: 'standalone',
+
+      manifestOptions: {
+        start_url: '.',
+        name: 'MyNotes',
+        themeColor: '#0f1820',
+        display: 'standalone',
+      }
     }
   }
 }
