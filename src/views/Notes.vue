@@ -44,7 +44,6 @@ export default {
             for (let i=0; i<this.storedNotes.length; i++) {
             this.titles.push(this.storedNotes[i].title)
             this.notes.push(this.storedNotes[i].note)
-            console.log(this.titles[i])
         }
         }
     }

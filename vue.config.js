@@ -1,5 +1,4 @@
 module.exports = {
-  // ...other vue-cli plugin options...
   pwa: {
     name: 'MyNotes',
     themeColor: '#0f1820',
@@ -9,11 +8,9 @@ module.exports = {
 
     // configure the workbox plugin
     workboxPluginMode: 'InjectManifest',
-    workboxOptions: {
-      // swSrc is required in InjectManifest mode.
+/*     workboxOptions: {
       swSrc: 'dev/sw.js',
-      // ...other Workbox options...
-    },
+    }, */
     manifestOptions: {
       start_url: '.',
       name: 'MyNotes',
