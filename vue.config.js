@@ -8,9 +8,9 @@ module.exports = {
 
     // configure the workbox plugin
     workboxPluginMode: 'InjectManifest',
-/*     workboxOptions: {
-      swSrc: 'dev/sw.js',
-    }, */
+     workboxOptions: {
+      swSrc: './src/registerServiceWorker.js',
+    },
     manifestOptions: {
       start_url: '.',
       name: 'MyNotes',
