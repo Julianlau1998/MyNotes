@@ -20,7 +20,7 @@
                 </ValidationProvider>
             </div>
             <div class="form-group">
-                <textarea type="test" class="form-control" id="note"  placeholder="Note" value="note" v-model="note" autofocus> 
+                <textarea type="test" class="form-control" id="note"  placeholder="Note" value="note" v-model="note"> 
                 </textarea>        
             </div>
             <button class="saveButton" type="submit">Save</button>
