@@ -4,13 +4,13 @@ module.exports = {
     themeColor: '#003840',
     msTileColor: '#0f1820',
     mobileWebAppCapable: 'yes',
-    appleMobileWebAppStatusBarStyle: '#0f1820',
+    appleMobileWebAppStatusBarStyle: 'default',
     start_url: '.',
 
     // configure the workbox plugin
     workboxPluginMode: 'InjectManifest',
      workboxOptions: {
-      swSrc: `src/service-worker.js`,
+      swSrc: 'src/service-worker.js'
     }
   }
 }
