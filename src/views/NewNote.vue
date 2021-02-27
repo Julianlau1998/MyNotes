@@ -8,7 +8,7 @@
         <form @submit.prevent="handleSubmit(onSubmit)">
             <div class="form-group">
                 <ValidationProvider name="email" rules="required" v-slot="{ errors }">
-                    <input type="test" class="form-control" id="title"  placeholder="Title" v-model="title">        
+                    <input type="test" autocomplete="off" class="form-control" id="title"  placeholder="Title" v-model="title" ref="title" autofocus>        
                     <span class="errorMessage">{{ errors[0] }}</span>
                 </ValidationProvider>
             </div>
@@ -62,6 +62,7 @@ export default {
         if (this.id === null) {
             this.id = 0
         }
+        this.$refs.title.focus();
     }
 }
 </script>

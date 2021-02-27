@@ -15,7 +15,7 @@
         <form @submit.prevent="handleSubmit(onSubmit)">
             <div class="form-group">
                 <ValidationProvider name="email" rules="required" v-slot="{ errors }">
-                    <input type="test" class="form-control" id="title" placeholder="Title" value="title" v-model="title" ref="title" autofocus>        
+                    <input type="test" class="form-control" id="title" autocomplete="off" placeholder="Title" value="title" v-model="title" ref="title" autofocus>        
                 <span class="errorMessage">{{ errors[0] }}</span>
                 </ValidationProvider>
             </div>
