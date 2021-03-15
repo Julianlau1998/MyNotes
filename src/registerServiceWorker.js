@@ -26,7 +26,6 @@ if (process.env.NODE_ENV === 'production') {
       console.log('No internet connection found. App is running in offline mode.')
     },
     error (error) {
-      alert(error)
       console.log(error)
       console.error('Error during service worker registration:', error)
     }
