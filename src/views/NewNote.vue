@@ -6,6 +6,9 @@
         <br><br>
         <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmit)">
+            <button to="/" v-if="focusValue" class="saveHidden">
+                <img src="../assets/haken.png" alt="delete icon" class="deleteNew" type="submit" v-if="focusValue">
+            </button>
             <div class="form-group">
                 <ValidationProvider name="email" rules="required" v-slot="{ errors }">
                     <input type="test" autocomplete="off" class="form-control" id="title"  placeholder="Title" v-model="title" ref="title" autofocus>        
@@ -16,6 +19,9 @@
                 <textarea type="test" class="form-control" id="note"  placeholder="Note" v-model="note"> </textarea>        
             </div>
             <button type="submit" class="saveButton">Save</button>
+            <button to="/">
+                <img src="../assets/haken.png" alt="delete icon" class="delete" type="submit">
+            </button>
         </form>
         </ValidationObserver>
     </div>
@@ -68,4 +74,15 @@ export default {
 </script>
 
 <style scoped>
+.saveHidden {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.6rem;
+    background: transparent;
+    border: none;;
+}
+.deleteNew {
+    width: 2.2rem;
+    background: none;
+}
 </style>

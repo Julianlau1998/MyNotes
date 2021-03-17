@@ -6,21 +6,42 @@
             </router-link>
         </div>
         <div>
-            <router-link to="/">
+            <router-link to="/" v-if="!focusValue">
                     <img src="../assets/trash.png" alt="delete icon" class="delete" @click="deleteNote">
             </router-link>
         </div>
         <br><br>
         <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmit)">
+            <button to="/" v-if="focusValue" class="saveHidden">
+                <img src="../assets/haken.png" alt="delete icon" class="deleteNew" type="submit" v-if="focusValue">
+            </button>
             <div class="form-group">
                 <ValidationProvider name="email" rules="required" v-slot="{ errors }">
-                    <input type="test" class="form-control" id="title" autocomplete="off" placeholder="Title" value="title" v-model="title">        
+                    <input
+                    type="test"
+                    class="form-control"
+                    id="title"
+                    autocomplete="off"
+                    placeholder="Title"
+                    value="title"
+                    v-model="title"
+                    @focus="focusValue=true"
+                    >        
                 <span class="errorMessage">{{ errors[0] }}</span>
                 </ValidationProvider>
             </div>
             <div class="form-group">
-                <textarea type="test" class="form-control" id="note"  placeholder="Note" value="note" v-model="note"> 
+                <textarea
+                  type="test"
+                  class="form-control"
+                  id="note"
+                  placeholder="Note"
+                  value="note"
+                  v-model="note"
+                  ref="note"
+                  @focus="focusValue=true"
+                > 
                 </textarea>        
             </div>
             <button class="saveButton" type="submit">Save</button>
@@ -51,6 +72,7 @@ export default {
             title: '',
             note: '',
             currentObject: {title: '', note: '', id: ""},
+            focusValue: false
         }
     },
     methods: {
@@ -79,7 +101,21 @@ export default {
                 this.note = this.notes[i].note
             }
         }
-        this.$refs.title.focus();
+        //this.$refs.title.focus();
     }
 }
 </script>
+
+<style scoped>
+.saveHidden {
+    position: absolute;
+    right: 0.5rem;
+    top: 0.6rem;
+    background: transparent;
+    border: none;;
+}
+.deleteNew {
+    width: 2.2rem;
+    background: none;
+}
+</style>

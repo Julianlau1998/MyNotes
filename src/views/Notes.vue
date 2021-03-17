@@ -6,11 +6,12 @@
         <ul id="listParent">
             <li v-for="(note, idx) in storedNotes" v-bind:key="idx">
                 <button class="noteDiv" @click="openNote(note.id)">
-                    <h5><b>{{note.title}}</b></h5>
+                    <h5><b>{{note.title.substring(0,11)}}</b></h5>
                 </button>
                 <hr id="whiteLine">
             </li>
         </ul>
+        <br><br><br><br><br><br>
 
         <router-link to="/NewNote"><div class="plusButton">+</div></router-link>
     </div>
