@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <h1 class="header">My<span style="color:rgb(215, 0, 0);">N</span>otes</h1>
+        <h1 class="header">My<span style="color:rgb(215, 215, 215);">N</span>otes</h1>
         <hr class="whiteLine">
         <br>
         <ul id="listParent">
