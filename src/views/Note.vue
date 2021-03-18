@@ -47,7 +47,13 @@
             <button class="saveButton" type="submit">Save</button>
         </form>
         </ValidationObserver>
-        <img src="../../public/img/share.png" alt="share" v-on:click="share" id="share">
+        <img
+        v-if="shareAvailable"
+        src="../../public/img/share.png"
+        alt="share"
+        v-on:click="share"
+        id="share"
+        >
     </div>
 </template>
 
@@ -73,7 +79,8 @@ export default {
             title: '',
             note: '',
             currentObject: {title: '', note: '', id: ""},
-            focusValue: false
+            focusValue: false,
+            shareAvailable: false
         }
     },
     methods: {
@@ -109,6 +116,11 @@ export default {
             }
         }
         //this.$refs.title.focus();
+    },
+    created () {
+        if(navigator.share !== undefined) {
+            this.shareAvailable = true
+        }
     }
 }
 </script>
