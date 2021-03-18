@@ -6,8 +6,8 @@
         <br><br>
         <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmit)">
-            <button to="/" v-if="focusValue" class="saveHidden">
-                <img src="../assets/haken.png" alt="delete icon" class="deleteNew" type="submit" v-if="focusValue">
+            <button to="/" class="saveHidden">
+                <img src="../assets/haken.png" alt="delete icon" class="deleteNew" type="submit">
             </button>
             <div class="form-group">
                 <ValidationProvider name="email" rules="required" v-slot="{ errors }">
@@ -19,9 +19,6 @@
                 <textarea type="test" class="form-control" id="note"  placeholder="Note" v-model="note"> </textarea>        
             </div>
             <button type="submit" class="saveButton">Save</button>
-            <button to="/">
-                <img src="../assets/haken.png" alt="delete icon" class="delete" type="submit">
-            </button>
         </form>
         </ValidationObserver>
     </div>

@@ -71,6 +71,14 @@ ul li {
     margin-left: 0rem;
     color: lightgray;
 }
+
+.noteDiv:active {
+    box-shadow: -1px -1px 4px 0px black,
+                1px 1px 3px 0px rgb(133, 133, 133);
+}
+.noteDiv:focus {
+    outline: none;
+}
 .header {
     font-size: 3.5rem;
     color: lightgray;

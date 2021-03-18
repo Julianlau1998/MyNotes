@@ -49,6 +49,10 @@ body {
                      1px 1px 5px 2px black;
         color: white;
     }
+    .plusButton:active {
+      box-shadow: -1px -1px 4px 0px black,
+                  1px 1px 3px 0px rgb(133, 133, 133);
+      }
     .line {
         border-top: 6px dashed rgb(158, 63, 0);
         border-bottom: none;
@@ -103,7 +107,15 @@ body {
         left: 50%;
         transform: translateX(-50%);
         z-index: -1;
+        outline: none;
     }
+    .saveButton:active {
+      box-shadow: -1px -1px 4px 0px black,
+                  1px 1px 3px 0px rgb(133, 133, 133);
+      }
+      .saveButton:focus {
+        outline: none;
+      }
     .errorMessage{
       color: red;
     }
@@ -127,5 +139,8 @@ body {
         font-weight: 900;
         font-size: larger;
         margin-top: 5rem;
+    }
+    .saveHidden:focus {
+      outline: none;
     }
 </style>
