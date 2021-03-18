@@ -74,7 +74,7 @@ export default {
     },
     data () {
         return {
-            id: this.$store.state.id,
+            id: this.$route.params.id,
             notes: JSON.parse(localStorage.getItem('notes')),
             title: '',
             note: '',
