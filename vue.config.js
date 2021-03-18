@@ -11,9 +11,7 @@ module.exports = {
     workboxPluginMode: 'InjectManifest',
      workboxOptions: {
       swSrc: 'src/service-worker.js',
-      exclude : [
-        /\.map$/,
-    ]
+      eexclude: [/_redirects/],
     }
   }
 }
