@@ -47,6 +47,7 @@
             <button class="saveButton" type="submit">Save</button>
         </form>
         </ValidationObserver>
+        <img src="../../public/img/share.png" alt="share" v-on:click="share" id="share">
     </div>
 </template>
 
@@ -92,6 +93,12 @@ export default {
                 }
             }
             localStorage.setItem('notes', JSON.stringify(this.notes))
+        },
+        share () {
+            navigator.share({
+                "title": this.title,
+                "text": this.note
+            })
         }
     },
     mounted () {
@@ -117,5 +124,12 @@ export default {
 .deleteNew {
     width: 2.2rem;
     background: none;
+}
+#share {
+    width: 7rem;
+    position: absolute;
+    bottom: -0.5rem;
+    right: -0.7rem;
+    cursor: pointer;
 }
 </style>
