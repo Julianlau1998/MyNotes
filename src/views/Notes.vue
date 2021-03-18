@@ -66,14 +66,14 @@ ul li {
     background-color: transparent;
     border: none;
     box-shadow: -1px -1px 3px 0px rgb(133, 133, 133),
-                1px 1px 20px 2px black;
+                1px 1px 4px 2px black;
     margin: 1rem 2rem 2.5rem;
     margin-left: 0rem;
     color: lightgray;
 }
 
 .noteDiv:active {
-    box-shadow: -1px -1px 4px 0px black,
+    box-shadow: -1px -1px 3px 0px black,
                 1px 1px 3px 0px rgb(133, 133, 133);
 }
 .noteDiv:focus {
