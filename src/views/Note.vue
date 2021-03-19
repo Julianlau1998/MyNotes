@@ -14,7 +14,13 @@
         <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmit)">
             <button to="/" v-if="focusValue" class="saveHidden">
-                <img src="../assets/haken.png" alt="delete icon" class="deleteNew" type="submit" v-if="focusValue">
+                <img
+                src="../assets/haken.png"
+                alt="delete icon"
+                class="deleteNew"
+                type="submit"
+                v-if="focusValue"
+                >
             </button>
             <div class="form-group">
                 <ValidationProvider name="email" rules="required" v-slot="{ errors }">
