@@ -2,12 +2,20 @@
     <div id="app">
         <div>
             <router-link to="/">
-                    <img src="../assets/arrow.png" alt="back arrow" class="arrow">
+                    <img
+                    src="../assets/arrow.png"
+                    alt="back arrow"
+                    class="arrow">
             </router-link>
         </div>
         <div>
             <router-link to="/" v-if="!focusValue">
-                    <img src="../assets/trash.png" alt="delete icon" class="delete" @click="deleteNote">
+                    <img
+                    src="../assets/trash.png"
+                    alt="delete icon"
+                    class="delete"
+                    @click="deleteNote"
+                    >
             </router-link>
         </div>
         <br><br>
@@ -86,7 +94,8 @@ export default {
             note: '',
             currentObject: {title: '', note: '', id: ""},
             focusValue: false,
-            shareAvailable: false
+            shareAvailable: false,
+            shareNote: ''
         }
     },
     methods: {
@@ -108,9 +117,10 @@ export default {
             localStorage.setItem('notes', JSON.stringify(this.notes))
         },
         share () {
+            this.shareNote = this.title += this.note
             navigator.share({
                 "title": this.title,
-                "text": this.note
+                "text": this.shareNote
             })
         }
     },

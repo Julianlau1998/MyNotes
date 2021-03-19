@@ -90,7 +90,7 @@ body {
     }
     #note {
         height: 68vh;
-        font-size: 2rem;
+        font-size: 1.8rem;
         background-color: rgb(54, 61, 68);
         color: lightgray;
         border: none;
