@@ -117,10 +117,9 @@ export default {
             localStorage.setItem('notes', JSON.stringify(this.notes))
         },
         share () {
-            this.shareNote = this.title += this.note
             navigator.share({
                 "title": this.title,
-                "text": this.shareNote
+                "text": this.note
             })
         }
     },
