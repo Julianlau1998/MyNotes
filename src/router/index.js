@@ -5,6 +5,8 @@ import NewNote from '../views/NewNote.vue'
 import Note from '../views/Note.vue'
 import Lists from '../views/Lists.vue'
 import NewList from '../views/NewList.vue'
+import SingleList from '../views/List.vue'
+
 
 Vue.use(VueRouter)
 
@@ -31,8 +33,14 @@ const routes = [
   },
   {
     path: '/Lists',
-    name: 'List',
+    name: 'Lists',
     component: Lists
+  }
+  ,
+  {
+    path: '/List/:id',
+    name: 'SingleList',
+    component: SingleList
   }
 ]
 

@@ -42,7 +42,11 @@ export default {
         return {
             title: '',
             note: '',
-            currentObject: {title: '', note: '', id: ""},
+            currentObject: {
+                title: '',
+                note: '',
+                id: ""
+            },
             notesList: JSON.parse(localStorage.getItem('notes')),
             id: this.$uuidKey()
         }

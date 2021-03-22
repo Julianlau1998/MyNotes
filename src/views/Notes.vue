@@ -2,13 +2,21 @@
     <div id="app">
         <h1 class="header">My<span style="color:rgb(215, 0, 0);">N</span>otes</h1>
         <hr class="whiteLine">
-        <br>
+        <h2>
+            <span style="color: rgb(0, 215, 215); opacity: 0.7;">
+                Notes
+            </span> 
+            &nbsp;
+            <router-link to="/lists" style="color: white;">
+                Lists
+            </router-link>
+        </h2>
         <ul id="listParent">
             <li v-for="(note, idx) in storedNotes" v-bind:key="idx">
                 <button class="noteDiv" @click="openNote(note.id)">
                     <h5><b>{{note.title.substring(0,11)}}</b></h5>
                 </button>
-                <hr id="whiteLine">
+                <hr id="redLine">
             </li>
         </ul>
         <br><br><br><br><br><br>
@@ -19,6 +27,10 @@
 
 <script>
 import router from '../router'
+import Vue from 'vue'
+import Vue2TouchEvents from 'vue2-touch-events'
+
+Vue.use(Vue2TouchEvents)
 
 export default {
     name: 'Notes',
@@ -33,10 +45,13 @@ export default {
         openNote (id) {
             this.$store.state.id = id
             router.push(`/Note/${id}`)
+        },
+        swipeHandler () {
+            this.$router.push('/lists')
         }
     },
-    mounted () {
-        if(this.storedNotes === null) {
+    created () {
+        if(this.storedNotes === null || this.storedNotes === undefined) {
             this.storedNotes = []
         } else {
             for (let i=0; i<this.storedNotes.length; i++) {
@@ -82,18 +97,6 @@ ul li {
 .header {
     font-size: 3.5rem;
     color: lightgray;
-}
-.whiteLine{
-    border-top: 3px solid rgb(134, 134, 134);
-    width: 12.5rem;
-    margin-top: -0.5rem;
-    margin-bottom: 1rem;
-}
-#whiteLine{
-    border-top: 3px solid rgb(215, 0, 0);
-    margin-top: -0.5rem;
-    margin-bottom: 1rem;
-    margin-left: -2.5rem;
 }
 #listParent{
     margin-left: -0.5rem;

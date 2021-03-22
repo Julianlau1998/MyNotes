@@ -86,7 +86,6 @@ body {
         background-color: rgb(54, 61, 68);
         color: lightgray;
         border: none;
-
     }
     #note {
         height: 68vh;
@@ -142,5 +141,17 @@ body {
     }
     .saveHidden:focus {
       outline: none;
+    }
+    .whiteLine{
+      border-top: 3px solid rgb(134, 134, 134);
+      width: 12.5rem;
+      margin-top: -0.5rem;
+      margin-bottom: 1rem;
+    }
+    #redLine{
+        border-top: 3px solid rgb(215, 0, 0);
+        margin-top: -0.5rem;
+        margin-bottom: 1rem;
+        margin-left: -2.5rem;
     }
 </style>

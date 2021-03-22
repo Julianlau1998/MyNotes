@@ -2,18 +2,17 @@
     <div id="app">
         <h1 class="header">My<span style="color:rgb(215, 0, 0);">N</span>otes</h1>
         <hr class="whiteLine">
-        <!-- <h2><router-link to="/" style="color: white;">Notes</router-link>
-        <span style="color: green; margin-left: 0.6rem;">Lists</span></h2> -->
-        <br>
-        <!--<hr class="line">-->
+        <h2><router-link to="/" style="color: white;">Notes</router-link>
+        <span style="color: rgb(0, 215, 215); opacity: 0.7; margin-left: 0.6rem;">Lists</span></h2>
         <ul id="listParent">
             <li v-for="(list, idx) in storedLists" v-bind:key="idx">
-                <hr id="whiteLine">
                 <button class="noteDiv" @click="openList(list.id)">
                     <h5><b>{{list.title}}</b></h5>
                 </button>
+                <hr id="redLine">
             </li>
         </ul>
+        <br><br><br><br><br><br>
 
         <router-link to="/NewList"><div class="plusButton">+</div></router-link>
     </div>
@@ -21,6 +20,10 @@
 
 <script>
 import router from '../router'
+/* import Vue from 'vue'
+import Vue2TouchEvents from 'vue2-touch-events'
+
+Vue.use(Vue2TouchEvents) */
 
 export default {
     name: 'Lists',
@@ -35,6 +38,9 @@ export default {
         openList (id) {
             this.$store.state.id = id
             router.push(`/list/${id}`)
+        },
+        swipeHandler () {
+            this.$router.push('/')
         }
     },
     mounted () {

@@ -1,40 +1,48 @@
 <template>
     <div id="app">
-        <router-link to="/Lists">
+        <router-link to="/lists">
             <img src="../assets/arrow.png" alt="back arrow" class="arrow">
         </router-link>
-        
+
+        <router-link to="/lists" v-if="!focusValue">
+            <img
+                src="../assets/trash.png"
+                alt="delete icon"
+                class="delete"
+                @click="deleteList"
+            >
+        </router-link>
         <br><br>
         <ValidationObserver v-slot="{ handleSubmit }">
-        <form @submit.prevent="handleSubmit(onSubmit)">
-            <button to="/" class="saveHidden">
+        <form @submit.prevent="handleSubmit(onSubmit)" class="form">
+            <button to="/" class="saveHidden" v-if="focusValue">
                 <img src="../assets/haken.png" alt="delete icon" class="deleteNew" type="submit">
             </button>
             <div class="form-group">
                 <ValidationProvider rules="required" v-slot="{ errors }">
-                    <input
-                    type="test"
-                    class="form-control"
-                    id="title"
-                    placeholder="Title"
-                    v-model="title"
-                    ref="title"
-                    autocomplete="off"
-                    >    
+                    <input 
+                        type="test"
+                        class="form-control"
+                        id="title"
+                        placeholder="Title"
+                        v-model="title"
+                        @click="focusValue=true"
+                        autocomplete="off"
+                        >    
                     <span class="errorMessage">{{ errors[0] }}</span>
                 </ValidationProvider>    
             </div>
             <br>
             <div class="form-group paddingTop scroll">
                 <div type="test" class="form-control" id="note"  placeholder="List">
-                    <span
-                    v-if="listElements.length != 0"
-                    class="subTitle"
-                    >   
+                    <span 
+                        v-if="listElements.length != 0"
+                        class="subTitle"
+                    >
                         To-Do:
                     </span>
                     <ul>
-                        <li v-for="(item, itemKey) in listElements" :key="itemKey">
+                        <li v-for="(item, itemKey) in listElements" :key="itemKey" ref="list">
                             <div 
                                 id="blocker"
                                 @click="itemDone(item)"
@@ -45,21 +53,21 @@
                                 type="checkbox"
                                 ref="item"
                             >
-                            <span @click="edit(item)"> 
+                            <span @click="edit(item)" class="marginLeft">
                                 {{item}} 
                             </span>
                             <hr class="whiteLine">
                         </li>
                     </ul>
-                    <br>
                     <span
                     v-if="doneItems.length != 0"
                     class="subTitle"
                     >
+                        <br>
                         Done:
                     </span>
                     <ul>
-                        <li v-for="(doneItem, itemKey) in doneItems" :key="itemKey">
+                        <li v-for="(doneItem, itemKey) in doneItems" id="done" :key="itemKey">
                             <div 
                                 id="blocker"
                                 @click="itemNotDone(doneItem)"
@@ -72,25 +80,27 @@
                                 id="checkedItem"
                             >
                             &nbsp;
-                            <del>{{doneItem}}</del>
+                            <del class="marginLeft">{{doneItem}}</del>
                             <hr class="whiteLine">
                         </li>
                     </ul>
+                    <br><br>
                 </div>        
             </div>
         </form>
         </ValidationObserver>
         <input
-        class="form-control newNote"
-        placeholder="New Item"
-        v-model="listItem"
-        ref="add"
-        v-on:keyup.enter="addItem()"
+            class="form-control newNote"
+            placeholder="New Item"
+            v-model="listItem"
+            @click="focusValue=true"
+            v-on:keyup.enter="addItem()"
+            ref="add"
         />
         <button
-        class="neomorph"
-        id="addButton"
-        @click="addItem"
+            class="neomorph"
+            id="addButton"
+            @click="addItem"
         > 
             add 
         </button>
@@ -107,14 +117,16 @@ extend('required', {
 });
 
 export default {
+    name: 'SingleList',
     components: {
         ValidationProvider,
         ValidationObserver
     },
     data () {
         return {
+            id: this.$route.params.id,
             title: '',
-            list: '',
+            lists: JSON.parse(localStorage.getItem('lists')),
             currentObject: {
                 title: '',
                 listElements: [],
@@ -122,10 +134,10 @@ export default {
                 id: this.$uuidKey()
             },
             listsList: JSON.parse(localStorage.getItem('lists')),
-            id: this.$uuidKey(),
             listElements: [],
             listItem: '',
             doneItems: [],
+            focusValue: false
         }
     },
     methods: {
@@ -133,29 +145,44 @@ export default {
             if(this.listsList===null) {
                 this.listsList = []
             }
-            this.currentObject.title = this.title
-            this.currentObject.listElements = this.listElements
-            this.currentObject.doneItems = this.doneItems
-            this.listsList.push(this.currentObject)
+            for (let i = 0; i < this.listsList.length; i++) {
+                if (this.listsList[i].id === this.id) {
+                    this.listsList[i].title = this.title
+                    this.listsList[i].listElements = this.listElements
+                    this.listsList[i].doneItems = this.doneItems                }
+            }
             localStorage.setItem('id', this.currentObject.id)
             localStorage.setItem('lists',JSON.stringify(this.listsList))
-            this.$router.push('/lists')
+            this.$router.push('/Lists')
         },
         addItem () {
             if (this.$refs.add.value !== '') {
-                this.listElements.push(this.$refs.add.value)
+                this.listElements.push(this.listItem)
                 this.listItem = ''
-                this.$refs.add.value = ''
-                this.$refs.add.focus();
+                this.$refs.add.focus()
+                window.scrollTo(0,this.$refs.list.scrollHeight)
             }
         },
         itemDone(item) {
             this.listElements = this.listElements.filter(el => el != item)
             this.doneItems.push(item)
+            this.focusValue=true
         },
         itemNotDone(item) {
             this.doneItems = this.doneItems.filter(el => el != item)
             this.listElements.push(item)
+            this.focusValue=true
+        },
+        deleteList () {
+            for (let i in this.lists) {
+                if (this.lists[i].id === this.id) {
+                    this.lists.splice(i, 1)
+                }
+            }
+            localStorage.setItem('lists', JSON.stringify(this.lists))
+        },
+        swipeHandler () {
+            this.$router.push('/lists')
         },
         edit(item) {
             if (this.$refs.add.value === '') {
@@ -166,16 +193,14 @@ export default {
             }
         }
     },
-    created () {
-        if (this.listsList === undefined) {
-            this.listsList = []
-        }
-        if (this.id === null) {
-            this.id = 0
-        }
-    },
     mounted () {
-        this.$refs.title.focus();
+        for (let i = 0; i < this.lists.length; i++) {
+            if (this.lists[i].id === this.id) {
+                this.title = this.lists[i].title
+                this.listElements = this.lists[i].listElements
+                this.doneItems = this.lists[i].doneItems
+            }
+        }
     }
 }
 </script>
@@ -277,6 +302,9 @@ input[type="checkbox"] {
 #note {
     text-align: left;
 }
+#done {
+    margin-top: -0.5rem;
+}
 .subTitle {
     color: rgb(0, 215, 215);
     font-weight: 500;
@@ -284,7 +312,7 @@ input[type="checkbox"] {
 .marginLeft {
     margin-left: 0.5rem
 }
-@media (min-width: 600px) { 
+ @media (min-width: 600px) { 
   .newNote {
       width: 83%;
   }   
