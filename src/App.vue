@@ -154,4 +154,39 @@ body {
         margin-bottom: 1rem;
         margin-left: -2.5rem;
     }
+
+    /* Lists */
+    #checkbox,
+    #checkboxChecked {
+    width: 1.6rem;
+    height: 1.6rem;
+    background-color: transparent;
+    border: 2px solid lightgray;
+    border-radius: 20px;
+    position: relative;
+    top: 1.9rem;
+    opacity: 0.5;
+    padding-top: 0rem;
+    cursor: pointer;
+  }
+  #checkboxChecked {
+    margin-left: -0.47rem
+  }
+  .checked {
+      width: 7px;
+      height: 7px;
+      border-radius: 20px;
+      background-color: rgb(0, 215, 215);
+      position: relative;
+      left: 0.47rem;
+      top: 0.47rem;
+  }
+  .marginLeft {
+      margin-left: 3.5rem
+  }
+  #item,
+  #doneItem {
+      position: relative;
+      bottom: 0.1rem;
+  }
 </style>

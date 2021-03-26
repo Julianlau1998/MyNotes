@@ -36,16 +36,15 @@
                     <ul>
                         <li v-for="(item, itemKey) in listElements" :key="itemKey">
                             <div 
-                                id="blocker"
+                                id="checkbox"
                                 @click="itemDone(item)"
                             >
                             </div>
-                             <input 
-                                id="item"
-                                type="checkbox"
-                                ref="item"
+                            <span
+                            @click="edit(item)"
+                            class="marginLeft bottom"
+                            id="item"
                             >
-                            <span @click="edit(item)"> 
                                 {{item}} 
                             </span>
                             <hr class="whiteLine">
@@ -61,18 +60,22 @@
                     <ul>
                         <li v-for="(doneItem, itemKey) in doneItems" :key="itemKey">
                             <div 
-                                id="blocker"
+                                id="checkboxChecked"
+                                class="checked"
                                 @click="itemNotDone(doneItem)"
                             >
+                                <div
+                                    class="checked"
+                                >
+                                </div>
                             </div>
-                             <input 
-                                type="checkbox"
-                                checked
-                                ref="checkedItem"
-                                id="checkedItem"
-                            >
                             &nbsp;
-                            <del>{{doneItem}}</del>
+                            <del
+                            class="marginLeft"
+                            id="doneItem"
+                            >
+                                {{doneItem}}
+                            </del>
                             <hr class="whiteLine">
                         </li>
                     </ul>
@@ -143,7 +146,7 @@ export default {
         },
         addItem () {
             if (this.$refs.add.value !== '') {
-                this.listElements.push(this.$refs.add.value)
+                this.listElements.unshift(this.$refs.add.value)
                 this.listItem = ''
                 this.$refs.add.value = ''
                 this.$refs.add.focus();
@@ -151,11 +154,11 @@ export default {
         },
         itemDone(item) {
             this.listElements = this.listElements.filter(el => el != item)
-            this.doneItems.push(item)
+            this.doneItems.unshift(item)
         },
         itemNotDone(item) {
             this.doneItems = this.doneItems.filter(el => el != item)
-            this.listElements.push(item)
+            this.listElements.unshift(item)
         },
         edit(item) {
             if (this.$refs.add.value === '') {
@@ -253,9 +256,10 @@ export default {
     border: none;;
 }
   .deleteNew {
-    width: 2.2rem;
-    background: none;
-}
+      width: 2.8em;
+      background: none;
+      margin-top: -0.3rem;
+  }
 input[type="checkbox"]:checked {
   color: red;
 }
@@ -280,9 +284,6 @@ input[type="checkbox"] {
 .subTitle {
     color: rgb(0, 215, 215);
     font-weight: 500;
-}
-.marginLeft {
-    margin-left: 0.5rem
 }
 @media (min-width: 600px) { 
   .newNote {

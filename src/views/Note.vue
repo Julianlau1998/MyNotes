@@ -149,9 +149,10 @@ export default {
     border: none;;
 }
 .deleteNew {
-    width: 2.2rem;
-    background: none;
-}
+      width: 2.8em;
+      background: none;
+      margin-top: -0.3rem;
+  }
 #share {
     width: 7rem;
     position: absolute;

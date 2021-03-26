@@ -44,16 +44,15 @@
                     <ul>
                         <li v-for="(item, itemKey) in listElements" :key="itemKey" ref="list">
                             <div 
-                                id="blocker"
+                                id="checkbox"
                                 @click="itemDone(item)"
                             >
                             </div>
-                             <input 
-                                id="item"
-                                type="checkbox"
-                                ref="item"
+                            <span
+                            @click="edit(item)"
+                            class="marginLeft bottom"
+                            id="item"
                             >
-                            <span @click="edit(item)" class="marginLeft">
                                 {{item}} 
                             </span>
                             <hr class="whiteLine">
@@ -69,18 +68,23 @@
                     <ul>
                         <li v-for="(doneItem, itemKey) in doneItems" id="done" :key="itemKey">
                             <div 
-                                id="blocker"
+                                id="checkboxChecked"
+                                class="checked"
                                 @click="itemNotDone(doneItem)"
                             >
+                                <img
+                                    src="../assets/haken.png"
+                                    alt=""
+                                    class="checkImage"
+                                    >
                             </div>
-                             <input 
-                                type="checkbox"
-                                checked
-                                ref="checkedItem"
-                                id="checkedItem"
-                            >
                             &nbsp;
-                            <del class="marginLeft">{{doneItem}}</del>
+                            <del
+                            class="marginLeft"
+                            id="doneItem"
+                            >
+                                {{doneItem}}
+                            </del>
                             <hr class="whiteLine">
                         </li>
                     </ul>
@@ -237,6 +241,11 @@ export default {
   #trashcan {
       width: 2rem;
   }
+  .deleteNew {
+      width: 2.8em;
+      background: none;
+      margin-top: -0.3rem;
+  }
   .newNote{
       width: 75%;
       margin-left: 3%;
@@ -278,10 +287,6 @@ export default {
     background: transparent;
     border: none;;
 }
-  .deleteNew {
-    width: 2.2rem;
-    background: none;
-}
 input[type="checkbox"]:checked {
   color: red;
 }
@@ -291,14 +296,26 @@ input[type="checkbox"] {
     box-shadow: none;
     margin-right: 10px;
 }
-#blocker {
+#checkbox {
     width: 1.6rem;
     height: 1.6rem;
-    background-color: black;
+    background-color: transparent;
+    border: 2px solid lightgray;
+    border-radius: 20px;
     position: relative;
     top: 1.9rem;
-    opacity: 0;
+    opacity: 1;
     padding-top: 0rem;
+    cursor: pointer;
+}
+.checked {
+    width: 7px;
+    height: 7px;
+    border-radius: 20px;
+    background-color: rgb(0, 215, 215);
+    position: relative;
+    left: 0.47rem;
+    top: 0.47rem;
 }
 #note {
     text-align: left;
@@ -311,7 +328,19 @@ input[type="checkbox"] {
     font-weight: 500;
 }
 .marginLeft {
-    margin-left: 0.5rem
+    margin-left: 3.5rem
+}
+#item,
+#doneItem {
+    position: relative;
+    bottom: 0.1rem;
+}
+.checkImage {
+    width: 1.7rem;
+    background-color: transparent;
+    position: relative;
+    bottom: 0.7rem;
+    right: 0.21rem;
 }
  @media (min-width: 600px) { 
   .newNote {
