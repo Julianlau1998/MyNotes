@@ -33,7 +33,7 @@
                 </ValidationProvider>    
             </div>
             <br>
-            <div class="form-group paddingTop scroll">
+            <div class="form-group scroll">
                 <div type="test" class="form-control" id="note"  placeholder="List">
                     <span 
                         v-if="listElements.length != 0"
@@ -260,7 +260,6 @@ export default {
   }
   #note{
       background-color: #0f1820;
-      height: 63vh;
   }
   #trashcan {
       width: 2rem;
