@@ -157,7 +157,8 @@ export default {
         },
         addItem () {
             if (this.$refs.add.value !== '') {
-                this.listElements.push(this.listItem)
+                this.listElements.unshift(this.listItem)
+                console.log(this.listElements)
                 this.listItem = ''
                 this.$refs.add.focus()
                 window.scrollTo(0,this.$refs.list.scrollHeight)
@@ -165,12 +166,12 @@ export default {
         },
         itemDone(item) {
             this.listElements = this.listElements.filter(el => el != item)
-            this.doneItems.push(item)
+            this.doneItems.unshift(item)
             this.focusValue=true
         },
         itemNotDone(item) {
             this.doneItems = this.doneItems.filter(el => el != item)
-            this.listElements.push(item)
+            this.listElements.unshift(item)
             this.focusValue=true
         },
         deleteList () {
