@@ -328,7 +328,7 @@ input[type="checkbox"] {
     font-weight: 500;
 }
 .marginLeft {
-    margin-left: 3.5rem
+    margin-left: 2.7rem
 }
 #item,
 #doneItem {
