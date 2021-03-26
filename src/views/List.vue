@@ -208,7 +208,7 @@ export default {
         share () {
             this.listElements.forEach(el => {
                 console.log(el)
-                this.sharedList += (el + ' \n')
+                this.sharedList += ('- ' + el + '\n\n')
             })
             navigator.share({
                 "title": this.title,
