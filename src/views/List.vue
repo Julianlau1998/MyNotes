@@ -93,6 +93,12 @@
             </div>
         </form>
         </ValidationObserver>
+        <img
+            src="../../public/img/share.png"
+            alt="share"
+            v-on:click="share"
+            id="share"
+        >
         <input
             class="form-control newNote"
             placeholder="New Item"
@@ -141,7 +147,9 @@ export default {
             listElements: [],
             listItem: '',
             doneItems: [],
-            focusValue: false
+            focusValue: false,
+            sharedList: '',
+            shareAvailable: false
         }
     },
     methods: {
@@ -196,6 +204,17 @@ export default {
                 this.$refs.add.value = item
                 this.listItem = item
             }
+        },
+        share () {
+            this.listElements.forEach(el => {
+                console.log(el)
+                this.sharedList += (el + ' \n')
+            })
+            navigator.share({
+                "title": this.title,
+                "text": this.sharedList
+            })
+            this.sharedList = ''
         }
     },
     mounted () {
@@ -205,6 +224,11 @@ export default {
                 this.listElements = this.lists[i].listElements
                 this.doneItems = this.lists[i].doneItems
             }
+        }
+    },
+    created () {
+        if(navigator.share !== undefined) {
+            this.shareAvailable = true
         }
     }
 }
@@ -341,6 +365,14 @@ input[type="checkbox"] {
     position: relative;
     bottom: 0.7rem;
     right: 0.21rem;
+}
+#share {
+    width: 5rem;
+    position: absolute;
+    top: -0.8rem;
+    left: 50%;
+    transform: translateX(-50%);
+    cursor: pointer;
 }
  @media (min-width: 600px) { 
   .newNote {
