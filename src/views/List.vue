@@ -97,6 +97,7 @@
             src="../../public/img/share.png"
             alt="share"
             v-on:click="share"
+            v-if="shareAvailable"
             id="share"
         >
         <input
