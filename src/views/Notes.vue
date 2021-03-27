@@ -7,9 +7,13 @@
                 Notes
             </span> 
             &nbsp;
-            <router-link to="/lists" style="color: white;">
+            <button
+                @click="routeToLists"
+                style="color: white;"
+                id="listsButton"
+            >
                 Lists
-            </router-link>
+            </button>
         </h2>
         <ul id="listParent">
             <li v-for="(note, idx) in storedNotes" v-bind:key="idx">
@@ -21,7 +25,13 @@
         </ul>
         <br><br><br><br><br><br>
 
-        <router-link to="/NewNote"><div class="plusButton">+</div></router-link>
+        <div 
+            @click="newNote()"
+            class="plusButton"
+            ref="plusButton"
+        >
+            +
+        </div>
     </div>
 </template>
 
@@ -43,11 +53,20 @@ export default {
     },
     methods: {
         openNote (id) {
+            this.$store.state.transitionName = 'swipe-left'
+            this.$refs.plusButton.style.opacity = 0
             this.$store.state.id = id
             router.push(`/Note/${id}`)
         },
         swipeHandler () {
             this.$router.push('/lists')
+        },
+        routeToLists () {
+            this.$store.state.transitionName = 'fade'
+            this.$router.push('/lists')
+        },
+        newNote () {
+            this.$router.push('/newNote')
         }
     },
     created () {
@@ -59,6 +78,11 @@ export default {
             this.notes.push(this.storedNotes[i].note)
         }
         }
+    },
+    mounted () {
+        setTimeout(() => {
+            this.$refs.plusButton.style.opacity = 1
+        }, 175);
     }
 }
 </script>
@@ -100,6 +124,14 @@ ul li {
 }
 #listParent{
     margin-left: -0.5rem;
+}
+#listsButton {
+    background: transparent;
+    border: none;
+    outline: none;
+}
+.plusButton {
+    opacity: 0;
 }
 @media (max-width: 390px) { 
     .noteDiv {

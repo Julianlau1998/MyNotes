@@ -5,7 +5,9 @@
                     <img
                     src="../assets/arrow.png"
                     alt="back arrow"
-                    class="arrow">
+                    class="arrow"
+                    ref="backArrow"
+                    >
             </router-link>
         </div>
         <div>
@@ -15,6 +17,7 @@
                     alt="delete icon"
                     class="delete"
                     @click="deleteNote"
+                    ref="trashcan"
                     >
             </router-link>
         </div>
@@ -124,13 +127,17 @@ export default {
         }
     },
     mounted () {
+        this.$store.state.transitionName = 'swipe-right'
         for (let i = 0; i < this.notes.length; i++) {
             if (this.notes[i].id === this.id) {
                 this.title = this.notes[i].title
                 this.note = this.notes[i].note
             }
         }
-        //this.$refs.title.focus();
+        setTimeout(() => {
+            this.$refs.backArrow.style.opacity = 1
+            this.$refs.trashcan.style.opacity = 1
+        }, 190);
     },
     created () {
         if(navigator.share !== undefined) {
@@ -159,5 +166,9 @@ export default {
     bottom: -0.5rem;
     right: -0.7rem;
     cursor: pointer;
+}
+.arrow,
+.delete {
+    opacity: 0;
 }
 </style>

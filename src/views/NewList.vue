@@ -1,14 +1,25 @@
 <template>
     <div id="app">
         <router-link to="/Lists">
-            <img src="../assets/arrow.png" alt="back arrow" class="arrow">
+            <img
+                src="../assets/arrow.png"
+                alt="back arrow"
+                class="arrow"
+                ref="backArrow"
+            >
         </router-link>
         
         <br><br>
         <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmit)">
             <button to="/" class="saveHidden">
-                <img src="../assets/haken.png" alt="delete icon" class="deleteNew" type="submit">
+                <img
+                    src="../assets/haken.png"
+                    alt="delete icon"
+                    class="deleteNew"
+                    type="submit"
+                    ref="safe"
+                >
             </button>
             <div class="form-group">
                 <ValidationProvider rules="required" v-slot="{ errors }">
@@ -94,6 +105,7 @@
         class="neomorph"
         id="addButton"
         @click="addItem"
+        ref="addButton"
         > 
             add 
         </button>
@@ -179,6 +191,12 @@ export default {
     },
     mounted () {
         this.$refs.title.focus();
+        setTimeout(() => {
+            this.$refs.backArrow.style.opacity = 1
+            this.$refs.safe.style.opacity = 1
+            this.$refs.add.style.opacity = 1
+            this.$refs.addButton.style.opacity = 1
+        }, 200);
     }
 }
 </script>
@@ -284,6 +302,12 @@ input[type="checkbox"] {
 .subTitle {
     color: rgb(0, 215, 215);
     font-weight: 500;
+}
+.arrow,
+.deleteNew,
+.newNote,
+#addButton {
+    opacity: 0;
 }
 @media (min-width: 600px) { 
   .newNote {

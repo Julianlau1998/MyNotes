@@ -2,7 +2,14 @@
     <div id="app">
         <h1 class="header">My<span style="color:rgb(215, 0, 0);">N</span>otes</h1>
         <hr class="whiteLine">
-        <h2><router-link to="/" style="color: white;">Notes</router-link>
+        <h2>
+        <button
+            @click="routeToNotes"
+            style="color: white;"
+            id="notesButton"
+        >
+            Notes
+        </button>
         <span style="color: rgb(0, 215, 215); opacity: 0.7; margin-left: 0.6rem;">Lists</span></h2>
         <ul id="listParent">
             <li v-for="(list, idx) in storedLists" v-bind:key="idx">
@@ -14,7 +21,13 @@
         </ul>
         <br><br><br><br><br><br>
 
-        <router-link to="/NewList"><div class="plusButton">+</div></router-link>
+        <div 
+            class="plusButton"
+            ref="plusButton"
+            @click="newList"
+        >
+            +
+        </div>
     </div>
 </template>
 
@@ -36,11 +49,20 @@ export default {
     },
     methods: {
         openList (id) {
+            this.$store.state.transitionName = 'swipe-left'
             this.$store.state.id = id
             router.push(`/list/${id}`)
         },
         swipeHandler () {
             this.$router.push('/')
+        },
+        routeToNotes () {
+            this.$store.state.transitionName = 'fade'
+            this.$router.push('/')
+        },
+        newList () {
+            this.$store.state.transitionName = 'swipe-right'
+            this.$router.push('/newList')
         }
     },
     mounted () {
@@ -52,6 +74,9 @@ export default {
             this.lists.push(this.storedLists[i].list)
         }
         }
+        setTimeout(() => {
+            this.$refs.plusButton.style.opacity = 1
+        }, 175);
     }
 }
 </script>
@@ -79,6 +104,13 @@ ul li {
     margin-left: 0rem;
     color: lightgray;
 }
+.noteDiv:active {
+    box-shadow: -1px -1px 3px 0px black,
+                1px 1px 3px 0px rgb(133, 133, 133);
+}
+.noteDiv:focus {
+    outline: none;
+}
 .header {
     font-size: 3.5rem;
     color: lightgray;
@@ -94,6 +126,14 @@ ul li {
     margin-top: -0.5rem;
     margin-bottom: 1rem;
     margin-left: -2.5rem;
+}
+#notesButton {
+    background: transparent;
+    border: none;
+    outline: none;
+}
+.plusButton {
+    opacity: 0;
 }
 @media (max-width: 390px) { 
     .noteDiv {

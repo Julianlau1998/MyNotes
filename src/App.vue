@@ -1,9 +1,20 @@
 <template>
-  <router-view/>
+    <transition
+      :name= transitionName 
+      mode="out-in"
+      ref="transition"
+    >
+        <router-view
+        ></router-view>
+    </transition>
 </template>
 
 <script>
 export default {
+  data () {
+    return {
+    }
+  },
   created() {
     if (this.$workbox) {
       this.$workbox.addEventListener("waiting", () => {
@@ -16,6 +27,11 @@ export default {
     async accept() {
       this.showUpgradeUI = false
       await this.$workbox.messageSW({ type: "SKIP_WAITING" });
+    }
+  },
+  computed: {
+    transitionName () {
+      return this.$store.state.transitionName
     }
   }
 }
@@ -48,6 +64,7 @@ body {
         box-shadow: -1px -1px 4px 0px rgb(133, 133, 133),
                      1px 1px 5px 2px black;
         color: white;
+        cursor: pointer;
     }
     .plusButton:active {
       box-shadow: -1px -1px 4px 0px black,
@@ -72,7 +89,7 @@ body {
         height: 3rem;
         position: absolute;
         left: 1rem;
-        top: 0.2rem;
+        top: 0.3rem;
     }
     .delete {
         width: 2.2rem;
@@ -188,5 +205,52 @@ body {
   #doneItem {
       position: relative;
       bottom: 0.1rem;
+  }
+
+  /* Route change animation */
+  .swipe-left-enter-active,
+  .swipe-left-leave-active {
+    transition: transform 0.15s;
+  }
+  .swipe-left-enter {
+    transform: translateX(100%);
+  }
+  .swipe-left-enter-to {
+    transform: translateX(0%);
+  }
+  .swipe-left-leave {
+    transform: translateX(0%);
+  }
+  .swipe-left-leave-to {
+    transform: translateX(-100%);
+  }
+
+  /* Swipe Right */
+  .swipe-right-enter-active,
+  .swipe-right-leave-active {
+    transition: transform 0.15s;
+  }
+  .swipe-right-enter {
+    transform: translateX(-100%);
+  }
+  .swipe-right-enter-to {
+    transform: translateX(0%);
+  }
+  .swipe-right-leave {
+    transform: translateX(0%);
+  }
+  .swipe-right-leave-to {
+    transform: translateX(100%);
+  }
+
+  /* Fade In-Out */
+  .fade-enter-active, .fade-leave-active {
+    transition: opacity .17s;
+  }
+  .fade-enter-to, .fade-leave {
+    opacity: 1;
+  }
+  .fade-enter, .fade-leave-to {
+    opacity: 0;
   }
 </style>

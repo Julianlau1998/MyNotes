@@ -1,13 +1,24 @@
 <template>
     <div id="app">
         <router-link to="/">
-            <img src="../assets/arrow.png" alt="back arrow" class="arrow">
+            <img
+                src="../assets/arrow.png"
+                alt="back arrow"
+                class="arrow"
+                ref="backArrow"
+            >
         </router-link>
         <br><br>
         <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmit)">
             <button to="/" class="saveHidden">
-                <img src="../assets/haken.png" alt="delete icon" class="deleteNew" type="submit">
+                <img
+                    src="../assets/haken.png"
+                    alt="delete icon"
+                    class="deleteNew"
+                    type="submit"
+                    ref="safe"
+                    >
             </button>
             <div class="form-group">
                 <ValidationProvider name="email" rules="required" v-slot="{ errors }">
@@ -66,10 +77,15 @@ export default {
         }
     },
     mounted () {
+        this.$store.state.transitionName = 'swipe-right'
         if (this.id === null) {
             this.id = 0
         }
         this.$refs.title.focus();
+        setTimeout(() => {
+            this.$refs.backArrow.style.opacity = 1
+            this.$refs.safe.style.opacity = 1
+        }, 200);
     }
 }
 </script>
@@ -86,5 +102,9 @@ export default {
     width: 2.8em;
     background: none;
     margin-top: -0.3rem;
+}
+.arrow,
+.deleteNew {
+    opacity: 0;
 }
 </style>

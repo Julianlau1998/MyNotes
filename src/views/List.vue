@@ -1,7 +1,12 @@
 <template>
     <div id="app">
         <router-link to="/lists">
-            <img src="../assets/arrow.png" alt="back arrow" class="arrow">
+            <img
+                src="../assets/arrow.png"
+                alt="back arrow"
+                class="arrow"
+                ref="backArrow"
+            >
         </router-link>
 
         <router-link to="/lists" v-if="!focusValue">
@@ -10,6 +15,7 @@
                 alt="delete icon"
                 class="delete"
                 @click="deleteList"
+                ref="trashcan"
             >
         </router-link>
         <br><br>
@@ -112,6 +118,7 @@
             class="neomorph"
             id="addButton"
             @click="addItem"
+            ref="addButton"
         > 
             add 
         </button>
@@ -219,6 +226,7 @@ export default {
         }
     },
     mounted () {
+        this.$store.state.transitionName = 'swipe-right'
         for (let i = 0; i < this.lists.length; i++) {
             if (this.lists[i].id === this.id) {
                 this.title = this.lists[i].title
@@ -226,6 +234,12 @@ export default {
                 this.doneItems = this.lists[i].doneItems
             }
         }
+        setTimeout(() => {
+            this.$refs.backArrow.style.opacity = 1
+            this.$refs.trashcan.style.opacity = 1
+            this.$refs.add.style.opacity = 1
+            this.$refs.addButton.style.opacity = 1
+        }, 210);
     },
     created () {
         if(navigator.share !== undefined) {
@@ -373,6 +387,12 @@ input[type="checkbox"] {
     left: 50%;
     transform: translateX(-50%);
     cursor: pointer;
+}
+.arrow,
+.delete,
+.newNote,
+#addButton {
+    opacity: 0;
 }
  @media (min-width: 600px) { 
   .newNote {
