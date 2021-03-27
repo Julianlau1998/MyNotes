@@ -95,7 +95,7 @@ export default {
             this.title !== ''
         ) {
             if (this.save === false) {
-                this.$dialog.confirm('Are You sure you want leave without saving? \n \n All changes would be lost.')
+                this.$dialog.confirm('Are You sure you want to leave without saving? \n \n All changes would be lost.')
                 .then (function () {
                     next()
                 })
