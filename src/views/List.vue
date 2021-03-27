@@ -240,7 +240,9 @@ export default {
             this.$refs.trashcan.style.opacity = 1
             this.$refs.add.style.opacity = 1
             this.$refs.addButton.style.opacity = 1
-            this.$refs.share.style.opacity = 1
+            if(navigator.share !== undefined) {
+                this.$refs.share.style.opacity = 1
+            }
         }, 210);
     },
     created () {

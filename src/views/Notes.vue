@@ -1,5 +1,6 @@
 <template>
     <div id="app">
+        <span v-touch:swipe.left="swipeHandler">
         <h1 class="header">My<span style="color:rgb(215, 0, 0);">N</span>otes</h1>
         <hr class="whiteLine">
         <h2>
@@ -32,6 +33,7 @@
         >
             +
         </div>
+        </span>
     </div>
 </template>
 
@@ -59,6 +61,7 @@ export default {
             router.push(`/Note/${id}`)
         },
         swipeHandler () {
+            this.$store.state.transitionName = 'fade'
             this.$router.push('/lists')
         },
         routeToLists () {
@@ -132,6 +135,9 @@ ul li {
 }
 .plusButton {
     opacity: 0;
+}
+#listParent {
+    min-height: 79vh;
 }
 @media (max-width: 390px) { 
     .noteDiv {
