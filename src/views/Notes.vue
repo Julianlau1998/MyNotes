@@ -82,7 +82,7 @@ export default {
     mounted () {
         setTimeout(() => {
             this.$refs.plusButton.style.opacity = 1
-        }, 175);
+        }, 200);
     }
 }
 </script>

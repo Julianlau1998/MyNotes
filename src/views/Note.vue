@@ -70,6 +70,7 @@
         alt="share"
         v-on:click="share"
         id="share"
+        ref="share"
         >
     </div>
 </template>
@@ -137,7 +138,8 @@ export default {
         setTimeout(() => {
             this.$refs.backArrow.style.opacity = 1
             this.$refs.trashcan.style.opacity = 1
-        }, 190);
+            this.$refs.share.style.opacity = 1
+        }, 200);
     },
     created () {
         if(navigator.share !== undefined) {
@@ -168,7 +170,8 @@ export default {
     cursor: pointer;
 }
 .arrow,
-.delete {
+.delete,
+#share {
     opacity: 0;
 }
 </style>

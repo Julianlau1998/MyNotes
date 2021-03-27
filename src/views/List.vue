@@ -105,6 +105,7 @@
             v-on:click="share"
             v-if="shareAvailable"
             id="share"
+            ref="share"
         >
         <input
             class="form-control newNote"
@@ -239,6 +240,7 @@ export default {
             this.$refs.trashcan.style.opacity = 1
             this.$refs.add.style.opacity = 1
             this.$refs.addButton.style.opacity = 1
+            this.$refs.share.style.opacity = 1
         }, 210);
     },
     created () {
@@ -391,7 +393,8 @@ input[type="checkbox"] {
 .arrow,
 .delete,
 .newNote,
-#addButton {
+#addButton,
+#share {
     opacity: 0;
 }
  @media (min-width: 600px) { 
