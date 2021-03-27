@@ -4,13 +4,13 @@
         <h1 class="header">My<span style="color:rgb(215, 0, 0);">N</span>otes</h1>
         <hr class="whiteLine">
         <h2>
-            <span style="color: rgb(0, 215, 215); opacity: 0.7;">
+            <span style="color: rgb(0, 215, 215); opacity: 0.7; margin-right: -0.2rem">
                 Notes
             </span> 
             &nbsp;
             <button
                 @click="routeToLists"
-                style="color: white;"
+                style="color: white; margin-left: -0.2rem"
                 id="listsButton"
             >
                 Lists

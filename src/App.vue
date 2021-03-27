@@ -253,4 +253,40 @@ body {
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
+  .dg-main-content {
+    margin-top: 12rem !important;
+    background-color: #0f1820 !important;
+    color: rgb(201, 201, 201) !important;
+    border-radius: 20px !important;
+  }
+  .dg-content {
+    font-size: 1.6rem !important;
+  }
+  .dg-btn-content {
+    border: none !important;
+    background-color: transparent !important;
+  }
+  .dg-btn--cancel {
+    border: none !important;
+    border-radius: 8px !important;
+    color:  rgb(0, 215, 215) !important;
+    background-color: transparent !important;
+    box-shadow: -1px -1px 4px 0px rgb(133, 133, 133),
+                1px 1px 5px 2px black !important;
+    margin-left: 3rem !important;
+    font-size: 1.2rem !important;
+  }
+
+  .dg-btn--ok {
+    border: none !important;
+    border-radius: 8px !important;
+    color: lightgray !important;
+    background-color: transparent !important;
+    box-shadow: -1px -1px 4px 0px rgb(133, 133, 133),
+                1px 1px 5px 2px black !important;
+    margin-right: 3rem !important;
+    padding-left: 0.6rem !important;
+    padding-right: 0.6rem !important;
+    font-size: 1.2rem !important;
+  }
 </style>

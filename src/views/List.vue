@@ -129,12 +129,10 @@
 <script>
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
-
 extend('required', {
   ...required,
   message: 'This field is required'
 });
-
 export default {
     name: 'SingleList',
     components: {
@@ -145,6 +143,7 @@ export default {
         return {
             id: this.$route.params.id,
             title: '',
+            originalTitle: '',
             lists: JSON.parse(localStorage.getItem('lists')),
             currentObject: {
                 title: '',
@@ -154,11 +153,14 @@ export default {
             },
             listsList: JSON.parse(localStorage.getItem('lists')),
             listElements: [],
+            originalListElements: [],
             listItem: '',
             doneItems: [],
+            originalDoneItems: [],
             focusValue: false,
             sharedList: '',
-            shareAvailable: false
+            shareAvailable: false,
+            alreadyAsked: false
         }
     },
     methods: {
@@ -179,6 +181,7 @@ export default {
         addItem () {
             if (this.$refs.add.value !== '') {
                 this.listElements.unshift(this.listItem)
+                console.log(this.listElements)
                 this.listItem = ''
                 this.$refs.add.focus()
                 window.scrollTo(0,this.$refs.list.scrollHeight)
@@ -226,12 +229,30 @@ export default {
         }
     },
     mounted () {
+        //confirmation modal on page back without saving
+        // const vm = this
+        // window.onpopstate = function() {
+        //     if(
+        //         vm.originalListElements !== vm.listElements ||
+        //         vm.originalDoneItems !== vm.doneItems ||
+        //         vm.originalTitle !== vm.title
+        //     ) {
+        //         if (confirm('Are You sure You want to leave without saving? All changes would be lost.')) {
+        //             this.$router.push('/lists')
+        //         }
+        //     }
+        // }
+        //set animation type
         this.$store.state.transitionName = 'swipe-right'
+        //Get data from local storage and create backup
         for (let i = 0; i < this.lists.length; i++) {
             if (this.lists[i].id === this.id) {
                 this.title = this.lists[i].title
                 this.listElements = this.lists[i].listElements
                 this.doneItems = this.lists[i].doneItems
+                this.originalTitle = this.title
+                this.originalListElements = this.listElements
+                this.originalDoneItems = this.doneItems
             }
         }
         setTimeout(() => {
@@ -248,6 +269,24 @@ export default {
         if(navigator.share !== undefined) {
             this.shareAvailable = true
         }
+    },
+    beforeRouteLeave (to, from, next) {
+        if(
+            this.originalListElements !== this.listElements ||
+            this.originalDoneItems !== this.doneItems ||
+            this.originalTitle !== this.title
+        ) {
+            this.$dialog.confirm('Are You sure you want leave without saving? \n \n All changes would be lost.')
+            .then (function () {
+                next()
+            })
+            .catch (function () {
+                next(false)
+            })
+        }
+        else {
+            next()
+        }
     }
 }
 </script>
@@ -259,7 +298,6 @@ export default {
       margin-left: -2rem;
       margin-bottom: 0.8rem;
   }
-
   input {
       color: lightgray;
       border: none;

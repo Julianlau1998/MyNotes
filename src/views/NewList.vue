@@ -140,7 +140,7 @@ export default {
             id: this.$uuidKey(),
             listElements: [],
             listItem: '',
-            doneItems: [],
+            doneItems: []
         }
     },
     methods: {
@@ -197,6 +197,24 @@ export default {
             this.$refs.add.style.opacity = 1
             this.$refs.addButton.style.opacity = 1
         }, 200);
+    },
+    beforeRouteLeave (to, from, next) {
+        if(
+            this.listElements !== [] ||
+            this.doneItems !== [] ||
+            this.title !== ''
+        ) {
+            this.$dialog.confirm('Are You sure you want leave without saving? \n \n All changes would be lost.')
+            .then (function () {
+                next()
+            })
+            .catch (function () {
+                next(false)
+            })
+        }
+        else {
+            next()
+        }
     }
 }
 </script>

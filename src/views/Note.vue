@@ -99,7 +99,9 @@ export default {
             currentObject: {title: '', note: '', id: ""},
             focusValue: false,
             shareAvailable: false,
-            shareNote: ''
+            shareNote: '',
+            originalTitle: '',
+            originalNote: ''
         }
     },
     methods: {
@@ -133,6 +135,8 @@ export default {
             if (this.notes[i].id === this.id) {
                 this.title = this.notes[i].title
                 this.note = this.notes[i].note
+                this.originalTitle = this.title
+                this.originalNote = this.note
             }
         }
         setTimeout(() => {
@@ -144,6 +148,23 @@ export default {
     created () {
         if(navigator.share !== undefined) {
             this.shareAvailable = true
+        }
+    },
+    beforeRouteLeave (to, from, next) {
+        if(
+            this.originalNote !== this.note ||
+            this.originalTitle !== this.title
+        ) {
+            this.$dialog.confirm('Are You sure you want leave without saving? \n \n All changes would be lost.')
+            .then (function () {
+                next()
+            })
+            .catch (function () {
+                next(false)
+            })
+        }
+        else {
+            next()
         }
     }
 }

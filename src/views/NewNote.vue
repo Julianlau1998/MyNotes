@@ -86,6 +86,23 @@ export default {
             this.$refs.backArrow.style.opacity = 1
             this.$refs.safe.style.opacity = 1
         }, 200);
+    },
+    beforeRouteLeave (to, from, next) {
+        if(
+            this.note !== '' ||
+            this.title !== ''
+        ) {
+            this.$dialog.confirm('Are You sure you want leave without saving? \n \n All changes would be lost.')
+            .then (function () {
+                next()
+            })
+            .catch (function () {
+                next(false)
+            })
+        }
+        else {
+            next()
+        }
     }
 }
 </script>
