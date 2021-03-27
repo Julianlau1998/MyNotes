@@ -140,7 +140,8 @@ export default {
             id: this.$uuidKey(),
             listElements: [],
             listItem: '',
-            doneItems: []
+            doneItems: [],
+            save: false
         }
     },
     methods: {
@@ -154,6 +155,7 @@ export default {
             this.listsList.push(this.currentObject)
             localStorage.setItem('id', this.currentObject.id)
             localStorage.setItem('lists',JSON.stringify(this.listsList))
+            this.save = true
             this.$router.push('/lists')
         },
         addItem () {
@@ -204,13 +206,17 @@ export default {
             this.doneItems !== [] ||
             this.title !== ''
         ) {
-            this.$dialog.confirm('Are You sure you want leave without saving? \n \n All changes would be lost.')
-            .then (function () {
+            if (this.save === false) {
+                this.$dialog.confirm('Are You sure you want leave without saving? \n \n All changes would be lost.')
+                .then (function () {
+                    next()
+                })
+                .catch (function () {
+                    next(false)
+                })
+            } else {
                 next()
-            })
-            .catch (function () {
-                next(false)
-            })
+            }
         }
         else {
             next()

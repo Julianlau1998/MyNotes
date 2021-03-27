@@ -160,7 +160,8 @@ export default {
             focusValue: false,
             sharedList: '',
             shareAvailable: false,
-            alreadyAsked: false
+            alreadyAsked: false,
+            save: false,
         }
     },
     methods: {
@@ -176,6 +177,7 @@ export default {
             }
             localStorage.setItem('id', this.currentObject.id)
             localStorage.setItem('lists',JSON.stringify(this.listsList))
+            this.save = true
             this.$router.push('/Lists')
         },
         addItem () {
@@ -184,7 +186,6 @@ export default {
                 console.log(this.listElements)
                 this.listItem = ''
                 this.$refs.add.focus()
-                window.scrollTo(0,this.$refs.list.scrollHeight)
             }
         },
         itemDone(item) {
@@ -229,19 +230,6 @@ export default {
         }
     },
     mounted () {
-        //confirmation modal on page back without saving
-        // const vm = this
-        // window.onpopstate = function() {
-        //     if(
-        //         vm.originalListElements !== vm.listElements ||
-        //         vm.originalDoneItems !== vm.doneItems ||
-        //         vm.originalTitle !== vm.title
-        //     ) {
-        //         if (confirm('Are You sure You want to leave without saving? All changes would be lost.')) {
-        //             this.$router.push('/lists')
-        //         }
-        //     }
-        // }
         //set animation type
         this.$store.state.transitionName = 'swipe-right'
         //Get data from local storage and create backup
@@ -251,7 +239,7 @@ export default {
                 this.listElements = this.lists[i].listElements
                 this.doneItems = this.lists[i].doneItems
                 this.originalTitle = this.title
-                this.originalListElements = this.listElements
+                this.originalListElements = this.listElements.filter(el => el == el)
                 this.originalDoneItems = this.doneItems
             }
         }
@@ -272,17 +260,21 @@ export default {
     },
     beforeRouteLeave (to, from, next) {
         if(
-            this.originalListElements !== this.listElements ||
+            this.originalListElements.sort().join(',') != this.listElements.sort().join(',') ||
             this.originalDoneItems !== this.doneItems ||
             this.originalTitle !== this.title
         ) {
-            this.$dialog.confirm('Are You sure you want leave without saving? \n \n All changes would be lost.')
-            .then (function () {
-                next()
-            })
-            .catch (function () {
-                next(false)
-            })
+            if (this.save===false) {
+                this.$dialog.confirm('Are You sure you want leave without saving? \n \n All changes would be lost.')
+                .then (function () {
+                    next()
+                })
+                .catch (function () {
+                    next(false)
+                })
+            } else {
+                next ()
+            }
         }
         else {
             next()

@@ -254,7 +254,10 @@ body {
     opacity: 0;
   }
   .dg-main-content {
-    margin-top: 12rem !important;
+    position: absolute;
+    top: 0rem;
+    left: 50%;
+    transform: translate(-50%, 0%);
     background-color: #0f1820 !important;
     color: rgb(201, 201, 201) !important;
     border-radius: 20px !important;

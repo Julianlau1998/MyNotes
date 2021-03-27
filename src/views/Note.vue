@@ -101,7 +101,8 @@ export default {
             shareAvailable: false,
             shareNote: '',
             originalTitle: '',
-            originalNote: ''
+            originalNote: '',
+            save: false
         }
     },
     methods: {
@@ -112,6 +113,7 @@ export default {
                     this.notes[i].note = this.note                }
             }
             localStorage.setItem('notes', JSON.stringify(this.notes))
+            this.save = true
             router.push('/')
         },
         deleteNote () {
@@ -155,13 +157,17 @@ export default {
             this.originalNote !== this.note ||
             this.originalTitle !== this.title
         ) {
-            this.$dialog.confirm('Are You sure you want leave without saving? \n \n All changes would be lost.')
-            .then (function () {
+            if (this.save===false) {
+                this.$dialog.confirm('Are You sure you want leave without saving? \n \n All changes would be lost.')
+                .then (function () {
+                    next()
+                })
+                .catch (function () {
+                    next(false)
+                })
+            } else {
                 next()
-            })
-            .catch (function () {
-                next(false)
-            })
+            }
         }
         else {
             next()

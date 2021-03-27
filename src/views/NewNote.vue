@@ -59,7 +59,8 @@ export default {
                 id: ""
             },
             notesList: JSON.parse(localStorage.getItem('notes')),
-            id: this.$uuidKey()
+            id: this.$uuidKey(),
+            save: false
         }
     },
     methods: {
@@ -73,6 +74,7 @@ export default {
             this.notesList.push(this.currentObject)
             localStorage.setItem('id', this.id)
             localStorage.setItem('notes',JSON.stringify(this.notesList))
+            this.save = true
             this.$router.push('/')
         }
     },
@@ -92,13 +94,17 @@ export default {
             this.note !== '' ||
             this.title !== ''
         ) {
-            this.$dialog.confirm('Are You sure you want leave without saving? \n \n All changes would be lost.')
-            .then (function () {
+            if (this.save === false) {
+                this.$dialog.confirm('Are You sure you want leave without saving? \n \n All changes would be lost.')
+                .then (function () {
+                    next()
+                })
+                .catch (function () {
+                    next(false)
+                })
+            } else {
                 next()
-            })
-            .catch (function () {
-                next(false)
-            })
+            }
         }
         else {
             next()
