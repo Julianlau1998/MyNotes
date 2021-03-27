@@ -81,11 +81,6 @@ export default {
             this.notes.push(this.storedNotes[i].note)
         }
         }
-    },
-    mounted () {
-        setTimeout(() => {
-            this.$refs.plusButton.style.opacity = 1
-        }, 200);
     }
 }
 </script>
@@ -132,9 +127,6 @@ ul li {
     background: transparent;
     border: none;
     outline: none;
-}
-.plusButton {
-    opacity: 0;
 }
 #listParent {
     min-height: 79vh;

@@ -218,24 +218,24 @@ body {
   .swipe-left-enter-to {
     transform: translateX(0%);
   }
-  .swipe-left-leave {
+  /* .swipe-left-leave {
     transform: translateX(0%);
   }
   .swipe-left-leave-to {
     transform: translateX(-100%);
-  }
+  } */
 
   /* Swipe Right */
   .swipe-right-enter-active,
   .swipe-right-leave-active {
     transition: transform 0.15s;
   }
-  .swipe-right-enter {
+  /* .swipe-right-enter {
     transform: translateX(-100%);
   }
   .swipe-right-enter-to {
     transform: translateX(0%);
-  }
+  } */
   .swipe-right-leave {
     transform: translateX(0%);
   }

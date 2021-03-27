@@ -179,7 +179,6 @@ export default {
         addItem () {
             if (this.$refs.add.value !== '') {
                 this.listElements.unshift(this.listItem)
-                console.log(this.listElements)
                 this.listItem = ''
                 this.$refs.add.focus()
                 window.scrollTo(0,this.$refs.list.scrollHeight)

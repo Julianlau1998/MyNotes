@@ -77,9 +77,6 @@ export default {
             this.lists.push(this.storedLists[i].list)
         }
         }
-        setTimeout(() => {
-            this.$refs.plusButton.style.opacity = 1
-        }, 175);
     }
 }
 </script>
@@ -134,9 +131,6 @@ ul li {
     background: transparent;
     border: none;
     outline: none;
-}
-.plusButton {
-    opacity: 0;
 }
 #listParent {
     min-height: 79vh;
