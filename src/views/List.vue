@@ -162,6 +162,8 @@ export default {
             shareAvailable: false,
             alreadyAsked: false,
             save: false,
+            listElementsChanged: false,
+            watcherCounter: 0
         }
     },
     methods: {
@@ -260,7 +262,7 @@ export default {
     },
     beforeRouteLeave (to, from, next) {
         if(
-            this.originalListElements.sort().join(',') != this.listElements.sort().join(',') ||
+            this.listElementsChanged ||
             this.originalDoneItems !== this.doneItems ||
             this.originalTitle !== this.title
         ) {
@@ -278,6 +280,16 @@ export default {
         }
         else {
             next()
+        }
+    },
+    watch: {
+        listElements: function () {
+            if (this.watcherCounter > 0) {
+                this.listElementsChanged = true
+                this.watcherCounter++
+            } else {
+                this.watcherCounter++
+            }
         }
     }
 }
@@ -405,6 +417,7 @@ input[type="checkbox"] {
 #doneItem {
     position: relative;
     bottom: 0.1rem;
+    overflow-wrap: break-word; 
 }
 .checkImage {
     width: 1.7rem;

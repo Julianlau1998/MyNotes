@@ -177,6 +177,9 @@ export default {
 </script>
 
 <style scoped>
+body {
+    overflow-x: hidden;
+} 
 .saveHidden {
     position: absolute;
     right: 0.5rem;
