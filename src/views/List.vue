@@ -47,20 +47,56 @@
                     >
                         To-Do:
                     </span>
-                    <ul>
+                    <span
+                        v-if="!sorting"
+                        id="sorting"
+                        class="neomorph"
+                        @click="sorting=!sorting"
+                        ref="sorting"
+                    >
+                        Sort
+                    </span>
+                    <span
+                        v-else
+                        id="sorting"
+                        class="reverseNeomorph stopSorting"
+                        @click="sorting=!sorting"
+                    >
+                        Stop Sorting
+                    </span>
+                    <ul id="itemsList">
+                        <draggable v-if="sorting" @start="drag=true" @end="drag=false" v-model="listElements">
                         <li v-for="(item, itemKey) in listElements" :key="itemKey" ref="list">
                             <div 
                                 id="checkbox"
                                 @click="itemDone(item)"
+                                slot="footer"
                             >
                             </div>
-                            <span
-                            @click="edit(item)"
-                            class="marginLeft bottom"
-                            id="item"
+                                <span
+                                @click="edit(item)"
+                                class="marginLeft bottom item"
+                                id="item"
+                                >
+                                    {{item}} 
+                                </span>
+                            <hr class="whiteLine">
+                        </li>
+                        </draggable>
+                        <li v-else v-for="(item, itemKey) in listElements" :key="itemKey" ref="list">
+                            <div 
+                                id="checkbox"
+                                @click="itemDone(item)"
+                                slot="footer"
                             >
-                                {{item}} 
-                            </span>
+                            </div>
+                                <span
+                                @click="edit(item)"
+                                class="marginLeft bottom item"
+                                id="item"
+                                >
+                                    {{item}} 
+                                </span>
                             <hr class="whiteLine">
                         </li>
                     </ul>
@@ -129,6 +165,8 @@
 <script>
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
+import draggable from 'vuedraggable'
+
 extend('required', {
   ...required,
   message: 'This field is required'
@@ -137,7 +175,8 @@ export default {
     name: 'SingleList',
     components: {
         ValidationProvider,
-        ValidationObserver
+        ValidationObserver,
+        draggable,
     },
     data () {
         return {
@@ -163,7 +202,8 @@ export default {
             alreadyAsked: false,
             save: false,
             listElementsChanged: false,
-            watcherCounter: 0
+            watcherCounter: 0,
+            sorting: false
         }
     },
     methods: {
@@ -250,6 +290,7 @@ export default {
             this.$refs.trashcan.style.opacity = 1
             this.$refs.add.style.opacity = 1
             this.$refs.addButton.style.opacity = 1
+            this.$refs.sorting.style.opacity = 1
             if(navigator.share !== undefined) {
                 this.$refs.share.style.opacity = 1
             }
@@ -279,6 +320,8 @@ export default {
             }
         }
         else {
+            this.$refs.add.style.opacity = 0
+            this.$refs.addButton.style.opacity = 0
             next()
         }
     },
@@ -287,6 +330,7 @@ export default {
             if (this.watcherCounter > 0) {
                 this.listElementsChanged = true
                 this.watcherCounter++
+                this.focusValue=true
             } else {
                 this.watcherCounter++
             }
@@ -320,6 +364,7 @@ export default {
   }
   #note{
       background-color: #0f1820;
+      z-index: 10;
   }
   #trashcan {
       width: 2rem;
@@ -401,6 +446,7 @@ input[type="checkbox"] {
     top: 0.47rem;
 }
 #note {
+    height: 73vh;
     text-align: left;
 }
 #done {
@@ -434,11 +480,26 @@ input[type="checkbox"] {
     transform: translateX(-50%);
     cursor: pointer;
 }
+#sorting {
+    position: absolute;
+    top: 7.5rem;
+    left: 85%;
+    transform: translate(-50%);
+    height: 2.6rem;
+    background: #0f1820 !important;
+    cursor: pointer;
+}
+.stopSorting {
+    width: 11rem;
+    left: 73% !important;
+    padding-left: 0.3rem;
+}
 .arrow,
 .delete,
 .newNote,
 #addButton,
-#share {
+#share,
+#sorting {
     opacity: 0;
 }
  @media (min-width: 600px) { 
@@ -452,6 +513,12 @@ input[type="checkbox"] {
   }   
   #addButton {
       margin-right: 0.8rem;
+  }
+  #sorting{
+      left: 95%
+  }
+  .stopSorting {
+      left: 92% !important;
   }
  }
  @media (min-width: 1300px) { 

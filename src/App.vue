@@ -207,6 +207,22 @@ body {
       bottom: 0.1rem;
   }
 
+  .neomorph {
+    border: none;
+    box-shadow: -1px -1px 4px 0px rgb(133, 133, 133),
+                 1px 1px 5px 2px black;
+    color: lightgray;
+    font-weight: 500;
+    background-color: #0f1820 !important;;
+  }
+  .reverseNeomorph {
+    border: none;
+    box-shadow: -1px -1px 4px 0px black,
+                  1px 1px 3px 0px rgb(133, 133, 133);
+    color: lightgray;
+    font-weight: 500;
+  }
+
   /* Route change animation */
   .swipe-left-enter-active,
   .swipe-left-leave-active {
