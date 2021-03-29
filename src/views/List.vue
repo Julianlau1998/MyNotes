@@ -326,6 +326,20 @@ export default {
             next()
         }
     },
+    beforeMount() {
+        window.addEventListener("beforeunload", event => {
+            if (this.listElementsChanged ||
+                this.originalDoneItems !== this.doneItems ||
+                this.originalTitle !== this.title) {
+                    setTimeout(50)
+                    event.preventDefault()
+                    // Chrome requires returnValue to be set.
+                    return event.returnValue = ""
+            } else {
+                return
+            }
+        })
+    },
     watch: {
         listElements: function () {
             if (this.watcherCounter > 0) {
@@ -411,7 +425,7 @@ export default {
   .saveHidden {
     position: absolute;
     right: 0.5rem;
-    top: 0.6rem;
+    top: 0.75rem;
     background: transparent;
     border: none;;
 }

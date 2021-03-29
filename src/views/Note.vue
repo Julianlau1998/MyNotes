@@ -183,7 +183,7 @@ body {
 .saveHidden {
     position: absolute;
     right: 0.5rem;
-    top: 0.6rem;
+    top: 0.75rem;
     background: transparent;
     border: none;;
 }
