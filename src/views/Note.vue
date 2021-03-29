@@ -151,6 +151,7 @@ export default {
         if(navigator.share !== undefined) {
             this.shareAvailable = true
         }
+        this.$store.state.currentComponent = 'Notes'
     },
     beforeRouteLeave (to, from, next) {
         if(

@@ -1,21 +1,5 @@
 <template>
     <div id="app">
-        <span v-touch:swipe.left="swipeHandler">
-        <h1 class="header">My<span style="color:rgb(215, 0, 0);">N</span>otes</h1>
-        <hr class="whiteLine">
-        <h2>
-            <span style="color: rgb(0, 215, 215); opacity: 0.7; margin-right: -0.2rem">
-                Notes
-            </span> 
-            &nbsp;
-            <button
-                @click="routeToLists"
-                style="color: white; margin-left: -0.2rem"
-                id="listsButton"
-            >
-                Lists
-            </button>
-        </h2>
         <ul id="listParent">
             <li v-for="(note, idx) in storedNotes" v-bind:key="idx">
                 <button class="noteDiv" @click="openNote(note.id)">
@@ -24,8 +8,6 @@
                 <hr id="redLine">
             </li>
         </ul>
-        <br><br><br><br><br><br>
-
         <div 
             @click="newNote()"
             class="plusButton"
@@ -33,7 +15,6 @@
         >
             +
         </div>
-        </span>
     </div>
 </template>
 
@@ -81,6 +62,7 @@ export default {
             this.notes.push(this.storedNotes[i].note)
         }
         }
+        localStorage.setItem('currentComponent', 'Notes')
     }
 }
 </script>

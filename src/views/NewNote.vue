@@ -84,6 +84,7 @@ export default {
             this.id = 0
         }
         this.$refs.title.focus();
+        this.$store.state.currentComponent = 'Notes'
         setTimeout(() => {
             this.$refs.backArrow.style.opacity = 1
             this.$refs.safe.style.opacity = 1
