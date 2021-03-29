@@ -237,6 +237,7 @@ export default {
         },
         itemNotDone(item) {
             this.doneItems = this.doneItems.filter(el => el != item)
+            this.$refs.sorting.style.opacity = 1
             this.listElements.unshift(item)
             this.focusValue=true
         },
@@ -391,7 +392,6 @@ export default {
       right: 1rem;
       height: 2.5rem;
       border-radius: 5px;
-      background-color: transparent;
       border: none;
       box-shadow: -1px -1px 4px 0px rgb(133, 133, 133),
                     1px 1px 5px 2px black;
@@ -483,15 +483,18 @@ input[type="checkbox"] {
 #sorting {
     position: absolute;
     top: 7.5rem;
-    left: 85%;
+    right: -1.1rem;
     transform: translate(-50%);
     height: 2.6rem;
-    background: #0f1820 !important;
+    width: 3.8rem;
+    padding-left: 3px;
+    border-radius: 5px;
     cursor: pointer;
+    opacity: 1 !important;
 }
 .stopSorting {
-    width: 11rem;
-    left: 73% !important;
+    width: 11rem !important;
+    right: -5rem !important;
     padding-left: 0.3rem;
 }
 .arrow,
@@ -513,12 +516,6 @@ input[type="checkbox"] {
   }   
   #addButton {
       margin-right: 0.8rem;
-  }
-  #sorting{
-      left: 95%
-  }
-  .stopSorting {
-      left: 92% !important;
   }
  }
  @media (min-width: 1300px) { 

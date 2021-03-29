@@ -4,13 +4,16 @@ import router from './router'
 import store from './store'
 import "./registerServiceWorker";
 import VuejsDialog from 'vuejs-dialog';
+import Vue2TouchEvents from 'vue2-touch-events'
+
+Vue.use(Vue2TouchEvents)
  
 import 'vuejs-dialog/dist/vuejs-dialog.min.css';
  
 Vue.use(VuejsDialog, {
   html: true,
   okText: 'Continue',
-  cancelText: 'Stop',
+  cancelText: 'Cancel',
   animation: 'bounce'
 });
 
