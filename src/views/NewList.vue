@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <router-link to="/Lists">
+        <router-link to="/">
             <img
                 src="../assets/arrow.png"
                 alt="back arrow"
@@ -156,7 +156,7 @@ export default {
             localStorage.setItem('id', this.currentObject.id)
             localStorage.setItem('lists',JSON.stringify(this.listsList))
             this.save = true
-            this.$router.push('/lists')
+            this.$router.push('/')
         },
         addItem () {
             if (this.$refs.add.value !== '') {
@@ -190,6 +190,7 @@ export default {
         if (this.id === null) {
             this.id = 0
         }
+        this.$store.state.currentComponent = 'Lists'
     },
     mounted () {
         this.$refs.title.focus();

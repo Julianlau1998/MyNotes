@@ -1,6 +1,6 @@
 <template>
     <div id="app">
-        <router-link to="/lists">
+        <router-link to="/">
             <img
                 src="../assets/arrow.png"
                 alt="back arrow"
@@ -9,7 +9,7 @@
             >
         </router-link>
 
-        <router-link to="/lists" v-if="!focusValue">
+        <router-link to="/" v-if="!focusValue">
             <img
                 src="../assets/trash.png"
                 alt="delete icon"
@@ -220,7 +220,7 @@ export default {
             localStorage.setItem('id', this.currentObject.id)
             localStorage.setItem('lists',JSON.stringify(this.listsList))
             this.save = true
-            this.$router.push('/Lists')
+            this.$router.push('/')
         },
         addItem () {
             if (this.$refs.add.value !== '') {
@@ -301,6 +301,7 @@ export default {
         if(navigator.share !== undefined) {
             this.shareAvailable = true
         }
+        this.$store.state.currentComponent = 'Lists'
     },
     beforeRouteLeave (to, from, next) {
         if(

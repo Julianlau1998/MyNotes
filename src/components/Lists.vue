@@ -1,32 +1,13 @@
 <template>
     <div id="app">
-        <span v-touch:swipe.right="swipeHandler">
-        <h1 class="header">
-            My<span style="color:rgb(215, 0, 0);">N</span>otes
-        </h1>
-        <hr class="whiteLine">
-        <h2>
-            <button
-                @click="routeToNotes"
-                style="color: white; margin-right: -0.2rem"
-                id="notesButton"
-            >
-                Notes
-            </button>
-            <span style="color: rgb(0, 215, 215); opacity: 0.7; margin-left: -0.2rem;">
-                Lists
-            </span>
-        </h2>
         <ul id="listParent">
             <li v-for="(list, idx) in storedLists" v-bind:key="idx">
                 <button class="noteDiv" @click="openList(list.id)">
-                    <h5><b>{{list.title}}</b></h5>
+                    <h5><b>{{list.title.substring(0,11)}}</b></h5>
                 </button>
                 <hr id="redLine">
             </li>
         </ul>
-        <br><br><br><br><br><br>
-
         <div 
             class="plusButton"
             ref="plusButton"
@@ -34,7 +15,6 @@
         >
             +
         </div>
-        </span>
     </div>
 </template>
 
@@ -82,6 +62,7 @@ export default {
             this.lists.push(this.storedLists[i].list)
         }
         }
+        localStorage.setItem('currentComponent', 'Lists')
     }
 }
 </script>
