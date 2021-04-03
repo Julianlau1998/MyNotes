@@ -113,6 +113,7 @@ body {
         background-color: rgb(54, 61, 68);
         color: lightgray;
         border: none;
+        z-index: 10;
     }
     .saveButton {
         background-color: rgb(4, 82, 17);
@@ -147,8 +148,7 @@ body {
         bottom: 1.5rem;
         left: 50%;
         transform: translateX(-50%);
-        z-index: -1;
-
+        z-index: 1;
         border-radius: 0.7rem;
         background-color: transparent;
         border: none;

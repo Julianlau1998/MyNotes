@@ -5,6 +5,7 @@
                 :delay="200"
                 :delay-on-touch-only="true"
                 v-model="storedLists"
+                @end="save()"
             >
                 <li v-for="(list, idx) in storedLists" v-bind:key="idx">
                     <button class="noteDiv" @click="openList(list.id)">
@@ -63,6 +64,9 @@ export default {
         },
         touchHoldHandler () {
             this.sorting = true
+        },
+         save () {
+            localStorage.setItem('lists', JSON.stringify(this.storedLists))
         }
     },
     mounted () {

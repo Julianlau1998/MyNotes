@@ -5,6 +5,7 @@
                 :delay="200"
                 :delay-on-touch-only="true"
                 v-model="storedNotes"
+                @end="save()"
             >
                 <li v-for="(note, idx) in storedNotes" v-bind:key="idx">
                     <span v-touch:touchhold="touchHoldHandler">
@@ -66,6 +67,9 @@ export default {
         },
         touchHoldHandler () {
             this.sorting = true
+        },
+        save () {
+            localStorage.setItem('notes', JSON.stringify(this.storedNotes))
         }
     },
     created () {

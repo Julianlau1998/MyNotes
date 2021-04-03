@@ -61,7 +61,9 @@
                 > 
                 </textarea>        
             </div>
-            <button class="saveButton" type="submit">Save</button>
+            <button class="saveButton" type="submit">
+                Save
+            </button>
         </form>
         </ValidationObserver>
         <img
@@ -194,5 +196,8 @@ body {
     bottom: -0.5rem;
     right: -0.7rem;
     cursor: pointer;
+}
+textarea {
+    z-index: 10;
 }
 </style>
