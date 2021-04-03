@@ -4,9 +4,15 @@ import router from './router'
 import store from './store'
 import "./registerServiceWorker";
 import VuejsDialog from 'vuejs-dialog';
+import VueAnalytics from 'vue-analytics';
 import Vue2TouchEvents from 'vue2-touch-events'
 
 Vue.use(Vue2TouchEvents)
+
+// Configuration VueAnalytics
+Vue.use(VueAnalytics, {
+  id: 'UA-xxxxxxxxx-x'
+});
  
 import 'vuejs-dialog/dist/vuejs-dialog.min.css';
  

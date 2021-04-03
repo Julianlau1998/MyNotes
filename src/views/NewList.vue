@@ -203,8 +203,8 @@ export default {
     },
     beforeRouteLeave (to, from, next) {
         if(
-            this.listElements !== [] ||
-            this.doneItems !== [] ||
+            this.listElements[0] !== undefined ||
+            this.doneItems[0] !== undefined ||
             this.title !== ''
         ) {
             if (this.save === false) {

@@ -65,8 +65,17 @@
                         Stop Sorting
                     </span>
                     <ul id="itemsList">
-                        <draggable v-if="sorting" @start="drag=true" @end="drag=false" v-model="listElements">
-                        <li v-for="(item, itemKey) in listElements" :key="itemKey" ref="list">
+                        <draggable
+                            v-if="sorting"
+                            @start="drag=true"
+                            @end="drag=false"
+                            v-model="listElements"
+                        >
+                        <li
+                            v-for="(item, itemKey) in listElements"
+                            :key="itemKey"
+                            ref="list"
+                        >
                             <div 
                                 id="checkbox"
                                 @click="itemDone(item)"
@@ -83,23 +92,28 @@
                             <hr class="whiteLine">
                         </li>
                         </draggable>
+
                         <li v-else v-for="(item, itemKey) in listElements" :key="itemKey" ref="list">
-                            <div 
-                                id="checkbox"
-                                @click="itemDone(item)"
-                                slot="footer"
+                            <span
+                                 v-touch:swipe="swipeItem(itemKey)"
                             >
-                            </div>
-                                <span
-                                @click="edit(item)"
-                                class="marginLeft bottom item"
-                                id="item"
+                                <div 
+                                    id="checkbox"
+                                    @click="itemDone(item)"
+                                    slot="footer"
                                 >
-                                    {{item}} 
-                                </span>
-                            <hr class="whiteLine">
+                                </div>
+                                    <span
+                                        @click="edit(item)"
+                                        class="marginLeft bottom item"
+                                        id="item"
+                                    >   
+                                        {{item}} 
+                                    </span>
+                                <hr class="whiteLine">
+                            </span>
                         </li>
-                    </ul>
+                        </ul>
                     <span
                     v-if="doneItems.length != 0"
                     class="subTitle"
@@ -109,25 +123,29 @@
                     </span>
                     <ul>
                         <li v-for="(doneItem, itemKey) in doneItems" id="done" :key="itemKey">
-                            <div 
-                                id="checkboxChecked"
-                                class="checked"
-                                @click="itemNotDone(doneItem)"
-                            >
-                                <img
-                                    src="../assets/haken.png"
-                                    alt=""
-                                    class="checkImage"
-                                    >
-                            </div>
-                            &nbsp;
-                            <del
-                            class="marginLeft"
-                            id="doneItem"
-                            >
-                                {{doneItem}}
-                            </del>
-                            <hr class="whiteLine">
+                            <span 
+                                    v-touch:swipe="swipeDoneItem(itemKey)"
+                                >
+                                <div 
+                                    id="checkboxChecked"
+                                    class="checked"
+                                    @click="itemNotDone(doneItem)"
+                                >
+                                    <img
+                                        src="../assets/haken.png"
+                                        alt=""
+                                        class="checkImage"
+                                        >
+                                </div>
+                                &nbsp;
+                                        <del
+                                            class="marginLeft"
+                                            id="doneItem"
+                                        >
+                                            {{doneItem}}
+                                        </del>
+                                <hr class="whiteLine">
+                            </span>
                         </li>
                     </ul>
                     <br><br>
@@ -249,9 +267,6 @@ export default {
             }
             localStorage.setItem('lists', JSON.stringify(this.lists))
         },
-        swipeHandler () {
-            this.$router.push('/lists')
-        },
         edit(item) {
             if (this.$refs.add.value === '') {
                 this.listElements = this.listElements.filter(el => el != item)
@@ -270,6 +285,25 @@ export default {
                 "text": this.sharedList
             })
             this.sharedList = ''
+        },
+        swipeItem (itemIndex) {
+            const vm = this
+            return function(direction) {
+                if (direction==='left' || direction==='right') {
+                    const item = vm.listElements[itemIndex]
+                    vm.listElements = vm.listElements.filter(el => el != item)
+                }
+            }
+        },
+        swipeDoneItem (itemIndex) {
+            const vm = this
+            return function(direction) {
+                if (direction==='left' || direction==='right') {
+                    const item = vm.doneItems[itemIndex]
+                    vm.doneItems = vm.doneItems.filter(el => el != item)
+                }
+                
+            }
         }
     },
     mounted () {
@@ -295,7 +329,7 @@ export default {
             if(navigator.share !== undefined) {
                 this.$refs.share.style.opacity = 1
             }
-        }, 210);
+        }, 220);
     },
     created () {
         if(navigator.share !== undefined) {
@@ -354,6 +388,12 @@ export default {
     }
 }
 </script>
+
+
+
+
+// *** Styles ***
+
 
 <style scoped>
   ul li {
@@ -505,7 +545,6 @@ input[type="checkbox"] {
     padding-left: 3px;
     border-radius: 5px;
     cursor: pointer;
-    opacity: 1 !important;
 }
 .stopSorting {
     width: 11rem !important;
@@ -541,4 +580,13 @@ input[type="checkbox"] {
       margin-right: 1rem;
   }
  }
+
+
+.list-enter-active, .list-leave-active {
+  transition: all 0.5s;
+}
+.list-enter, .list-leave-to {
+  opacity: 0;
+  transform: translateX(-100px);
+}
 </style>

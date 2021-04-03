@@ -124,7 +124,6 @@ export default {
 }
 .deleteNew {
     width: 2.8em;
-    background: none;
     margin-top: -0.3rem;
 }
 .arrow,
