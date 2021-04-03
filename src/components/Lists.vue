@@ -3,6 +3,7 @@
         <ul id="listParent">
             <draggable
                 :delay="200"
+                :delay-on-touch-only="true"
                 v-model="storedLists"
             >
                 <li v-for="(list, idx) in storedLists" v-bind:key="idx">
