@@ -2,9 +2,8 @@
     <div id="app">
         <ul id="listParent">
             <draggable
-                v-if="sorting"
-                @start="drag=true"
-                @end="drag=false"
+                :delay="200"
+                forceFallback: true
                 v-model="storedNotes"
             >
                 <li v-for="(note, idx) in storedNotes" v-bind:key="idx">
@@ -16,14 +15,6 @@
                     <hr id="redLine">
                 </li>
             </draggable>
-            <li v-else v-for="(note, idx) in storedNotes" v-bind:key="idx">
-                    <span v-touch:touchhold="touchHoldHandler">
-                        <button class="noteDiv" @click="openNote(note.id)">
-                            <h5><b>{{note.title.substring(0,11)}}</b></h5>
-                        </button>
-                    </span>
-                    <hr id="redLine">
-                </li>
         </ul>
         <div 
             @click="newNote()"
