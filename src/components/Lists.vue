@@ -49,7 +49,7 @@ export default {
             this.$router.push('/')
         },
         newList () {
-            this.$store.state.transitionName = 'swipe-right'
+            this.$store.state.transitionName = 'fade'
             this.$router.push('/newList')
         }
     },

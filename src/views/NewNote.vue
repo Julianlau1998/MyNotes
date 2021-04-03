@@ -79,7 +79,6 @@ export default {
         }
     },
     mounted () {
-        this.$store.state.transitionName = 'swipe-right'
         if (this.id === null) {
             this.id = 0
         }

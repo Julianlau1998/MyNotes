@@ -213,7 +213,7 @@ body {
                  1px 1px 5px 2px black;
     color: lightgray;
     font-weight: 500;
-    background-color: #0f1820 !important;;
+    background-color: #0f1820 !important;
   }
   .reverseNeomorph {
     border: none;
@@ -261,7 +261,7 @@ body {
 
   /* Fade In-Out */
   .fade-enter-active, .fade-leave-active {
-    transition: opacity .17s;
+    transition: opacity .2s;
   }
   .fade-enter-to, .fade-leave {
     opacity: 1;

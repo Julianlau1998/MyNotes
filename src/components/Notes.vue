@@ -50,6 +50,7 @@ export default {
             this.$router.push('/lists')
         },
         newNote () {
+            this.$store.state.transitionName = 'fade'
             this.$router.push('/newNote')
         }
     },
