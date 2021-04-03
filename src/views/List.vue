@@ -90,8 +90,8 @@
                         >
                             <li v-for="(doneItem, itemKey) in doneItems" id="done" :key="itemKey">
                                 <span 
-                                        v-touch:swipe="swipeDoneItem(itemKey)"
-                                    >
+                                  v-touch:swipe="swipeDoneItem(itemKey)"
+                                >
                                     <div 
                                         id="checkboxChecked"
                                         class="checked"

@@ -45,21 +45,31 @@
                         To-Do:
                     </span>
                     <ul>
-                        <li v-for="(item, itemKey) in listElements" :key="itemKey">
-                            <div 
-                                id="checkbox"
-                                @click="itemDone(item)"
-                            >
-                            </div>
-                            <span
-                            @click="edit(item)"
-                            class="marginLeft bottom"
-                            id="item"
-                            >
-                                {{item}} 
-                            </span>
-                            <hr class="whiteLine">
-                        </li>
+                        <draggable
+                            v-model="listElements"
+                            :delay="200"
+                            :delay-on-touch-only="true"
+                        >
+                            <li v-for="(item, itemKey) in listElements" :key="itemKey">
+                                <span 
+                                  v-touch:swipe="swipeItem(itemKey)"
+                                >
+                                    <div 
+                                        id="checkbox"
+                                        @click="itemDone(item)"
+                                    >
+                                    </div>
+                                    <span
+                                    @click="edit(item)"
+                                    class="marginLeft bottom"
+                                    id="item"
+                                    >
+                                        {{item}} 
+                                    </span>
+                                    <hr class="whiteLine">
+                                </span>
+                            </li>
+                        </draggable>
                     </ul>
                     <br>
                     <span
@@ -69,26 +79,36 @@
                         Done:
                     </span>
                     <ul>
-                        <li v-for="(doneItem, itemKey) in doneItems" :key="itemKey">
-                            <div 
-                                id="checkboxChecked"
-                                class="checked"
-                                @click="itemNotDone(doneItem)"
-                            >
-                                <div
-                                    class="checked"
+                        <draggable
+                            v-model="doneItems"
+                            :delay="200"
+                            :delay-on-touch-only="true"
+                        >
+                            <li v-for="(doneItem, itemKey) in doneItems" :key="itemKey">
+                                <span 
+                                v-touch:swipe="swipeDoneItem(itemKey)"
                                 >
-                                </div>
-                            </div>
-                            &nbsp;
-                            <del
-                            class="marginLeft"
-                            id="doneItem"
-                            >
-                                {{doneItem}}
-                            </del>
-                            <hr class="whiteLine">
-                        </li>
+                                    <div 
+                                        id="checkboxChecked"
+                                        class="checked"
+                                        @click="itemNotDone(doneItem)"
+                                    >
+                                        <div
+                                            class="checked"
+                                        >
+                                        </div>
+                                    </div>
+                                    &nbsp;
+                                    <del
+                                    class="marginLeft"
+                                    id="doneItem"
+                                    >
+                                        {{doneItem}}
+                                    </del>
+                                    <hr class="whiteLine">
+                                </span>
+                            </li>
+                        </draggable>
                     </ul>
                 </div>        
             </div>
@@ -115,6 +135,7 @@
 <script>
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
+import draggable from 'vuedraggable'
 
 extend('required', {
   ...required,
@@ -124,7 +145,8 @@ extend('required', {
 export default {
     components: {
         ValidationProvider,
-        ValidationObserver
+        ValidationObserver,
+        draggable
     },
     data () {
         return {
@@ -180,6 +202,25 @@ export default {
                 this.$refs.add.focus()
                 this.$refs.add.value = item
                 this.listItem = item
+            }
+        },
+        swipeItem (itemIndex) {
+            const vm = this
+            return function(direction) {
+                if (direction==='left' || direction==='right') {
+                    const item = vm.listElements[itemIndex]
+                    vm.listElements = vm.listElements.filter(el => el != item)
+                }
+            }
+        },
+        swipeDoneItem (itemIndex) {
+            const vm = this
+            return function(direction) {
+                if (direction==='left' || direction==='right') {
+                    const item = vm.doneItems[itemIndex]
+                    vm.doneItems = vm.doneItems.filter(el => el != item)
+                }
+                
             }
         }
     },
