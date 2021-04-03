@@ -1,10 +1,26 @@
 <template>
     <div id="app">
         <ul id="listParent">
-            <li v-for="(list, idx) in storedLists" v-bind:key="idx">
-                <button class="noteDiv" @click="openList(list.id)">
+            <draggable
+                v-if="sorting"
+                @start="drag=true"
+                @end="drag=false"
+                v-model="storedLists"
+            >
+                <li v-for="(list, idx) in storedLists" v-bind:key="idx">
+                    <button class="noteDiv" @click="openList(list.id)">
+                        <h5><b>{{list.title.substring(0,11)}}</b></h5>
+                    </button>
+                    <hr id="redLine">
+                </li>
+            </draggable>
+
+            <li v-else v-for="(list, idx) in storedLists" v-bind:key="idx">
+                <span v-touch:touchhold="touchHoldHandler">
+                    <button class="noteDiv" @click="openList(list.id)">
                     <h5><b>{{list.title.substring(0,11)}}</b></h5>
-                </button>
+                    </button>
+                </span>
                 <hr id="redLine">
             </li>
         </ul>
@@ -20,18 +36,21 @@
 
 <script>
 import router from '../router'
-/* import Vue from 'vue'
+import draggable from 'vuedraggable'
+import Vue from 'vue'
 import Vue2TouchEvents from 'vue2-touch-events'
 
-Vue.use(Vue2TouchEvents) */
+Vue.use(Vue2TouchEvents)
 
 export default {
     name: 'Lists',
+    components: {draggable},
     data () {
         return {
             storedLists: JSON.parse(localStorage.getItem('lists')),
             titles: [],
-            lists: []
+            lists: [],
+            sorting: false
         }
     },
     methods: {
@@ -51,6 +70,9 @@ export default {
         newList () {
             this.$store.state.transitionName = 'fade'
             this.$router.push('/newList')
+        },
+        touchHoldHandler () {
+            this.sorting = true
         }
     },
     mounted () {

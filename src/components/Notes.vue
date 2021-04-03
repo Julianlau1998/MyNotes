@@ -1,12 +1,29 @@
 <template>
     <div id="app">
         <ul id="listParent">
-            <li v-for="(note, idx) in storedNotes" v-bind:key="idx">
-                <button class="noteDiv" @click="openNote(note.id)">
-                    <h5><b>{{note.title.substring(0,11)}}</b></h5>
-                </button>
-                <hr id="redLine">
-            </li>
+            <draggable
+                v-if="sorting"
+                @start="drag=true"
+                @end="drag=false"
+                v-model="storedNotes"
+            >
+                <li v-for="(note, idx) in storedNotes" v-bind:key="idx">
+                    <span v-touch:touchhold="touchHoldHandler">
+                        <button class="noteDiv" @click="openNote(note.id)">
+                            <h5><b>{{note.title.substring(0,11)}}</b></h5>
+                        </button>
+                    </span>
+                    <hr id="redLine">
+                </li>
+            </draggable>
+            <li v-else v-for="(note, idx) in storedNotes" v-bind:key="idx">
+                    <span v-touch:touchhold="touchHoldHandler">
+                        <button class="noteDiv" @click="openNote(note.id)">
+                            <h5><b>{{note.title.substring(0,11)}}</b></h5>
+                        </button>
+                    </span>
+                    <hr id="redLine">
+                </li>
         </ul>
         <div 
             @click="newNote()"
@@ -21,17 +38,20 @@
 <script>
 import router from '../router'
 import Vue from 'vue'
+import draggable from 'vuedraggable'
 import Vue2TouchEvents from 'vue2-touch-events'
 
 Vue.use(Vue2TouchEvents)
 
 export default {
     name: 'Notes',
+    components: {draggable},
     data () {
         return {
             storedNotes: JSON.parse(localStorage.getItem('notes')),
             titles: [],
-            notes: []
+            notes: [],
+            sorting: false
         }
     },
     methods: {
@@ -52,6 +72,9 @@ export default {
         newNote () {
             this.$store.state.transitionName = 'fade'
             this.$router.push('/newNote')
+        },
+        touchHoldHandler () {
+            this.sorting = true
         }
     },
     created () {
