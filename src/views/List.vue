@@ -47,73 +47,34 @@
                     >
                         To-Do:
                     </span>
-                    <span
-                        v-if="!sorting"
-                        id="sorting"
-                        class="neomorph"
-                        @click="sorting=!sorting"
-                        ref="sorting"
-                    >
-                        Sort
-                    </span>
-                    <span
-                        v-else
-                        id="sorting"
-                        class="reverseNeomorph stopSorting"
-                        @click="sorting=!sorting"
-                    >
-                        Stop Sorting
-                    </span>
                     <ul id="itemsList">
                         <draggable
-                            v-if="sorting"
-                            @start="drag=true"
-                            @end="drag=false"
                             v-model="listElements"
+                            :delay="200"
+                            :delay-on-touch-only="true"
                         >
-                        <li
-                            v-for="(item, itemKey) in listElements"
-                            :key="itemKey"
-                            ref="list"
-                        >
-                            <div 
-                                id="checkbox"
-                                @click="itemDone(item)"
-                                slot="footer"
-                            >
-                            </div>
+                            <li v-for="(item, itemKey) in listElements" :key="itemKey" ref="list">
                                 <span
-                                @click="edit(item)"
-                                class="marginLeft bottom item"
-                                id="item"
+                                    v-touch:swipe="swipeItem(itemKey)"
                                 >
-                                    {{item}} 
+                                    <div 
+                                        id="checkbox"
+                                        @click="itemDone(item)"
+                                        slot="footer"
+                                    >
+                                    </div>
+                                        <span
+                                            @click="edit(item)"
+                                            class="marginLeft bottom item"
+                                            id="item"
+                                        >   
+                                            {{item}} 
+                                        </span>
+                                    <hr class="whiteLine">
                                 </span>
-                            <hr class="whiteLine">
-                        </li>
+                            </li>
                         </draggable>
-
-                        <li v-else v-for="(item, itemKey) in listElements" :key="itemKey" ref="list">
-                            <span
-                                 v-touch:swipe="swipeItem(itemKey)"
-                            >
-                                <div 
-                                    id="checkbox"
-                                    @click="itemDone(item)"
-                                    slot="footer"
-                                >
-                                </div>
-                                    <span
-                                        @click="edit(item)"
-                                        class="marginLeft bottom item"
-                                        id="item"
-                                    >   
-                                        {{item}} 
-                                    </span>
-                                <hr class="whiteLine">
-                            </span>
-                        </li>
-                        </ul>
+                    </ul>
                     <span
                     v-if="doneItems.length != 0"
                     class="subTitle"
@@ -122,31 +83,37 @@
                         Done:
                     </span>
                     <ul>
-                        <li v-for="(doneItem, itemKey) in doneItems" id="done" :key="itemKey">
-                            <span 
-                                    v-touch:swipe="swipeDoneItem(itemKey)"
-                                >
-                                <div 
-                                    id="checkboxChecked"
-                                    class="checked"
-                                    @click="itemNotDone(doneItem)"
-                                >
-                                    <img
-                                        src="../assets/haken.png"
-                                        alt=""
-                                        class="checkImage"
-                                        >
-                                </div>
-                                &nbsp;
-                                        <del
-                                            class="marginLeft"
-                                            id="doneItem"
-                                        >
-                                            {{doneItem}}
-                                        </del>
-                                <hr class="whiteLine">
-                            </span>
-                        </li>
+                        <draggable
+                            v-model="doneItems"
+                            :delay="200"
+                            :delay-on-touch-only="true"
+                        >
+                            <li v-for="(doneItem, itemKey) in doneItems" id="done" :key="itemKey">
+                                <span 
+                                        v-touch:swipe="swipeDoneItem(itemKey)"
+                                    >
+                                    <div 
+                                        id="checkboxChecked"
+                                        class="checked"
+                                        @click="itemNotDone(doneItem)"
+                                    >
+                                        <img
+                                            src="../assets/haken.png"
+                                            alt=""
+                                            class="checkImage"
+                                            >
+                                    </div>
+                                    &nbsp;
+                                            <del
+                                                class="marginLeft"
+                                                id="doneItem"
+                                            >
+                                                {{doneItem}}
+                                            </del>
+                                    <hr class="whiteLine">
+                                </span>
+                            </li>
+                        </draggable>
                     </ul>
                     <br><br>
                 </div>        
@@ -221,7 +188,6 @@ export default {
             save: false,
             listElementsChanged: false,
             watcherCounter: 0,
-            sorting: false
         }
     },
     methods: {
@@ -255,7 +221,6 @@ export default {
         },
         itemNotDone(item) {
             this.doneItems = this.doneItems.filter(el => el != item)
-            this.$refs.sorting.style.opacity = 1
             this.listElements.unshift(item)
             this.focusValue=true
         },
@@ -325,7 +290,6 @@ export default {
             this.$refs.trashcan.style.opacity = 1
             this.$refs.add.style.opacity = 1
             this.$refs.addButton.style.opacity = 1
-            this.$refs.sorting.style.opacity = 1
             if(navigator.share !== undefined) {
                 this.$refs.share.style.opacity = 1
             }
@@ -535,28 +499,11 @@ input[type="checkbox"] {
     transform: translateX(-50%);
     cursor: pointer;
 }
-#sorting {
-    position: absolute;
-    top: 7.5rem;
-    right: -1.1rem;
-    transform: translate(-50%);
-    height: 2.6rem;
-    width: 3.8rem;
-    padding-left: 3px;
-    border-radius: 5px;
-    cursor: pointer;
-}
-.stopSorting {
-    width: 11rem !important;
-    right: -5rem !important;
-    padding-left: 0.3rem;
-}
 .arrow,
 .delete,
 .newNote,
 #addButton,
-#share,
-#sorting {
+#share {
     opacity: 0;
 }
  @media (min-width: 600px) { 

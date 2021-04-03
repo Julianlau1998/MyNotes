@@ -3,8 +3,8 @@
         <ul id="listParent">
             <draggable
                 :delay="200"
-                v-model="storedNotes"
                 :delay-on-touch-only="true"
+                v-model="storedNotes"
             >
                 <li v-for="(note, idx) in storedNotes" v-bind:key="idx">
                     <span v-touch:touchhold="touchHoldHandler">
