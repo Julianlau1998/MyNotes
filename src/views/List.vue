@@ -482,7 +482,7 @@ input[type="checkbox"] {
 #share {
     width: 5rem;
     position: absolute;
-    top: -1.2rem;
+    top: -1rem;
     left: 50%;
     transform: translateX(-50%);
     cursor: pointer;
