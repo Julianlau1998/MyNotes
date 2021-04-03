@@ -293,7 +293,7 @@ export default {
             if(navigator.share !== undefined) {
                 this.$refs.share.style.opacity = 1
             }
-        }, 220);
+        }, 210);
     },
     created () {
         if(navigator.share !== undefined) {
