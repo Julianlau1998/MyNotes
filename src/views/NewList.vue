@@ -235,12 +235,6 @@ export default {
     },
     mounted () {
         this.$refs.title.focus();
-        setTimeout(() => {
-            this.$refs.backArrow.style.opacity = 1
-            this.$refs.safe.style.opacity = 1
-            this.$refs.add.style.opacity = 1
-            this.$refs.addButton.style.opacity = 1
-        }, 200);
     },
     beforeRouteLeave (to, from, next) {
         if(
@@ -335,14 +329,13 @@ export default {
   .saveHidden {
     position: absolute;
     right: 0.5rem;
-    top: 0.6rem;
+    top: -0.1rem;
     background: transparent;
     border: none;;
 }
   .deleteNew {
       width: 2.8em;
       background: none;
-      margin-top: -0.3rem;
   }
 input[type="checkbox"]:checked {
   color: red;
@@ -368,12 +361,6 @@ input[type="checkbox"] {
 .subTitle {
     color: rgb(0, 215, 215);
     font-weight: 500;
-}
-.arrow,
-.deleteNew,
-.newNote,
-#addButton {
-    opacity: 0;
 }
 @media (min-width: 600px) { 
   .newNote {

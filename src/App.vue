@@ -44,6 +44,9 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: rgb(201, 201, 201);
+  position: absolute;
+  width: 100%;
+  height: 100%;
 }
 body {
   background-color: #0f1820;
@@ -89,13 +92,13 @@ body {
         height: 3rem;
         position: absolute;
         left: 1rem;
-        top: 0.3rem;
+        top: -0.1rem;
     }
     .delete {
         width: 2.2rem;
         position: absolute;
         right: 1rem;
-        top: 0.6rem;
+        top: 0.2rem;
     }
     #title {
         font-size: 1.5rem;

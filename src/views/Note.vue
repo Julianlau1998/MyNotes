@@ -141,11 +141,6 @@ export default {
                 this.originalNote = this.note
             }
         }
-        setTimeout(() => {
-            this.$refs.backArrow.style.opacity = 1
-            this.$refs.trashcan.style.opacity = 1
-            this.$refs.share.style.opacity = 1
-        }, 200);
     },
     created () {
         if(navigator.share !== undefined) {
@@ -184,7 +179,7 @@ body {
 .saveHidden {
     position: absolute;
     right: 0.5rem;
-    top: 0.75rem;
+    top: 0.2rem;
     background: transparent;
     border: none;;
 }
@@ -199,10 +194,5 @@ body {
     bottom: -0.5rem;
     right: -0.7rem;
     cursor: pointer;
-}
-.arrow,
-.delete,
-#share {
-    opacity: 0;
 }
 </style>

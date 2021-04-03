@@ -84,10 +84,6 @@ export default {
         }
         this.$refs.title.focus();
         this.$store.state.currentComponent = 'Notes'
-        setTimeout(() => {
-            this.$refs.backArrow.style.opacity = 1
-            this.$refs.safe.style.opacity = 1
-        }, 200);
     },
     beforeRouteLeave (to, from, next) {
         if(
@@ -117,16 +113,11 @@ export default {
 .saveHidden {
     position: absolute;
     right: 0.5rem;
-    top: 0.6rem;
+    top: -0.15rem;
     background: transparent;
     border: none;;
 }
 .deleteNew {
     width: 2.8em;
-    margin-top: -0.3rem;
-}
-.arrow,
-.deleteNew {
-    opacity: 0;
 }
 </style>

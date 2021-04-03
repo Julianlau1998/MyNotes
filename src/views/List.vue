@@ -285,15 +285,6 @@ export default {
                 this.originalDoneItems = this.doneItems
             }
         }
-        setTimeout(() => {
-            this.$refs.backArrow.style.opacity = 1
-            this.$refs.trashcan.style.opacity = 1
-            this.$refs.add.style.opacity = 1
-            this.$refs.addButton.style.opacity = 1
-            if(navigator.share !== undefined) {
-                this.$refs.share.style.opacity = 1
-            }
-        }, 210);
     },
     created () {
         if(navigator.share !== undefined) {
@@ -320,8 +311,6 @@ export default {
             }
         }
         else {
-            this.$refs.add.style.opacity = 0
-            this.$refs.addButton.style.opacity = 0
             next()
         }
     },
@@ -392,7 +381,6 @@ export default {
   .deleteNew {
       width: 2.8em;
       background: none;
-      margin-top: -0.3rem;
   }
   .newNote{
       width: 75%;
@@ -430,7 +418,7 @@ export default {
   .saveHidden {
     position: absolute;
     right: 0.5rem;
-    top: 0.75rem;
+    top: -0.1rem;
     background: transparent;
     border: none;;
 }
@@ -499,13 +487,7 @@ input[type="checkbox"] {
     transform: translateX(-50%);
     cursor: pointer;
 }
-.arrow,
-.delete,
-.newNote,
-#addButton,
-#share {
-    opacity: 0;
-}
+
  @media (min-width: 600px) { 
   .newNote {
       width: 83%;
