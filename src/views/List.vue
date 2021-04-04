@@ -519,4 +519,25 @@ input[type="checkbox"] {
   opacity: 0;
   transform: translateX(-100px);
 }
+::-webkit-scrollbar {
+  width: 5px;
+  height: 0px;
+}
+
+/* Custom Scrollbar */
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  cursor: pointer;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(215, 0, 0);
+  border-radius: 20px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(0, 215, 215);
+  cursor: pointer;
+}
 </style>
