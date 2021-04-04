@@ -501,6 +501,25 @@ input[type="checkbox"] {
   #addButton {
       margin-right: 0.8rem;
   }
+  /* Custom Scrollbar */
+  ::-webkit-scrollbar {
+    width: 5px;
+    height: 0px;
+  }
+
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgb(215, 0, 0);
+    border-radius: 20px;
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(0, 215, 215);
+    cursor: pointer;
+  }
  }
  @media (min-width: 1300px) { 
   .newNote {
@@ -518,27 +537,5 @@ input[type="checkbox"] {
 .list-enter, .list-leave-to {
   opacity: 0;
   transform: translateX(-100px);
-}
-::-webkit-scrollbar {
-  width: 3px;
-  height: 0px;
-}
-
-/* Custom Scrollbar */
-
-::-webkit-scrollbar-track {
-  background: transparent;
-  cursor: pointer;
-  opacity: 0;
-}
-
-::-webkit-scrollbar-thumb {
-  background: rgb(215, 0, 0);
-  border-radius: 20px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgb(0, 215, 215);
-  cursor: pointer;
 }
 </style>
