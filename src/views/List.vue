@@ -520,7 +520,7 @@ input[type="checkbox"] {
   transform: translateX(-100px);
 }
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 3px;
   height: 0px;
 }
 
@@ -529,6 +529,7 @@ input[type="checkbox"] {
 ::-webkit-scrollbar-track {
   background: transparent;
   cursor: pointer;
+  opacity: 0;
 }
 
 ::-webkit-scrollbar-thumb {
