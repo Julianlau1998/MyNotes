@@ -51,6 +51,7 @@ export default {
 body {
   background-color: #0f1820;
   margin-top: 0.5rem;
+  overflow: hidden;
 }
     .plusButton {
         position: fixed;

@@ -97,6 +97,7 @@ export default {
         }
     },
     created () {
+        document.getElementById('body').style.overflow = 'visible'
         if(this.storedNotes === null || this.storedNotes === undefined) {
             this.storedNotes = []
         } else {
