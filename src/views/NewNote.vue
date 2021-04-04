@@ -85,6 +85,9 @@ export default {
         this.$refs.title.focus();
         this.$store.state.currentComponent = 'Notes'
     },
+    created () {
+        document.getElementById('body').style.overflow = 'hidden'
+    },
     beforeRouteLeave (to, from, next) {
         if(
             this.note !== '' ||

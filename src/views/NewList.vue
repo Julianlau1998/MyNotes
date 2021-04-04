@@ -225,6 +225,7 @@ export default {
         }
     },
     created () {
+        document.getElementById('body').style.overflow = 'hidden'
         if (this.listsList === undefined) {
             this.listsList = []
         }
