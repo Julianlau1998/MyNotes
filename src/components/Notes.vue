@@ -5,6 +5,7 @@
                 :delay="200"
                 :delay-on-touch-only="true"
                 v-model="storedNotes"
+                @start="dragging()"
                 @end="save()"
             >
                 <li v-for="(note, idx) in storedNotes" v-bind:key="idx">
@@ -69,7 +70,11 @@ export default {
             this.sorting = true
         },
         save () {
+            this.$store.state.dragging = false
             localStorage.setItem('notes', JSON.stringify(this.storedNotes))
+        },
+        dragging () {
+            this.$store.state.dragging = true
         }
     },
     created () {

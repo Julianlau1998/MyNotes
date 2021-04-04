@@ -75,11 +75,19 @@ export default {
     },
     methods: {
         swipeHandler (direction) {
-            if (this.currentComponent === 'Notes' && direction == 'left') {
+            if (
+                this.currentComponent === 'Notes' &&
+                direction == 'left' &&
+                this.dragging === false
+                ) {
                 this.$store.state.componentTransitionName = 'swipe-component-left'
                 this.currentComponent = 'Lists'
                 setTimeout(250)
-            } else if (this.currentComponent === 'Lists' && direction == 'right') {
+            } else if (
+                this.currentComponent === 'Lists' &&
+                 direction == 'right'
+                 && this.dragging === false
+                 ) {
                 this.$store.state.componentTransitionName = 'swipe-component-right'
                 this.currentComponent = 'Notes'
                 setTimeout(250)
@@ -110,6 +118,9 @@ export default {
     computed: {
         componentTransitionName () {
             return this.$store.state.componentTransitionName
+        },
+        dragging () {
+            return this.$store.state.dragging
         }
     }
 }

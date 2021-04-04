@@ -8,7 +8,8 @@ export default new Vuex.Store({
     id: 0,
     transitionName: 'swipe-left',
     componentTransitionName: 'component-swipe-left',
-    currentComponent: localStorage.getItem('currentComponent')
+    currentComponent: localStorage.getItem('currentComponent'),
+    dragging: false,
   },
   mutations: {
   },

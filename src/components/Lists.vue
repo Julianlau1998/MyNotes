@@ -5,6 +5,7 @@
                 :delay="200"
                 :delay-on-touch-only="true"
                 v-model="storedLists"
+                @start="dragging()"
                 @end="save()"
             >
                 <li v-for="(list, idx) in storedLists" v-bind:key="idx">
@@ -66,7 +67,11 @@ export default {
             this.sorting = true
         },
          save () {
+            this.$store.state.dragging = false
             localStorage.setItem('lists', JSON.stringify(this.storedLists))
+        },
+        dragging () {
+            this.$store.state.dragging = true
         }
     },
     mounted () {
