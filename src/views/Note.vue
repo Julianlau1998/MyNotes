@@ -145,6 +145,7 @@ export default {
         }
     },
     created () {
+        document.getElementById('body').style.overflow = 'hidden'
         if(navigator.share !== undefined) {
             this.shareAvailable = true
         }

@@ -291,6 +291,7 @@ export default {
             this.shareAvailable = true
         }
         this.$store.state.currentComponent = 'Lists'
+        document.getElementById('body').style.overflow = 'hidden'
     },
     beforeRouteLeave (to, from, next) {
         if(
