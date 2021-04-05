@@ -21,11 +21,15 @@
         <br><br>
         <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmit)" class="form">
-            <button to="/" class="saveHidden" v-if="focusValue">
-                <img src="../assets/haken.png" alt="delete icon" class="deleteNew" type="submit">
-            </button>
             <div class="form-group">
                 <ValidationProvider rules="required" v-slot="{ errors }">
+                    <button to="/" class="saveHidden" v-if="focusValue">
+                        <img
+                            src="../assets/haken.png"
+                            alt="delete icon"
+                            class="deleteNew"
+                        >
+                    </button>
                     <input 
                         type="test"
                         class="form-control"
@@ -191,20 +195,22 @@ export default {
         }
     },
     methods: {
-        onSubmit () {
-            if(this.listsList===null) {
-                this.listsList = []
+        onSubmit (error) {
+            if (error === undefined) {
+                if(this.listsList===null) {
+                    this.listsList = []
+                }
+                for (let i = 0; i < this.listsList.length; i++) {
+                    if (this.listsList[i].id === this.id) {
+                        this.listsList[i].title = this.title
+                        this.listsList[i].listElements = this.listElements
+                        this.listsList[i].doneItems = this.doneItems                }
+                }
+                localStorage.setItem('id', this.currentObject.id)
+                localStorage.setItem('lists',JSON.stringify(this.listsList))
+                this.save = true
+                this.$router.push('/')
             }
-            for (let i = 0; i < this.listsList.length; i++) {
-                if (this.listsList[i].id === this.id) {
-                    this.listsList[i].title = this.title
-                    this.listsList[i].listElements = this.listElements
-                    this.listsList[i].doneItems = this.doneItems                }
-            }
-            localStorage.setItem('id', this.currentObject.id)
-            localStorage.setItem('lists',JSON.stringify(this.listsList))
-            this.save = true
-            this.$router.push('/')
         },
         addItem () {
             if (this.$refs.add.value !== '') {
@@ -435,7 +441,7 @@ input[type="checkbox"] {
 #checkbox {
     width: 1.6rem;
     height: 1.6rem;
-    background-color: transparent;
+    background-color: red;
     border: 2px solid lightgray;
     border-radius: 20px;
     position: relative;

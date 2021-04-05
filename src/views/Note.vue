@@ -24,17 +24,16 @@
         <br><br>
         <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmit)">
-            <button to="/" v-if="focusValue" class="saveHidden">
-                <img
-                src="../assets/haken.png"
-                alt="delete icon"
-                class="deleteNew"
-                type="submit"
-                v-if="focusValue"
-                >
-            </button>
             <div class="form-group">
                 <ValidationProvider name="email" rules="required" v-slot="{ errors }">
+                    <button to="/" v-if="focusValue" class="saveHidden">
+                        <img
+                        src="../assets/haken.png"
+                        alt="delete icon"
+                        class="deleteNew"
+                        v-if="focusValue"
+                        >
+                    </button>
                     <input
                     type="test"
                     class="form-control"
@@ -108,15 +107,18 @@ export default {
         }
     },
     methods: {
-        onSubmit () {
-            for (let i = 0; i < this.notes.length; i++) {
-                if (this.notes[i].id === this.id) {
-                    this.notes[i].title = this.title
-                    this.notes[i].note = this.note                }
+        onSubmit (error) {
+            if (error === undefined) {
+                for (let i = 0; i < this.notes.length; i++) {
+                    if (this.notes[i].id === this.id) {
+                        this.notes[i].title = this.title
+                        this.notes[i].note = this.note                
+                    }
+                }
+                localStorage.setItem('notes', JSON.stringify(this.notes))
+                this.save = true
+                router.push('/')
             }
-            localStorage.setItem('notes', JSON.stringify(this.notes))
-            this.save = true
-            router.push('/')
         },
         deleteNote () {
             for (let i in this.notes) {

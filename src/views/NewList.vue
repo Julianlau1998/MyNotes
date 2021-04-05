@@ -12,17 +12,16 @@
         <br><br>
         <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmit)">
-            <button to="/" class="saveHidden">
-                <img
-                    src="../assets/haken.png"
-                    alt="delete icon"
-                    class="deleteNew"
-                    type="submit"
-                    ref="safe"
-                >
-            </button>
             <div class="form-group">
                 <ValidationProvider rules="required" v-slot="{ errors }">
+                    <button to="/" class="saveHidden">
+                        <img
+                            src="../assets/haken.png"
+                            alt="delete icon"
+                            class="deleteNew"
+                            ref="safe"
+                        >
+                    </button>
                     <input
                     type="test"
                     class="form-control"
@@ -167,18 +166,20 @@ export default {
         }
     },
     methods: {
-        onSubmit () {
-            if(this.listsList===null) {
-                this.listsList = []
+        onSubmit (error) {
+            if (error === undefined) {
+                if(this.listsList===null) {
+                    this.listsList = []
+                }
+                this.currentObject.title = this.title
+                this.currentObject.listElements = this.listElements
+                this.currentObject.doneItems = this.doneItems
+                this.listsList.push(this.currentObject)
+                localStorage.setItem('id', this.currentObject.id)
+                localStorage.setItem('lists',JSON.stringify(this.listsList))
+                this.save = true
+                this.$router.push('/')
             }
-            this.currentObject.title = this.title
-            this.currentObject.listElements = this.listElements
-            this.currentObject.doneItems = this.doneItems
-            this.listsList.push(this.currentObject)
-            localStorage.setItem('id', this.currentObject.id)
-            localStorage.setItem('lists',JSON.stringify(this.listsList))
-            this.save = true
-            this.$router.push('/')
         },
         addItem () {
             if (this.$refs.add.value !== '') {

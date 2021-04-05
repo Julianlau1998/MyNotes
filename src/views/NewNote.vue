@@ -11,17 +11,16 @@
         <br><br>
         <ValidationObserver v-slot="{ handleSubmit }">
         <form @submit.prevent="handleSubmit(onSubmit)">
-            <button to="/" class="saveHidden">
-                <img
-                    src="../assets/haken.png"
-                    alt="delete icon"
-                    class="deleteNew"
-                    type="submit"
-                    ref="safe"
-                    >
-            </button>
             <div class="form-group">
                 <ValidationProvider name="email" rules="required" v-slot="{ errors }">
+                    <button class="saveHidden">
+                        <img
+                            src="../assets/haken.png"
+                            alt="delete icon"
+                            class="deleteNew"
+                            ref="safe"
+                            >
+                    </button>
                     <input type="test" autocomplete="off" class="form-control" id="title"  placeholder="Title" v-model="title" ref="title" autofocus>        
                     <span class="errorMessage">{{ errors[0] }}</span>
                 </ValidationProvider>
@@ -60,12 +59,14 @@ export default {
             },
             notesList: JSON.parse(localStorage.getItem('notes')),
             id: this.$uuidKey(),
-            save: false
+            save: false,
+            errors: []
         }
     },
     methods: {
-        onSubmit () {
-            if(this.notesList===null) {
+        onSubmit (error) {
+            if (error === undefined) {
+                if(this.notesList===null) {
                 this.notesList = []
             }
             this.currentObject.title = this.title
@@ -76,6 +77,7 @@ export default {
             localStorage.setItem('notes',JSON.stringify(this.notesList))
             this.save = true
             this.$router.push('/')
+            }
         }
     },
     mounted () {

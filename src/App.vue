@@ -160,6 +160,9 @@ body {
         font-size: larger;
         margin-top: 5rem;
     }
+    .saveHidden {
+      background: transparent;
+    }
     .saveHidden:focus {
       outline: none;
     }
@@ -181,7 +184,7 @@ body {
     #checkboxChecked {
     width: 1.6rem;
     height: 1.6rem;
-    background-color: transparent;
+    background-color: transparent !important;
     border: 2px solid lightgray;
     border-radius: 20px;
     position: relative;
