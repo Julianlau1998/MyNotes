@@ -39,7 +39,7 @@
                     class="form-control"
                     id="title"
                     autocomplete="off"
-                    placeholder="Title"
+                    :placeholder="$t('text.note.title')"
                     value="title"
                     v-model="title"
                     @focus="focusValue=true"
@@ -52,7 +52,7 @@
                   type="test"
                   class="form-control"
                   id="note"
-                  placeholder="Note"
+                  :placeholder="$t('text.note.note')"
                   value="note"
                   v-model="note"
                   ref="note"
@@ -61,7 +61,7 @@
                 </textarea>        
             </div>
             <button class="saveButton" type="submit">
-                Save
+                {{ $t('text.note.save') }}
             </button>
         </form>
         </ValidationObserver>
@@ -159,7 +159,7 @@ export default {
             this.originalTitle !== this.title
         ) {
             if (this.save===false) {
-                this.$dialog.confirm('Are You sure you want to leave without saving? \n \n All changes would be lost.')
+                this.$dialog.confirm(this.$t('text.saveAlert'))
                 .then (function () {
                     next()
                 })

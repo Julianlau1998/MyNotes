@@ -1,0 +1,28 @@
+{
+  "text": {
+    "settings": {
+      "delete": "Delete App Data",
+      "home": "Home"
+    },
+    "home": {
+      "notes": "Notes",
+      "lists": "Lists"
+    },
+    "note":{
+      "title": "Title",
+      "note": "Note",
+      "save": "save"
+    },
+    "list":{
+      "title": "Title",
+      "newItem": "Add",
+      "add": "Add",
+      "toDo": "To-Do:",
+      "done": "Done:"
+    },
+    "saveAlert": "Are You sure you want to leave without saving? \n \n All changes would be lost.",
+    "deleteAlert": "Are You sure you want to delete all notes and lists?\n \n You won't be able to restore them.",
+    "cancel": "Cancel",
+    "continue": "Continue"
+  }
+}

@@ -34,7 +34,7 @@
                         type="test"
                         class="form-control"
                         id="title"
-                        placeholder="Title"
+                        :placeholder="$t('text.list.title')"
                         v-model="title"
                         @click="focusValue=true"
                         autocomplete="off"
@@ -49,7 +49,7 @@
                         v-if="listElements.length != 0"
                         class="subTitle"
                     >
-                        To-Do:
+                        {{ $t('text.list.toDo') }}
                     </span>
                     <ul id="itemsList">
                         <draggable
@@ -84,7 +84,7 @@
                     class="subTitle"
                     >
                         <br>
-                        Done:
+                        {{ $t('text.list.done') }}
                     </span>
                     <ul>
                         <draggable
@@ -134,7 +134,7 @@
         >
         <input
             class="form-control newNote"
-            placeholder="New Item"
+            :placeholder="$t('text.list.newItem')"
             v-model="listItem"
             @click="focusValue=true"
             v-on:keyup.enter="addItem()"
@@ -146,7 +146,7 @@
             @click="addItem"
             ref="addButton"
         > 
-            add 
+            {{ $t('text.list.add') }} 
         </button>
     </div>
 </template>
@@ -306,7 +306,7 @@ export default {
             this.originalTitle !== this.title
         ) {
             if (this.save===false) {
-                this.$dialog.confirm('Are You sure you want to leave without saving? \n \n All changes would be lost.')
+                this.$dialog.confirm(this.$t('text.saveAlert'))
                 .then (function () {
                     next()
                 })

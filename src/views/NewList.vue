@@ -23,13 +23,13 @@
                         >
                     </button>
                     <input
-                    type="test"
-                    class="form-control"
-                    id="title"
-                    placeholder="Title"
-                    v-model="title"
-                    ref="title"
-                    autocomplete="off"
+                        type="test"
+                        class="form-control"
+                        id="title"
+                        :placeholder="$t('text.list.title')"
+                        v-model="title"
+                        ref="title"
+                        autocomplete="off"
                     >    
                     <span class="errorMessage">{{ errors[0] }}</span>
                 </ValidationProvider>    
@@ -41,7 +41,7 @@
                     v-if="listElements.length != 0"
                     class="subTitle"
                     >   
-                        To-Do:
+                        {{ $t('text.list.toDo') }}
                     </span>
                     <ul>
                         <draggable
@@ -75,7 +75,7 @@
                     v-if="doneItems.length != 0"
                     class="subTitle"
                     >
-                        Done:
+                        {{ $t('text.list.done') }}
                     </span>
                     <ul>
                         <draggable
@@ -114,19 +114,19 @@
         </form>
         </ValidationObserver>
         <input
-        class="form-control newNote"
-        placeholder="New Item"
-        v-model="listItem"
-        ref="add"
-        v-on:keyup.enter="addItem()"
+            class="form-control newNote"
+            :placeholder="$t('text.list.newItem')"
+            v-model="listItem"
+            ref="add"
+            v-on:keyup.enter="addItem()"
         />
         <button
-        class="neomorph"
-        id="addButton"
-        @click="addItem"
-        ref="addButton"
+            class="neomorph"
+            id="addButton"
+            @click="addItem"
+            ref="addButton"
         > 
-            add 
+            {{ $t('text.list.add') }}
         </button>
     </div>
 </template>
@@ -245,7 +245,7 @@ export default {
             this.title !== ''
         ) {
             if (this.save === false) {
-                this.$dialog.confirm('Are You sure you want to leave without saving? \n \n All changes would be lost.')
+                this.$dialog.confirm(this.$t('text.saveAlert'))
                 .then (function () {
                     next()
                 })

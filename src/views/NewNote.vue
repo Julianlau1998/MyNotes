@@ -21,14 +21,34 @@
                             ref="safe"
                             >
                     </button>
-                    <input type="test" autocomplete="off" class="form-control" id="title"  placeholder="Title" v-model="title" ref="title" autofocus>        
+                    <input
+                        type="test"
+                        autocomplete="off"
+                        class="form-control"
+                        id="title" 
+                        :placeholder="$t('text.note.title')"
+                        v-model="title"
+                        ref="title" autofocus
+                    >        
                     <span class="errorMessage">{{ errors[0] }}</span>
                 </ValidationProvider>
             </div>
             <div class="form-group">
-                <textarea type="test" class="form-control" id="note"  placeholder="Note" v-model="note"> </textarea>        
+                <textarea
+                    type="test"
+                    class="form-control"
+                    id="note"
+                    :placeholder="$t('text.note.note')"
+                    v-model="note"
+                >
+                </textarea>        
             </div>
-            <button type="submit" class="saveButton">Save</button>
+            <button
+                type="submit"
+                class="saveButton"
+            >
+                {{ $t('text.note.save') }}
+            </button>
         </form>
         </ValidationObserver>
     </div>
@@ -96,7 +116,7 @@ export default {
             this.title !== ''
         ) {
             if (this.save === false) {
-                this.$dialog.confirm('Are You sure you want to leave without saving? \n \n All changes would be lost.')
+                this.$dialog.confirm(this.$t('text.saveAlert'))
                 .then (function () {
                     next()
                 })

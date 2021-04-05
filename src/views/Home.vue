@@ -17,14 +17,14 @@
             v-if="currentComponent=='Notes'"
         >
             <span style="color: rgb(0, 215, 215); opacity: 0.7;">
-                Notes
+                {{ $t("text.home.notes") }}
             </span> 
             <span
                 @click="changeToLists()"
                 style="color: white; cursor: pointer;"
                 id="listsButton"
             >
-                Lists
+                {{ $t("text.home.lists") }}
             </span>
         </h2>
         <h2 
@@ -35,10 +35,10 @@
                 style="color: white; background: transparent; outline: none; border: none; cursor: pointer;"
                 id="notesButton"
             >
-                Notes
+                {{ $t("text.home.notes") }}
             </span>
             <span style="color: rgb(0, 215, 215); opacity: 0.7;">
-                Lists
+                {{ $t("text.home.lists") }}
             </span>
         </h2>
         <transition

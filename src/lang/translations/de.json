@@ -1,0 +1,28 @@
+{
+  "text": {
+    "settings": {
+      "delete": "Alle App Daten Löschen",
+      "home": "Start"
+    },
+    "home": {
+      "notes": "Notizen",
+      "lists": "Listen"
+    },
+    "note":{
+      "title": "Titel",
+      "note": "Notiz",
+      "save": "Speichern"
+    },
+    "list":{
+      "title": "Titel",
+      "newItem": "Neues Element",
+      "add": "Hinz.",
+      "toDo": "To-Do:",
+      "done": "Erledigt:"
+    },
+    "saveAlert": "Bist Du sicher, dass du fortfahren möchtest ohne zu Speichern?",
+    "deleteAlert": "Bist Du sicher, dass Du alle Daten löschen möchtest? Diese lassen sich nicht wiederherstellen.",
+    "cancel": "Abbrechen",
+    "continue": "Weiter"
+  }
+}

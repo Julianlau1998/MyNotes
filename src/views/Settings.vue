@@ -7,10 +7,29 @@
         <br>
         <div>
             <hr class="splitLine"> 
-            <h3 @click="deleteData()" class="setting">
+            <h3 @click="deleteData()" class="settingWrapper">
                 <img src="../assets/trash.png" alt="trash icon" id="trash">
-                Delete App Data
+                <span id="setting">{{ $t("text.settings.delete") }}</span>
             </h3>
+
+            <hr class="splitLine">
+
+            <h3 class="settingWrapper">
+                <img src="../assets/translation.png" alt="trash icon" id="trash">
+                <select
+                    v-model="$i18n.locale"
+                    id="language"
+                    v-bind="selectedLanguage"
+                    >
+                    <option
+                        v-for="(lang, i) in langs" :key="`Lang${i}`"
+                        :value="lang"
+                    >
+                        {{ lang }}
+                    </option>
+                </select>
+            </h3>
+
             <hr class="splitLine">
         </div>
         <button
@@ -18,7 +37,7 @@
             class="saveButton"
             id="home"
         >
-                Home
+                {{ $t("text.settings.home") }}
         </button>
     </div>
 </template>
@@ -27,12 +46,14 @@
 export default {
     data () {
         return {
+            langs: ['German', 'English'],
+            selectedLanguage: '',
         }
     },
     methods: {
         deleteData () {
             const vm = this
-            this.$dialog.confirm("Are You sure you want to delete all notes and lists?\n \n You won't be able to restore them.")
+            this.$dialog.confirm(this.$t('text.deleteAlert'))
                 .then (function () {
                     localStorage.clear()
                     vm.$router.push('/')
@@ -45,7 +66,12 @@ export default {
 
     },
     created () {
+        document.getElementById('body').style.overflow = 'hidden'
         // this.$store.state.transitionName = 'swipe-right'
+    },
+    beforeRouteLeave (to, from, next) {
+        localStorage.setItem('language', this.$i18n.locale)
+        next()
     }
 }
 </script>
@@ -62,11 +88,17 @@ export default {
         margin-bottom: 0.5rem;
         margin-right: 0.5rem;
     }
-    .setting {
+    .settingWrapper {
         text-align: left;
+        margin-left: 1rem;
+    }
+    #setting {
         margin-left: 1rem;
     }
     #home {
         margin-bottom: 1.5rem;
+    }
+    #language {
+        margin-left: 1rem;
     }
 </style>
