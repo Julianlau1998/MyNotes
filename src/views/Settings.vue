@@ -91,6 +91,7 @@ export default {
     .settingWrapper {
         text-align: left;
         margin-left: 1rem;
+        cursor: pointer;
     }
     #setting {
         margin-left: 1rem;
