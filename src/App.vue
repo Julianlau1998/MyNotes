@@ -85,6 +85,8 @@ body {
       margin: 2rem 0 1rem;
       font-family: Avenir, Helvetica, Arial, sans-serif;
       letter-spacing: 5px;
+      font-size: 3.5rem;
+      color: lightgray;
     }
 
     /*** Note / NewNote ***/
@@ -228,6 +230,13 @@ body {
                   1px 1px 3px 0px rgb(133, 133, 133);
     color: lightgray;
     font-weight: 500;
+  }
+  #settingsImage {
+    width: 2.2rem;
+    position: absolute;
+    right: 0.7rem;
+    top: 0.3rem;
+    cursor: pointer;
   }
 
   /* Route change animation */

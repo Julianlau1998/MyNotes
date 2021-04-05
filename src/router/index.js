@@ -5,7 +5,7 @@ import Note from '../views/Note.vue'
 import NewList from '../views/NewList.vue'
 import SingleList from '../views/List.vue'
 import Home from '../views/Home.vue'
-
+import Settings from '../views/Settings.vue'
 
 Vue.use(VueRouter)
 
@@ -35,7 +35,12 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
-  }
+  },
+  {
+    path: '/settings',
+    name: 'Settings',
+    component: Settings
+  },
 ]
 
 const router = new VueRouter({

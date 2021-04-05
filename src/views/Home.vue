@@ -1,5 +1,11 @@
 <template>
     <div id="app">
+        <img
+            src="../../public/img/settings.png"
+            alt="settings"
+            v-on:click="settings"
+            id=settingsImage
+        >
         <span 
             v-touch:swipe="swipeHandler"
         >
@@ -9,31 +15,29 @@
         <hr class="whiteLine">
         <h2
             v-if="currentComponent=='Notes'"
-            style="margin-left: 0.5rem;"
         >
-            <span style="color: rgb(0, 215, 215); opacity: 0.7; margin-right: -0.2rem">
+            <span style="color: rgb(0, 215, 215); opacity: 0.7;">
                 Notes
             </span> 
-            &nbsp;
-            <button
+            <span
                 @click="changeToLists()"
-                style="color: white; margin-left: -0.2rem"
+                style="color: white; cursor: pointer;"
                 id="listsButton"
             >
                 Lists
-            </button>
+            </span>
         </h2>
         <h2 
             v-if="currentComponent=='Lists'"
         >
-            <button
+            <span
                 @click="changeToNotes()"
-                style="color: white; margin-right: -0.2rem; background: transparent; outline: none; border: none;"
+                style="color: white; background: transparent; outline: none; border: none; cursor: pointer;"
                 id="notesButton"
             >
                 Notes
-            </button>
-            <span style="color: rgb(0, 215, 215); opacity: 0.7; margin-left: -0.2rem;">
+            </span>
+            <span style="color: rgb(0, 215, 215); opacity: 0.7;">
                 Lists
             </span>
         </h2>
@@ -102,9 +106,13 @@ export default {
             this.$store.state.componentTransitionName = 'swipe-component-right'
             this.$store.state.currentComponent = 'Notes'
             this.currentComponent = 'Notes'
+        },
+        settings () {
+            this.$router.push('/settings')
         }
     },
     created () {
+        this.$store.state.transitionName = 'fade'
         document.getElementById('body').style.overflow = 'visible'
         if(this.storedNotes === null || this.storedNotes === undefined) {
             this.storedNotes = []
@@ -156,10 +164,6 @@ ul li {
 }
 .noteDiv:focus {
     outline: none;
-}
-.header {
-    font-size: 3.5rem;
-    color: lightgray;
 }
 #listParent{
     margin-left: -0.5rem;
@@ -229,4 +233,5 @@ ul li {
         height: 9rem;
     }
  }
+ 
 </style>
