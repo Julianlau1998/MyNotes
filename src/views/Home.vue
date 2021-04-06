@@ -51,6 +51,7 @@
         </transition>
         <br><br><br><br><br><br>
         </span>
+        <BottomNav />
     </div>
 </template>
 
@@ -59,6 +60,7 @@ import Vue from 'vue'
 import Vue2TouchEvents from 'vue2-touch-events'
 import Notes from '../components/Notes.vue'
 import Lists from '../components/Lists.vue'
+import BottomNav from '../components/BottomNav.vue';
 
 Vue.use(Vue2TouchEvents)
 
@@ -66,7 +68,8 @@ export default {
     name: 'Home',
     components: {
         Notes,
-        Lists
+        Lists,
+        BottomNav
     },
     data () {
         return {
@@ -159,6 +162,9 @@ ul li {
 }
 #listParent {
     min-height: 79vh;
+}
+.plusButton {
+    z-index: 10;
 }
  /* Component change animation */
    .swipe-component-left-enter-active,

@@ -4,8 +4,8 @@
       mode="out-in"
       ref="transition"
     >
-        <router-view
-        ></router-view>
+        <router-view>
+        </router-view>
     </transition>
 </template>
 
@@ -51,13 +51,14 @@ body {
 }
     .plusButton {
         position: fixed;
-        bottom: 1rem;
-        padding-bottom: 3.5rem;
+        bottom: -0.9rem;
+        padding-bottom: 2rem;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 4.9rem;
-        height: 4.9rem;
-        font-size: 3.2em;
+        width: 2.8rem;
+        height: 2.8rem;
+        font-size: 1.8em;
+        font-weight: 600;
         background-color: transparent;
         border-radius: 100%;
         border: none;
