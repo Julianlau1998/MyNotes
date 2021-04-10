@@ -41,7 +41,6 @@
                     id="title"
                     autocomplete="off"
                     placeholder="Title"
-                    value="title"
                     v-model="title"
                     @focus="focusValue=true"
                     >        
@@ -79,6 +78,7 @@
 import router from '../router'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
+import { mapState } from 'vuex' 
 
 extend('required', {
   ...required,
@@ -93,7 +93,12 @@ export default {
     data () {
         return {
             id: this.$route.params.id,
-            notes: JSON.parse(localStorage.getItem('notes')),
+            postNote: {
+                id: '',
+                userID: '',
+                title: '',
+                body: ''
+            },
             title: '',
             note: '',
             currentObject: {title: '', note: '', id: ""},
@@ -105,24 +110,61 @@ export default {
             save: false
         }
     },
+
+    created () {
+        const payload = {'id': this.id,'userID': this.$store.state.userID}
+        this.$store.dispatch('notesModule/getOne', payload)
+        
+        if(navigator.share !== undefined) {
+            this.shareAvailable = true
+        }
+        this.$store.state.currentComponent = 'Notes'
+    },
+
+    computed: {
+        ...mapState(['notesModule']),
+        storedNote () {
+            return (!this.notesModule.note.loading && this.notesModule.note.data) || []
+        }
+    },
+
+    watch: {
+        storedNote: function (val) {
+            this.title = val.title
+            this.note = val.body
+            this.originalTitle = this.title
+            this.originalNote = this.note
+        }
+    },
+
+    mounted () {
+        this.$store.state.transitionName = 'swipe-right'
+        setTimeout(() => {
+            this.$refs.backArrow.style.opacity = 1
+            this.$refs.trashcan.style.opacity = 1
+            this.$refs.share.style.opacity = 1
+        }, 200);
+    },
+
     methods: {
         onSubmit () {
-            for (let i = 0; i < this.notes.length; i++) {
-                if (this.notes[i].id === this.id) {
-                    this.notes[i].title = this.title
-                    this.notes[i].note = this.note                }
-            }
-            localStorage.setItem('notes', JSON.stringify(this.notes))
-            this.save = true
-            router.push('/')
+            this.postNote.id = this.id
+            this.postNote.userID = this.$store.state.userID
+            this.postNote.title = this.title
+            this.postNote.body = this.note
+            const payload = {'note': this.postNote,'userID': this.$store.state.userID}
+            this.$store.dispatch('notesModule/put', payload)
+            .then (() => {
+                this.save = true
+                router.push('/')
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         },
         deleteNote () {
-            for (let i in this.notes) {
-                if (this.notes[i].id === this.id) {
-                    this.notes.splice(i, 1)
-                }
-            }
-            localStorage.setItem('notes', JSON.stringify(this.notes))
+            const payload = {'id': this.id,'userID': this.$store.state.userID}
+            this.$store.dispatch('notesModule/deleteOne', payload)
         },
         share () {
             navigator.share({
@@ -131,28 +173,7 @@ export default {
             })
         }
     },
-    mounted () {
-        this.$store.state.transitionName = 'swipe-right'
-        for (let i = 0; i < this.notes.length; i++) {
-            if (this.notes[i].id === this.id) {
-                this.title = this.notes[i].title
-                this.note = this.notes[i].note
-                this.originalTitle = this.title
-                this.originalNote = this.note
-            }
-        }
-        setTimeout(() => {
-            this.$refs.backArrow.style.opacity = 1
-            this.$refs.trashcan.style.opacity = 1
-            this.$refs.share.style.opacity = 1
-        }, 200);
-    },
-    created () {
-        if(navigator.share !== undefined) {
-            this.shareAvailable = true
-        }
-        this.$store.state.currentComponent = 'Notes'
-    },
+
     beforeRouteLeave (to, from, next) {
         if(
             this.originalNote !== this.note ||

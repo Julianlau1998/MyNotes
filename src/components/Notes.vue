@@ -22,6 +22,7 @@
 import router from '../router'
 import Vue from 'vue'
 import Vue2TouchEvents from 'vue2-touch-events'
+import { mapState } from 'vuex' 
 
 Vue.use(Vue2TouchEvents)
 
@@ -29,9 +30,8 @@ export default {
     name: 'Notes',
     data () {
         return {
-            storedNotes: JSON.parse(localStorage.getItem('notes')),
+            // storedNotes: JSON.parse(localStorage.getItem('notes')),
             titles: [],
-            notes: []
         }
     },
     methods: {
@@ -54,6 +54,9 @@ export default {
         }
     },
     created () {
+        const payload = {'userID': this.$store.state.userID}
+        this.$store.dispatch('notesModule/getAll', payload)
+
         if(this.storedNotes === null || this.storedNotes === undefined) {
             this.storedNotes = []
         } else {
@@ -63,7 +66,13 @@ export default {
         }
         }
         localStorage.setItem('currentComponent', 'Notes')
+    },
+    computed: {
+    ...mapState(['notesModule']),
+    storedNotes () {
+      return (!this.notesModule.notes.loading && this.notesModule.notes.data) || []
     }
+  }
 }
 </script>
 

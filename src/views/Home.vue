@@ -51,7 +51,7 @@
         </transition>
         <br><br><br><br><br><br>
         </span>
-        <BottomNav />
+        <!-- <BottomNav /> -->
     </div>
 </template>
 
@@ -60,7 +60,7 @@ import Vue from 'vue'
 import Vue2TouchEvents from 'vue2-touch-events'
 import Notes from '../components/Notes.vue'
 import Lists from '../components/Lists.vue'
-import BottomNav from '../components/BottomNav.vue';
+// import BottomNav from '../components/BottomNav.vue';
 
 Vue.use(Vue2TouchEvents)
 
@@ -69,7 +69,7 @@ export default {
     components: {
         Notes,
         Lists,
-        BottomNav
+        // BottomNav
     },
     data () {
         return {
@@ -147,10 +147,6 @@ ul li {
 }
 .noteDiv:focus {
     outline: none;
-}
-.header {
-    font-size: 3.5rem;
-    color: lightgray;
 }
 #listParent{
     margin-left: -0.5rem;

@@ -42,23 +42,22 @@ export default {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  text-align: center;
   color: rgb(201, 201, 201);
 }
 body {
   background-color: #0f1820;
   margin-top: 0.5rem;
+  text-align: center;
 }
     .plusButton {
         position: fixed;
-        bottom: -0.9rem;
-        padding-bottom: 2rem;
+        bottom: 1rem;
+        padding-bottom: 3.5rem;
         left: 50%;
         transform: translate(-50%, -50%);
-        width: 2.8rem;
-        height: 2.8rem;
-        font-size: 1.8em;
-        font-weight: 600;
+        width: 4.9rem;
+        height: 4.9rem;
+        font-size: 3.2em;
         background-color: transparent;
         border-radius: 100%;
         border: none;
@@ -82,7 +81,10 @@ body {
       margin: 2rem 0 1rem;
       font-family: Avenir, Helvetica, Arial, sans-serif;
       letter-spacing: 5px;
+      font-size: 3.5rem;
+      color: lightgray;
     }
+
 
     /*** Note / NewNote ***/
     .arrow {

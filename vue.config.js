@@ -13,5 +13,15 @@ module.exports = {
       swSrc: 'src/service-worker.js',
       exclude: [/\.map$/, /_redirects/],
     }
+  },
+  devServer: {
+    host: '0.0.0.0',
+    disableHostCheck: true,
+    proxy: {
+      '^/api/*': {
+        target: 'http://192.168.178.46:1323/',
+        changeOrigin: true,
+      }
+    }
   }
 }
