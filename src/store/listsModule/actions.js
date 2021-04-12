@@ -14,7 +14,7 @@ export function getAll ({ commit }, payload) {
     .catch(err => {
       console.log(err)
     })
-}
+} 
 export function getOne ({ commit }, payload) {
   commit('GET_LIST')
   axios
