@@ -1,8 +1,10 @@
 {
   "text": {
     "settings": {
+      "title": "Einstellungen",
       "delete": "Alle App Daten Löschen",
-      "home": "Start"
+      "home": "Start",
+      "logout": "Ausloggen"
     },
     "home": {
       "notes": "Notizen",

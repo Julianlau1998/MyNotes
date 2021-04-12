@@ -1,8 +1,10 @@
 {
   "text": {
     "settings": {
+      "title": "settings",
       "delete": "Delete App Data",
-      "home": "Home"
+      "home": "Home",
+      "logout": "Log Out"
     },
     "home": {
       "notes": "Notes",

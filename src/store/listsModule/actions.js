@@ -1,75 +1,75 @@
 import axios from 'axios'
 
 export function getAll ({ commit }, payload) {
-  commit('GET_NOTES')
+  commit('GET_LISTS')
   axios
-    .get('/api/notes', {
+    .get('/api/lists', {
       headers: {
         'userId': payload.userID
       }
     })
     .then(response => {
-      commit('RECEIVE_NOTES', response.data)
+      commit('RECEIVE_LISTS', response.data)
     })
     .catch(err => {
       console.log(err)
     })
 }
 export function getOne ({ commit }, payload) {
-  commit('GET_NOTE')
+  commit('GET_LIST')
   axios
-    .get(`/api/note/${payload.id}`, {
+    .get(`/api/list/${payload.id}`, {
         headers: {
           'userId': payload.userID
         }
     })
     .then(response => {
-      commit('RECEIVE_NOTE', response.data)
+      commit('RECEIVE_LIST', response.data)
     })
     .catch(err => {
       console.log(err)
     })
 }
 export function post ({ commit }, payload) {
-  commit('POST_NOTE')
+  commit('POST_LIST')
   axios
-    .post('/api/notes', payload.note, {
+    .post('/api/lists', payload.list, {
       headers: {
         'userId': payload.userID
       }
     })
     .then(function () {
-      commit('NOTE_POSTED')
+      commit('LIST_POSTED')
     })
     .catch(function (error) {
       console.log(error)
     })
 }
 export function deleteOne ({ commit }, payload) {
-  commit('DELETE_NOTE')
+  commit('DELETE_LIST')
   axios
-    .delete(`/api/note/${payload.id}`, {
+    .delete(`/api/list/${payload.id}`, {
       headers: {
         'userId': payload.userID
       }
     })
     .then(function () {
-      commit('NOTE_DELETED')
+      commit('LIST_DELETED')
     })
     .catch(function (error) {
       console.log(error)
     })
 }
 export function put ({ commit }, payload) {
-  commit('PUT_NOTE')
+  commit('PUT_LIST')
   axios
-    .put(`/api/note/${payload.note.id}`, payload.note, {
+    .put(`/api/list/${payload.list.id}`, payload.list, {
       headers: {
         'userId': payload.userID
       }
     })
     .then(function () {
-      commit('NOTE_PUT')
+      commit('LIST_PUT')
     })
     .catch(function (error) {
       console.log(error)
