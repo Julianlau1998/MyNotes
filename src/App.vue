@@ -16,17 +16,18 @@ export default {
     }
   },
   created() {
-    if (!localStorage.getItem('userID')) {
-      this.$router.push('/login')
-    }
-    if (this.$workbox) {
-      this.$workbox.addEventListener("waiting", () => {
-        this.showUpgradeUI = true;
-      });
-    }
-    if (this.$store.state.userID == '') {
-      this.$store.state.userID = localStorage.getItem('userID')
-    }
+    // if (!localStorage.getItem('userID')) {
+    //   this.$router.push('/login')
+    // }
+    // if (this.$workbox) {
+    //   this.$workbox.addEventListener("waiting", () => {
+    //     this.showUpgradeUI = true;
+    //   });
+    // }
+    // if (this.$store.state.userID == '') {
+    //   this.$store.state.userID = localStorage.getItem('userID')
+    // }
+    this.$router.push('/')
   },
 
   methods: {
