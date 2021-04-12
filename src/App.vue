@@ -9,6 +9,7 @@
     </transition>
 </template>
 
+
 <script>
 export default {
   data () {
