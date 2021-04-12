@@ -33,6 +33,7 @@ import router from '../router'
 import Vue from 'vue'
 import draggable from 'vuedraggable'
 import Vue2TouchEvents from 'vue2-touch-events'
+import { mapState } from 'vuex' 
 
 Vue.use(Vue2TouchEvents)
 
@@ -41,12 +42,25 @@ export default {
     components: {draggable},
     data () {
         return {
-            storedNotes: JSON.parse(localStorage.getItem('notes')),
             titles: [],
             notes: [],
             sorting: false
         }
     },
+    created () {
+        const payload = {'userID': this.$store.state.userID}
+        this.$store.dispatch('notesModule/getAll', payload)
+
+        localStorage.setItem('currentComponent', 'Notes')
+    },
+
+    computed: {
+    ...mapState(['notesModule']),
+        storedNotes () {
+        return (!this.notesModule.notes.loading && this.notesModule.notes.data) || []
+        }
+    },
+
     methods: {
         openNote (id) {
             this.$store.state.transitionName = 'swipe-left'
@@ -76,17 +90,6 @@ export default {
         dragging () {
             this.$store.state.dragging = true
         }
-    },
-    created () {
-        if(this.storedNotes === null || this.storedNotes === undefined) {
-            this.storedNotes = []
-        } else {
-            for (let i=0; i<this.storedNotes.length; i++) {
-            this.titles.push(this.storedNotes[i].title)
-            this.notes.push(this.storedNotes[i].note)
-        }
-        }
-        localStorage.setItem('currentComponent', 'Notes')
     }
 }
 </script>

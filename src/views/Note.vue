@@ -40,7 +40,6 @@
                     id="title"
                     autocomplete="off"
                     :placeholder="$t('text.note.title')"
-                    value="title"
                     v-model="title"
                     @focus="focusValue=true"
                     >        
@@ -80,6 +79,8 @@
 import router from '../router'
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
+import { mapState } from 'vuex' 
+
 
 extend('required', {
   ...required,
@@ -94,10 +95,14 @@ export default {
     data () {
         return {
             id: this.$route.params.id,
-            notes: JSON.parse(localStorage.getItem('notes')),
             title: '',
             note: '',
-            currentObject: {title: '', note: '', id: ""},
+            postNote: {
+                id: '',
+                userID: '',
+                title: '',
+                body: ''
+            },
             focusValue: false,
             shareAvailable: false,
             shareNote: '',
@@ -107,27 +112,27 @@ export default {
         }
     },
     methods: {
-        onSubmit (error) {
-            if (error === undefined) {
-                for (let i = 0; i < this.notes.length; i++) {
-                    if (this.notes[i].id === this.id) {
-                        this.notes[i].title = this.title
-                        this.notes[i].note = this.note                
-                    }
-                }
-                localStorage.setItem('notes', JSON.stringify(this.notes))
+        onSubmit () {
+            this.postNote.id = this.id
+            this.postNote.userID = this.$store.state.userID
+            this.postNote.title = this.title
+            this.postNote.body = this.note
+            const payload = {'note': this.postNote,'userID': this.$store.state.userID}
+            this.$store.dispatch('notesModule/put', payload)
+            .then (() => {
                 this.save = true
                 router.push('/')
-            }
+            })
+            .catch((err) => {
+                console.log(err)
+            })
         },
+
         deleteNote () {
-            for (let i in this.notes) {
-                if (this.notes[i].id === this.id) {
-                    this.notes.splice(i, 1)
-                }
-            }
-            localStorage.setItem('notes', JSON.stringify(this.notes))
+            const payload = {'id': this.id,'userID': this.$store.state.userID}
+            this.$store.dispatch('notesModule/deleteOne', payload)
         },
+
         share () {
             navigator.share({
                 "title": this.title,
@@ -137,22 +142,34 @@ export default {
     },
     mounted () {
         this.$store.state.transitionName = 'swipe-right'
-        for (let i = 0; i < this.notes.length; i++) {
-            if (this.notes[i].id === this.id) {
-                this.title = this.notes[i].title
-                this.note = this.notes[i].note
-                this.originalTitle = this.title
-                this.originalNote = this.note
-            }
-        }
     },
     created () {
+        const payload = {'id': this.id,'userID': this.$store.state.userID}
+        this.$store.dispatch('notesModule/getOne', payload)
+        
         document.getElementById('body').style.overflow = 'hidden'
         if(navigator.share !== undefined) {
             this.shareAvailable = true
         }
         this.$store.state.currentComponent = 'Notes'
     },
+
+    computed: {
+        ...mapState(['notesModule']),
+        storedNote () {
+            return (!this.notesModule.note.loading && this.notesModule.note.data) || []
+        }
+    },
+
+    watch: {
+        storedNote: function (val) {
+            this.title = val.title
+            this.note = val.body
+            this.originalTitle = this.title
+            this.originalNote = this.note
+        }
+    },
+
     beforeRouteLeave (to, from, next) {
         if(
             this.originalNote !== this.note ||

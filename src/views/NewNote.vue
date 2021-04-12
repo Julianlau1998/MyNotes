@@ -73,11 +73,11 @@ export default {
             title: '',
             note: '',
             currentObject: {
+                id: '',
+                userID: '',
                 title: '',
-                note: '',
-                id: ""
+                body: ''
             },
-            notesList: JSON.parse(localStorage.getItem('notes')),
             id: this.$uuidKey(),
             save: false,
             errors: []
@@ -87,17 +87,21 @@ export default {
         onSubmit (error) {
             if (error === undefined) {
                 if(this.notesList===null) {
-                this.notesList = []
+                    this.notesList = []
+                }
             }
+            this.currentObject.userID = this.$store.state.userID
             this.currentObject.title = this.title
-            this.currentObject.note = this.note
-            this.currentObject.id = this.id
-            this.notesList.push(this.currentObject)
-            localStorage.setItem('id', this.id)
-            localStorage.setItem('notes',JSON.stringify(this.notesList))
-            this.save = true
-            this.$router.push('/')
-            }
+            this.currentObject.body = this.note
+            const payload = {'note': this.currentObject,'userID': this.$store.state.userID}
+            this.$store.dispatch('notesModule/post', payload)
+            .then(() => {
+                this.save = true
+                this.$router.push('/')
+            })
+            .catch ((err) => {
+                console.log(err)
+            })
         }
     },
     mounted () {

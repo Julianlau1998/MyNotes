@@ -1,17 +1,17 @@
 <template>
     <div id="app">
         <h1 class="header">
-            My<span style="color:rgb(215, 0, 0);">N</span>otes
+            {{$t('text.settings.title')}}
         </h1>
         <hr class="whiteLine">
         <br>
-        <div>
+        <div class="wrapper">
             <hr class="splitLine"> 
             <h3 @click="deleteData()" class="settingWrapper">
                 <img src="../assets/trash.png" alt="trash icon" id="trash">
                 <span id="setting">{{ $t("text.settings.delete") }}</span>
             </h3>
-
+            
             <hr class="splitLine">
 
             <h3 class="settingWrapper">
@@ -28,6 +28,12 @@
                         {{ lang }}
                     </option>
                 </select>
+            </h3>
+
+            <hr class="splitLine">
+
+            <h3 @click="logout()" class="settingWrapper">
+                <span id="setting" class="logout">{{ $t("text.settings.logout") }}</span>
             </h3>
 
             <hr class="splitLine">
@@ -60,10 +66,11 @@ export default {
                 })
                 .catch (function () {
                 })
+        },
+        logout () {
+            localStorage.clear()
+            this.$router.push('/login')
         }
-    },
-    mounted () {
-
     },
     created () {
         document.getElementById('body').style.overflow = 'hidden'
@@ -72,11 +79,18 @@ export default {
     beforeRouteLeave (to, from, next) {
         localStorage.setItem('language', this.$i18n.locale)
         next()
+    },
+    logout () {
+        localStorage.clear()
+        this.$router.push('/login')
     }
 }
 </script>
 
 <style scoped>
+    .header {
+        font-size: 2.5rem;
+    }
     .splitLine{
       border-top: 3px solid rgb(134, 134, 134);
       width: 100%;
@@ -101,5 +115,19 @@ export default {
     }
     #language {
         margin-left: 1rem;
+    }
+    .logout {
+        margin-left: 3.7rem !important;
+    }
+
+    @media (max-width: 330px) { 
+        .header {
+            font-size: 2rem;
+        }
+    }
+    @media (max-width: 290px) { 
+        .header {
+            font-size: 1.6rem;
+        }
     }
 </style>

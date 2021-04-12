@@ -16,10 +16,16 @@ export default {
     }
   },
   created() {
+    if (!localStorage.getItem('userID')) {
+      this.$router.push('/login')
+    }
     if (this.$workbox) {
       this.$workbox.addEventListener("waiting", () => {
         this.showUpgradeUI = true;
       });
+    }
+    if (this.$store.state.userID == '') {
+      this.$store.state.userID = localStorage.getItem('userID')
     }
   },
 
@@ -28,6 +34,9 @@ export default {
       this.showUpgradeUI = false
       await this.$workbox.messageSW({ type: "SKIP_WAITING" });
     }
+  },
+  mounted () {
+    console.log(localStorage.getItem('user'))
   },
   computed: {
     transitionName () {
@@ -52,6 +61,7 @@ body {
   background-color: #0f1820;
   margin-top: 0.5rem;
   overflow: hidden;
+  text-align: center;
 }
     .plusButton {
         position: fixed;
@@ -238,6 +248,14 @@ body {
     top: 0.3rem;
     cursor: pointer;
   }
+
+  .checkImage {
+    width: 1.7rem;
+    background-color: transparent;
+    position: relative;
+    bottom: 0.7rem;
+    right: 0.21rem;
+}
 
   /* Route change animation */
   .swipe-left-enter-active,

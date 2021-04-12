@@ -46,7 +46,7 @@
             <div class="form-group scroll">
                 <div type="test" class="form-control" id="note"  placeholder="List">
                     <span 
-                        v-if="listElements.length != 0"
+                        v-if="listElements && listElements.length != 0"
                         class="subTitle"
                     >
                         {{ $t('text.list.toDo') }}
@@ -80,7 +80,7 @@
                         </draggable>
                     </ul>
                     <span
-                    v-if="doneItems.length != 0"
+                    v-if="doneItems && doneItems.length != 0"
                     class="subTitle"
                     >
                         <br>
@@ -106,7 +106,7 @@
                                             alt=""
                                             class="checkImage"
                                             >
-                                    </div>
+                                    </div> 
                                     &nbsp;
                                             <del
                                                 class="marginLeft"
@@ -155,6 +155,8 @@
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required } from 'vee-validate/dist/rules';
 import draggable from 'vuedraggable'
+import { mapState } from 'vuex' 
+
 
 extend('required', {
   ...required,
@@ -172,14 +174,13 @@ export default {
             id: this.$route.params.id,
             title: '',
             originalTitle: '',
-            lists: JSON.parse(localStorage.getItem('lists')),
-            currentObject: {
+            postList: {
+                id: '',
+                user_id: '',
                 title: '',
                 listElements: [],
                 doneItems: [],
-                id: this.$uuidKey()
             },
-            listsList: JSON.parse(localStorage.getItem('lists')),
             listElements: [],
             originalListElements: [],
             listItem: '',
@@ -194,28 +195,73 @@ export default {
             watcherCounter: 0,
         }
     },
+
+    mounted () {
+        //set animation type
+        this.$store.state.transitionName = 'swipe-right'
+    },
+    created () {
+        const payload = {'id': this.id,'userID': this.$store.state.userID}
+        this.$store.dispatch('listsModule/getOne', payload)
+        this.lists = this.listsList
+
+        if(navigator.share !== undefined) {
+            this.shareAvailable = true
+        }
+        this.$store.state.currentComponent = 'Lists'
+        document.getElementById('body').style.overflow = 'hidden'
+    },
+
+    computed: {
+        ...mapState(['listsModule']),
+        storedList () {
+            return (!this.listsModule.list.loading && this.listsModule.list.data) || []
+        }
+    },
+
+    watch: {
+        storedList: function (val) {
+            this.title = val.title
+            this.listElements = val.list
+            this.doneItems = val.doneItems
+            this.originalTitle = this.title
+            // this.originalListElements = val.listElements.filter(el => el == el)
+            this.originalNote = this.note
+            this.originalDoneItems = this.doneItems
+        },
+        listElements: function () {
+            if (this.watcherCounter > 1) {
+                this.listElementsChanged = true
+                this.watcherCounter++
+                this.focusValue=true
+            } else {
+                this.watcherCounter++
+            }
+        }
+    },
+
     methods: {
         onSubmit (error) {
             if (error === undefined) {
-                if(this.listsList===null) {
-                    this.listsList = []
-                }
-                for (let i = 0; i < this.listsList.length; i++) {
-                    if (this.listsList[i].id === this.id) {
-                        this.listsList[i].title = this.title
-                        this.listsList[i].listElements = this.listElements
-                        this.listsList[i].doneItems = this.doneItems                }
-                }
-                localStorage.setItem('id', this.currentObject.id)
-                localStorage.setItem('lists',JSON.stringify(this.listsList))
-                this.save = true
-                this.$router.push('/')
+                this.postList.id = this.id
+                this.postList.userID = this.$store.state.userID
+                this.postList.title = this.title
+                this.postList.list = this.listElements
+                this.postList.doneItems = this.doneItems
+                const payload = {'list': this.postList,'userID': this.$store.state.userID}
+                this.$store.dispatch('listsModule/put', payload)
+                .then (() => {
+                    this.save = true
+                    this.$router.push('/')
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
             }
         },
         addItem () {
             if (this.$refs.add.value !== '') {
                 this.listElements.unshift(this.listItem)
-                console.log(this.listElements)
                 this.listItem = ''
                 this.$refs.add.focus()
             }
@@ -231,12 +277,9 @@ export default {
             this.focusValue=true
         },
         deleteList () {
-            for (let i in this.lists) {
-                if (this.lists[i].id === this.id) {
-                    this.lists.splice(i, 1)
-                }
-            }
-            localStorage.setItem('lists', JSON.stringify(this.lists))
+            const payload = {'id': this.id,'userID': this.$store.state.userID}
+            this.$store.dispatch('listsModule/deleteOne', payload)
+            this.$router.push('/')
         },
         edit(item) {
             if (this.$refs.add.value === '') {
@@ -277,28 +320,7 @@ export default {
             }
         }
     },
-    mounted () {
-        //set animation type
-        this.$store.state.transitionName = 'swipe-right'
-        //Get data from local storage and create backup
-        for (let i = 0; i < this.lists.length; i++) {
-            if (this.lists[i].id === this.id) {
-                this.title = this.lists[i].title
-                this.listElements = this.lists[i].listElements
-                this.doneItems = this.lists[i].doneItems
-                this.originalTitle = this.title
-                this.originalListElements = this.listElements.filter(el => el == el)
-                this.originalDoneItems = this.doneItems
-            }
-        }
-    },
-    created () {
-        if(navigator.share !== undefined) {
-            this.shareAvailable = true
-        }
-        this.$store.state.currentComponent = 'Lists'
-        document.getElementById('body').style.overflow = 'hidden'
-    },
+
     beforeRouteLeave (to, from, next) {
         if(
             this.listElementsChanged ||
@@ -334,17 +356,6 @@ export default {
                 return
             }
         })
-    },
-    watch: {
-        listElements: function () {
-            if (this.watcherCounter > 0) {
-                this.listElementsChanged = true
-                this.watcherCounter++
-                this.focusValue=true
-            } else {
-                this.watcherCounter++
-            }
-        }
     }
 }
 </script>
@@ -478,13 +489,6 @@ input[type="checkbox"] {
     position: relative;
     bottom: 0.1rem;
     overflow-wrap: break-word; 
-}
-.checkImage {
-    width: 1.7rem;
-    background-color: transparent;
-    position: relative;
-    bottom: 0.7rem;
-    right: 0.21rem;
 }
 #share {
     width: 5rem;
