@@ -31,6 +31,7 @@ import router from '../router'
 import draggable from 'vuedraggable'
 import Vue from 'vue'
 import Vue2TouchEvents from 'vue2-touch-events'
+import { mapState } from 'vuex' 
 
 Vue.use(Vue2TouchEvents)
 
@@ -39,10 +40,21 @@ export default {
     components: {draggable},
     data () {
         return {
-            storedLists: JSON.parse(localStorage.getItem('lists')),
             titles: [],
             lists: [],
             sorting: false
+        }
+    },
+    created () {
+        const payload = {'userID': this.$store.state.userID}
+        this.$store.dispatch('listsModule/getAll', payload)
+
+        localStorage.setItem('currentComponent', 'Notes')
+    },
+    computed: {
+    ...mapState(['listsModule']),
+        storedLists () {
+            return (!this.listsModule.lists.loading && this.listsModule.lists.data) || []
         }
     },
     methods: {

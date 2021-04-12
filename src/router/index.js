@@ -6,6 +6,7 @@ import NewList from '../views/NewList.vue'
 import SingleList from '../views/List.vue'
 import Home from '../views/Home.vue'
 import Settings from '../views/Settings.vue'
+import Login from '../views/Login.vue'
 
 Vue.use(VueRouter)
 
@@ -35,6 +36,11 @@ const routes = [
     path: '/',
     name: 'Home',
     component: Home
+  },
+  {
+    path: '/Login',
+    name: 'Login',
+    component: Login
   },
   {
     path: '/settings',

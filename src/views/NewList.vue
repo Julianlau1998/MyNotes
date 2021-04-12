@@ -92,10 +92,11 @@
                                         class="checked"
                                         @click="itemNotDone(doneItem)"
                                     >
-                                        <div
-                                            class="checked"
-                                        >
-                                        </div>
+                                        <img
+                                            src="../assets/haken.png"
+                                            alt=""
+                                            class="checkImage"
+                                            >
                                     </div>
                                     &nbsp;
                                     <del
@@ -151,11 +152,12 @@ export default {
         return {
             title: '',
             list: '',
-            currentObject: {
+            postList: {
+                id: '',
+                user_id: '',
                 title: '',
                 listElements: [],
                 doneItems: [],
-                id: this.$uuidKey()
             },
             listsList: JSON.parse(localStorage.getItem('lists')),
             id: this.$uuidKey(),
@@ -168,17 +170,21 @@ export default {
     methods: {
         onSubmit (error) {
             if (error === undefined) {
-                if(this.listsList===null) {
-                    this.listsList = []
-                }
-                this.currentObject.title = this.title
-                this.currentObject.listElements = this.listElements
-                this.currentObject.doneItems = this.doneItems
-                this.listsList.push(this.currentObject)
-                localStorage.setItem('id', this.currentObject.id)
-                localStorage.setItem('lists',JSON.stringify(this.listsList))
-                this.save = true
-                this.$router.push('/')
+                this.postList.id = this.id
+                this.postList.userID = this.$store.state.userID
+                this.postList.title = this.title
+                this.postList.list = this.listElements
+                this.postList.doneItems = this.doneItems
+
+                const payload = {'list': this.postList,'userID': this.$store.state.userID}
+                this.$store.dispatch('listsModule/post', payload)
+                .then (() => {
+                    this.save = true
+                    this.$router.push('/')
+                })
+                .catch((err) => {
+                    console.log(err)
+                })
             }
         },
         addItem () {
