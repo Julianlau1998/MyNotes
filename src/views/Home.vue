@@ -1,5 +1,4 @@
 <template>
-  <!--
     <div id="app">
         <img
             src="../../public/img/settings.png"
@@ -56,17 +55,11 @@
         </transition>
         <br><br><br><br><br><br>
         </span>
-    </div>-->
-    <div>
-        <br><br><br>
-        <h2 class="whiteText">This App is currently under construction. <br>
-        It will be available again soon.</h2>
-        <img src="../../public/img/settings.png" class="settings">
     </div>
 </template>
 
 <script>
-/*
+
 import Vue from 'vue'
 import Vue2TouchEvents from 'vue2-touch-events'
 import Notes from '../components/Notes.vue'
@@ -177,11 +170,11 @@ export default {
             return this.$store.state.dragging
         }
     }
-}*/
+}
 </script>
 
 <style scoped>
-/*
+
 body {
     margin: 0;
 }
@@ -277,16 +270,6 @@ ul li {
         width: 11rem;
         height: 9rem;
     }
- }*/
-
- .whiteText {
-     color: lightgray;
-     margin: 0.2rem;
- }
-
- .settings {
-     margin-top: 5rem;
-     width: 15rem;
  }
  
 </style>

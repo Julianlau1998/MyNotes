@@ -7,38 +7,44 @@
             Welcome!
         </h2>
         <p class="whiteText">
-            You can simply sign in with google by using the Button below.
+            You can simply log in below.
         </p>
-        <GoogleLogin id="googleLogin" :params="params" :onSuccess="onSuccess" :onFailure="onFailure"><img id="googleImage" src="../assets/google.png" alt=""></GoogleLogin>
-        <br><br><br><br><br><br><br><br>
-        <!--<GoogleLogin :params="params" :logoutButton=true>Logout</GoogleLogin>-->        
+        <div class="form"> <br><br>
+            <input type="text" placeholder="Username" v-model="username"> <br><br>
+            <input type="password" placeholder="Password" v-model="password"><br><br>
+            <button type="button" v-on:click="logIn()" id="login">Log In</button>
+        </div>
+               
+        <br><br><br>
+        <router-link to="/register" id="register">Or register new Account</router-link>
+        <br><br><br><br><br><br>
     </div>
 </template>
 
 <script>
-import GoogleLogin from 'vue-google-login';
+import * as axios from 'axios';
+
+String.prototype.hashCode = function() {
+    var hash = 0;
+    if (this.length == 0) {
+        return hash;
+    }
+    for (var i = 0; i < this.length; i++) {
+        var char = this.charCodeAt(i);
+        hash = ((hash<<5)-hash)+char;
+        hash = hash & hash; // Convert to 32bit integer
+    }
+    return hash;
+}
 
 export default {
         name: 'App',
         data() {
             return {
-                // client_id is the only required property but you can add several more params, full list down bellow on the Auth api section
-                params: {
-                    client_id: "780824923030-217pr3nsqqg6rs8lt488q1oigb99tci9.apps.googleusercontent.com"
-                },
-                // only needed if you want to render the button with the google ui
-                renderParams: {
-                    width: 250,
-                    height: 50,
-                    longtitle: true
-                },
-                email: '',
+                username: '',
                 password: '',
                 correct: false
             }
-        },
-        components: {
-            GoogleLogin
         },
         created () {
             if (localStorage.userID) {
@@ -46,19 +52,28 @@ export default {
             }
         },
         methods: {
-        onSuccess(googleUser) {
-            var user = {
-                id: googleUser.getBasicProfile().getId(),
-            }
-            localStorage.setItem('userID', user.id)
-            this.$store.state.userID = user.id
-            this.$router.push('/') 
-        },
-        onFailure () {
-            alert("Login not possible. Please contact us, if this happens repeatedly.")
+        logIn () {
+            axios.get(`/api/users`, {
+                headers: {
+                    'username': this.username,
+                    'password': ""+this.password.hashCode()
+                }
+                })
+                .then((response) => {
+                    if (response.data.username == this.username) {
+                        this.$store.state.userID = response.data.id
+                        localStorage.setItem('userID',(response.data.id))
+                        this.$router.push('/') 
+                    } else {
+                        alert("Wrong Password or Username")
+                    }
+                })
+                .error((err) => {
+                    console.log(err)
+                })
         }
     }
-    }
+}
 </script>
 
 <style scoped>
@@ -75,19 +90,6 @@ export default {
         height: 2.6rem;
         border: none;
     } 
-    #login {
-        width: 6rem;
-        height: 3rem;
-        border-radius: 1rem;
-        background-color: transparent;
-        border: none;
-        box-shadow: -1px -1px 4px 0px rgb(133, 133, 133),
-                    1px 1px 5px 2px black;
-        color: lightgray;
-        font-weight: 960;
-        font-size: larger;
-        margin-top: 1rem;
-    }
     #googleImage {
         width: 12.3rem;
     }
@@ -112,10 +114,6 @@ export default {
         font-size: larger;
         padding-left: 1rem;
         padding-right: -1rem;
-    }
-    .whiteText {
-        color: lightgray;
-        margin: 1rem;
     }
     @media (min-width: 1000px) { 
     }

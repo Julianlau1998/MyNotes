@@ -16,18 +16,17 @@ export default {
     }
   },
   created() {
-    // if (!localStorage.getItem('userID')) {
-    //   this.$router.push('/login')
-    // }
-    // if (this.$workbox) {
-    //   this.$workbox.addEventListener("waiting", () => {
-    //     this.showUpgradeUI = true;
-    //   });
-    // }
-    // if (this.$store.state.userID == '') {
-    //   this.$store.state.userID = localStorage.getItem('userID')
-    // }
-    this.$router.push('/')
+    if (!localStorage.getItem('userID')) {
+      this.$router.push('/login')
+    }
+    if (this.$workbox) {
+      this.$workbox.addEventListener("waiting", () => {
+        this.showUpgradeUI = true;
+      });
+    }
+    if (this.$store.state.userID == '') {
+      this.$store.state.userID = localStorage.getItem('userID')
+    }
   },
 
   methods: {
@@ -256,7 +255,29 @@ body {
     position: relative;
     bottom: 0.7rem;
     right: 0.21rem;
-}
+  }
+
+  #login {
+        width: 6rem;
+        height: 3rem;
+        border-radius: 1rem;
+        background-color: transparent;
+        border: none;
+        box-shadow: -1px -1px 4px 0px rgb(133, 133, 133),
+                    1px 1px 5px 2px black;
+        color: lightgray;
+        font-weight: 960;
+        font-size: larger;
+        margin-top: 1rem;
+  }
+
+  .disabled {
+    opacity: 0.3;
+  }
+  .whiteText {
+    color: lightgray;
+    margin: 1rem;
+  }
 
   /* Route change animation */
   .swipe-left-enter-active,

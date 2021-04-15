@@ -57,7 +57,7 @@ export default {
     computed: {
     ...mapState(['notesModule']),
         storedNotes () {
-        return (!this.notesModule.notes.loading && this.notesModule.notes.data) || []
+            return (!this.notesModule.notes.loading && this.notesModule.notes.data) || []
         }
     },
 

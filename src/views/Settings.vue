@@ -6,11 +6,11 @@
         <hr class="whiteLine">
         <br>
         <div class="wrapper">
-            <hr class="splitLine"> 
+            <!-- <hr class="splitLine"> 
             <h3 @click="deleteData()" class="settingWrapper">
                 <img src="../assets/trash.png" alt="trash icon" id="trash">
                 <span id="setting">{{ $t("text.settings.delete") }}</span>
-            </h3>
+            </h3> -->
             
             <hr class="splitLine">
 

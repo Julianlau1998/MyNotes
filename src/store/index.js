@@ -11,7 +11,8 @@ export default new Vuex.Store({
     userID: '',
     transitionName: 'swipe-left',
     componentTransitionName: 'component-swipe-left',
-    currentComponent: localStorage.getItem('currentComponent')
+    currentComponent: localStorage.getItem('currentComponent'),
+    localhost: 'http://139.162.158.148:1324/api/users'
   },
   mutations: {
   },

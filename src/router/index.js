@@ -7,6 +7,7 @@ import SingleList from '../views/List.vue'
 import Home from '../views/Home.vue'
 import Settings from '../views/Settings.vue'
 import Login from '../views/Login.vue'
+import Register from '../views/Register.vue'
 
 Vue.use(VueRouter)
 
@@ -41,6 +42,11 @@ const routes = [
     path: '/Login',
     name: 'Login',
     component: Login
+  },
+  {
+    path: '/Register',
+    name: 'Register',
+    component: Register
   },
   {
     path: '/settings',
