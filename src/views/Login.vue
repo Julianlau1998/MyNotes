@@ -1,6 +1,6 @@
 <template>
     <div>
-        <!-- <h1 class="header">My<span style="color:rgb(215, 0, 0);">N</span>otes</h1>
+        <h1 class="header">My<span style="color:rgb(215, 0, 0);">N</span>otes</h1>
         <hr class="whiteLine">
         <br>
         <h2 class="whiteText">
@@ -17,10 +17,10 @@
                
         <br><br><br>
         <router-link to="/register" id="register">Or register new Account</router-link>
-        <br><br><br><br><br><br> -->
-        <h2 class="whiteText">This App is currently under construction. <br>
+        <br><br><br><br><br><br>
+        <!-- <h2 class="whiteText">This App is currently under construction. <br>
             It will be available again soon.</h2>
-        <img src="../../public/img/settings.png" alt="construction" class="settings">
+        <img src="../../public/img/settings.png" alt="construction" class="settings"> -->
     </div>
 </template>
 
@@ -80,14 +80,14 @@ export default {
 </script>
 
 <style scoped>
-    .whiteText {
+    /* .whiteText {
         margin-top: 7.5rem;
         color: lightgray
     }
     .settings {
         margin-top: 3rem;
         width: 15rem;
-    }
+    } */
     body {
         margin:1rem;
     }
