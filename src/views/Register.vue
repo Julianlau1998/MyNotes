@@ -106,7 +106,7 @@ export default {
         ValidationObserver
     },
     methods: {
-        onSubmit () {
+        async onSubmit () {
             var user = {
                 id: this.id,
                 username: this.username,

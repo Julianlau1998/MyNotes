@@ -72,7 +72,7 @@ export default {
             }
         },
         methods: {
-        logIn () {
+        async logIn () {
             axios.get(`${this.$store.state.localhost}users`, {
                 headers: {
                     'username': this.username,
