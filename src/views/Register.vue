@@ -112,7 +112,7 @@ export default {
                 username: this.username,
                 password: this.password
             }
-            axios.post('/api/users', {
+            axios.post(`${this.$store.state.localhost}users`, {
                 'username': this.username,
                 'password': ""+this.password.hashCode()
             })

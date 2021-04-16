@@ -10,9 +10,26 @@
             You can simply log in below.
         </p>
         <div class="form"> <br><br>
-            <input type="text" placeholder="Username" v-model="username"> <br><br>
-            <input type="password" placeholder="Password" v-model="password"><br><br>
-            <button type="button" v-on:click="logIn()" id="login">Log In</button>
+            <input
+                type="text"
+                placeholder="Username"
+                v-model="username"
+            >
+            <br><br>
+            <input
+                type="password"
+                placeholder="Password"
+                v-model="password"
+                v-on:keyup.enter="logIn()"
+            >
+            <br><br>
+            <button
+                type="button"
+                v-on:click="logIn()"
+                id="login"
+            >
+                Log In
+            </button>
         </div>
                
         <br><br><br>
@@ -56,7 +73,7 @@ export default {
         },
         methods: {
         logIn () {
-            axios.get(`/api/users`, {
+            axios.get(`${this.$store.state.localhost}users`, {
                 headers: {
                     'username': this.username,
                     'password': ""+this.password.hashCode()

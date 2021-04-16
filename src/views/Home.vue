@@ -113,6 +113,9 @@ export default {
         }
     },
     created () {
+        if (this.currentComponent === null) {
+            this.currentComponent = 'Notes'
+        }
         this.$store.state.transitionName = 'fade'
         document.getElementById('body').style.overflow = 'visible'
         if(this.storedNotes === null || this.storedNotes === undefined) {

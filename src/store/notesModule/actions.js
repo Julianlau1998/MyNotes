@@ -3,7 +3,7 @@ import axios from 'axios'
 export function getAll ({ commit }, payload) {
   commit('GET_NOTES')
   axios
-    .get('/api/notes', {
+    .get(`${this.$store.state.localhost}notes`, {
       headers: {
         'userId': payload.userID
       }
@@ -18,7 +18,7 @@ export function getAll ({ commit }, payload) {
 export function getOne ({ commit }, payload) {
   commit('GET_NOTE')
   axios
-    .get(`/api/note/${payload.id}`, {
+    .get(`${this.$store.state.localhost}note/${payload.id}`, {
         headers: {
           'userId': payload.userID
         }
@@ -33,7 +33,7 @@ export function getOne ({ commit }, payload) {
 export function post ({ commit }, payload) {
   commit('POST_NOTE')
   axios
-    .post('/api/notes', payload.note, {
+    .post(`${this.$store.state.localhost}notes`, payload.note, {
       headers: {
         'userId': payload.userID
       }
@@ -48,7 +48,7 @@ export function post ({ commit }, payload) {
 export function deleteOne ({ commit }, payload) {
   commit('DELETE_NOTE')
   axios
-    .delete(`/api/note/${payload.id}`, {
+    .delete(`${this.$store.state.localhost}note/${payload.id}`, {
       headers: {
         'userId': payload.userID
       }
@@ -63,7 +63,7 @@ export function deleteOne ({ commit }, payload) {
 export function put ({ commit }, payload) {
   commit('PUT_NOTE')
   axios
-    .put(`/api/note/${payload.note.id}`, payload.note, {
+    .put(`${this.$store.state.localhost}note/${payload.note.id}`, payload.note, {
       headers: {
         'userId': payload.userID
       }
