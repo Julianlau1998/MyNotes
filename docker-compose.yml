@@ -8,3 +8,12 @@ services:
     ports:
       - 8080:8080
     restart: on-failure
+  
+  backend:
+    image: mynotes-backend
+    container_name: mynotes_backend
+    build:
+      context: ./MyNotes_backend
+    ports:
+      - 1324:1324
+    restart: on-failure
