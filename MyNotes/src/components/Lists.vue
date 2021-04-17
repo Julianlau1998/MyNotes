@@ -1,20 +1,20 @@
 <template>
     <div id="app">
         <ul id="listParent">
-            <draggable
+            <!-- <draggable
                 :delay="200"
                 :delay-on-touch-only="true"
                 v-model="storedLists"
                 @start="dragging()"
                 @end="save()"
-            >
+            > -->
                 <li v-for="(list, idx) in storedLists" v-bind:key="idx">
                     <button class="noteDiv" @click="openList(list.id)">
                         <h5><b>{{list.title.substring(0,11)}}</b></h5>
                     </button>
                     <hr id="redLine">
                 </li>
-            </draggable>
+            <!-- </draggable> -->
         </ul>
         <div 
             class="plusButton"
@@ -28,7 +28,7 @@
 
 <script>
 import router from '../router'
-import draggable from 'vuedraggable'
+// import draggable from 'vuedraggable'
 import Vue from 'vue'
 import Vue2TouchEvents from 'vue2-touch-events'
 import { mapState } from 'vuex' 
@@ -37,7 +37,7 @@ Vue.use(Vue2TouchEvents)
 
 export default {
     name: 'Lists',
-    components: {draggable},
+    // components: {draggable},
     data () {
         return {
             titles: [],

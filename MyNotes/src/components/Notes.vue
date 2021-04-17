@@ -1,13 +1,13 @@
 <template>
     <div id="app">
         <ul id="listParent">
-            <draggable
+            <!-- <draggable
                 :delay="200"
                 :delay-on-touch-only="true"
                 v-model="storedNotes"
                 @start="dragging()"
                 @end="save()"
-            >
+            > -->
                 <li v-for="(note, idx) in storedNotes" v-bind:key="idx">
                     <span v-touch:touchhold="touchHoldHandler">
                         <button class="noteDiv" @click="openNote(note.id)">
@@ -16,7 +16,7 @@
                     </span>
                     <hr id="redLine">
                 </li>
-            </draggable>
+            <!-- </draggable> -->
         </ul>
         <div 
             @click="newNote()"

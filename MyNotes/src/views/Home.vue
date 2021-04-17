@@ -75,7 +75,7 @@ export default {
     },
     data () {
         return {
-            currentComponent: this.$store.state.currentComponent
+            currentComponent: this.$store.state.currentComponent,
         }
     },
     methods: {
@@ -84,10 +84,10 @@ export default {
                 this.currentComponent === 'Notes' &&
                 direction == 'left' &&
                 this.dragging === false
-                ) {
-                this.$store.state.componentTransitionName = 'swipe-component-left'
-                this.currentComponent = 'Lists'
-                setTimeout(250)
+                ) { 
+                    this.$store.state.componentTransitionName = 'swipe-component-left'
+                    this.currentComponent = 'Lists'
+                    setTimeout(250)
             } else if (
                 this.currentComponent === 'Lists' &&
                  direction == 'right'
