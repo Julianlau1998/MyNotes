@@ -58,5 +58,5 @@ func main() {
 	e.GET("/api/users", UserDelivery.GetAll)
 	e.POST("/api/users", UserDelivery.Post)
 
-	e.Logger.Fatal(e.Start(":1324"))
+	e.Logger.Fatal(e.Start(":1323"))
 }
