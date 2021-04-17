@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-export function getAll ({ commit }, payload) {
+export function getAll ({ commit, state }, payload) {
   commit('GET_NOTES')
   axios
-    .get(`${this.$store.state.localhost}notes`, {
+    .get(`${state.localhost}notes`, {
       headers: {
         'userId': payload.userID
       }
@@ -15,10 +15,10 @@ export function getAll ({ commit }, payload) {
       console.log(err)
     })
 }
-export function getOne ({ commit }, payload) {
+export function getOne ({ commit, state }, payload) {
   commit('GET_NOTE')
   axios
-    .get(`${this.$store.state.localhost}note/${payload.id}`, {
+    .get(`${state.localhost}note/${payload.id}`, {
         headers: {
           'userId': payload.userID
         }
@@ -30,10 +30,10 @@ export function getOne ({ commit }, payload) {
       console.log(err)
     })
 }
-export function post ({ commit }, payload) {
+export function post ({ commit, state }, payload) {
   commit('POST_NOTE')
   axios
-    .post(`${this.$store.state.localhost}notes`, payload.note, {
+    .post(`${state.localhost}notes`, payload.note, {
       headers: {
         'userId': payload.userID
       }
@@ -45,10 +45,10 @@ export function post ({ commit }, payload) {
       console.log(error)
     })
 }
-export function deleteOne ({ commit }, payload) {
+export function deleteOne ({ commit, state }, payload) {
   commit('DELETE_NOTE')
   axios
-    .delete(`${this.$store.state.localhost}note/${payload.id}`, {
+    .delete(`${state.localhost}note/${payload.id}`, {
       headers: {
         'userId': payload.userID
       }
@@ -60,10 +60,10 @@ export function deleteOne ({ commit }, payload) {
       console.log(error)
     })
 }
-export function put ({ commit }, payload) {
+export function put ({ commit, state }, payload) {
   commit('PUT_NOTE')
   axios
-    .put(`${this.$store.state.localhost}note/${payload.note.id}`, payload.note, {
+    .put(`${state.localhost}note/${payload.note.id}`, payload.note, {
       headers: {
         'userId': payload.userID
       }

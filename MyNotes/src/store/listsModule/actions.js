@@ -1,9 +1,9 @@
 import axios from 'axios'
 
-export function getAll ({ commit }, payload) {
+export function getAll ({ commit, state }, payload) {
   commit('GET_LISTS')
   axios
-    .get(`${this.$store.state.localhost}lists`, {
+    .get(`${state.localhost}lists`, {
       headers: {
         'userId': payload.userID
       }
@@ -15,10 +15,10 @@ export function getAll ({ commit }, payload) {
       console.log(err)
     })
 }
-export function getOne ({ commit }, payload) {
+export function getOne ({ commit, state }, payload) {
   commit('GET_LIST')
   axios
-    .get(`${this.$store.state.localhost}list/${payload.id}`, {
+    .get(`${state.localhost}list/${payload.id}`, {
         headers: {
           'userId': payload.userID
         }
@@ -30,10 +30,10 @@ export function getOne ({ commit }, payload) {
       console.log(err)
     })
 }
-export function post ({ commit }, payload) {
+export function post ({ commit, state }, payload) {
   commit('POST_LIST')
   axios
-    .post(`${this.$store.state.localhost}lists`, payload.list, {
+    .post(`${state.localhost}lists`, payload.list, {
       headers: {
         'userId': payload.userID
       }
@@ -45,10 +45,10 @@ export function post ({ commit }, payload) {
       console.log(error)
     })
 }
-export function deleteOne ({ commit }, payload) {
+export function deleteOne ({ commit, state }, payload) {
   commit('DELETE_LIST')
   axios
-    .delete(`${this.$store.state.localhost}list/${payload.id}`, {
+    .delete(`${state.localhost}list/${payload.id}`, {
       headers: {
         'userId': payload.userID
       }
@@ -60,10 +60,10 @@ export function deleteOne ({ commit }, payload) {
       console.log(error)
     })
 }
-export function put ({ commit }, payload) {
+export function put ({ commit, state }, payload) {
   commit('PUT_LIST')
   axios
-    .put(`${this.$store.state.localhost}list/${payload.list.id}`, payload.list, {
+    .put(`${state.localhost}list/${payload.list.id}`, payload.list, {
       headers: {
         'userId': payload.userID
       }
