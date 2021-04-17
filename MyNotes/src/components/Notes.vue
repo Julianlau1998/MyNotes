@@ -31,7 +31,7 @@
 <script>
 import router from '../router'
 import Vue from 'vue'
-import draggable from 'vuedraggable'
+// import draggable from 'vuedraggable'
 import Vue2TouchEvents from 'vue2-touch-events'
 import { mapState } from 'vuex' 
 
@@ -39,7 +39,7 @@ Vue.use(Vue2TouchEvents)
 
 export default {
     name: 'Notes',
-    components: {draggable},
+    // components: {draggable},
     data () {
         return {
             titles: [],
