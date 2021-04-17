@@ -15,5 +15,5 @@ services:
     build:
       context: ./MyNotes_backend
     ports:
-      - 1324:1324
+      - 1323:1323
     restart: on-failure
