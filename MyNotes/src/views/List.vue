@@ -392,6 +392,8 @@ export default {
   #note{
       background-color: #0f1820;
       z-index: 10;
+      height: 73vh;
+      text-align: left;
   }
   #trashcan {
       width: 2rem;
@@ -469,10 +471,6 @@ input[type="checkbox"] {
     position: relative;
     left: 0.47rem;
     top: 0.47rem;
-}
-#note {
-    height: 73vh;
-    text-align: left;
 }
 #done {
     margin-top: -0.5rem;

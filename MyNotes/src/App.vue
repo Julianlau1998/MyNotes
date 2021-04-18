@@ -121,12 +121,12 @@ body {
         border: none;
     }
     #note {
-        height: 68vh;
+        height: 84vh;
         font-size: 1.8rem;
         background-color: rgb(54, 61, 68);
         color: lightgray;
         border: none;
-        z-index: 10;
+        z-index: 100;
     }
     .saveButton {
         background-color: rgb(4, 82, 17);
@@ -348,7 +348,7 @@ body {
     background-color: transparent !important;
     box-shadow: -1px -1px 4px 0px rgb(133, 133, 133),
                 1px 1px 5px 2px black !important;
-    margin-left: 3rem !important;
+    margin-left: 1rem !important;
     font-size: 1.2rem !important;
   }
 
@@ -359,9 +359,73 @@ body {
     background-color: transparent !important;
     box-shadow: -1px -1px 4px 0px rgb(133, 133, 133),
                 1px 1px 5px 2px black !important;
-    margin-right: 3rem !important;
+    margin-right: 3.8rem !important;
     padding-left: 0.6rem !important;
     padding-right: 0.6rem !important;
     font-size: 1.2rem !important;
+  }
+
+  @media (max-height: 1300px) {
+    #note {
+        height: 80.5vh;
+    }
+  }
+  @media (max-height: 1000px) {
+    #note {
+        height: 77.5vh;
+    }
+  }
+  @media (max-height: 886px) {
+    #note {
+        height: 75vh;
+    }
+  }
+  @media (max-height: 790px) {
+    #note {
+        height: 73.5vh;
+    }
+  }
+  @media (max-height: 750px) {
+    #note {
+        height: 72.5vh;
+    }
+  }
+
+  @media (max-height: 729px) {
+    #note {
+        height: 70.5vh;
+    }
+  }
+
+  @media (max-height: 686px) {
+    #note {
+        height: 68.5vh;
+    }
+  }
+
+  @media (max-height: 631px) {
+    #note {
+        height: 64.5vh;
+    }
+  }
+  @media (max-height: 547px) {
+    #note {
+        height: 59.5vh;
+    }
+  }
+  @media (max-height: 463px) {
+    #note {
+        height: 54.5vh;
+    }
+  }
+  @media (max-height: 421px) {
+    #note {
+        height: 49.5vh;
+    }
+  }
+  @media (max-height: 381px) {
+    #note {
+        height: 44.5vh;
+    }
   }
 </style>

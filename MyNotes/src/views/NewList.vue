@@ -295,7 +295,8 @@ export default {
   }
   #note{
       background-color: #0f1820;
-      height: 63vh;
+      text-align: left;
+      height: 73vh
   }
   #trashcan {
       width: 2rem;
@@ -362,9 +363,6 @@ input[type="checkbox"] {
     top: 1.9rem;
     opacity: 0;
     padding-top: 0rem;
-}
-#note {
-    text-align: left;
 }
 .subTitle {
     color: rgb(0, 215, 215);
