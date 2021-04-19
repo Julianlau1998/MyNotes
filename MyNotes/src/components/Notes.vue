@@ -140,6 +140,22 @@ ul li {
 #listParent {
     min-height: 79vh;
 }
+@media (min-width: 1000px) { 
+    .noteDiv {
+        width: 7rem;
+        height: 7rem;
+    }
+    #listParent {
+        width: 80vw;
+        margin-left: 10vw;
+    }
+ }
+ @media (min-width: 1500px) { 
+    #listParent {
+        width: 70vw;
+        margin-left: 15vw;
+    }
+ }
 @media (max-width: 390px) { 
     .noteDiv {
         width: 7rem;
