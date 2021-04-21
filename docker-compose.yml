@@ -6,8 +6,8 @@ services:
       depends_on:
         - mynotes
         - backend
-      # volumes:
-      #   - ./reverse_proxy/nginx.conf:/etc/nginx
+      volumes:
+        - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
       ports:
         - 80:80
         - 443:443
