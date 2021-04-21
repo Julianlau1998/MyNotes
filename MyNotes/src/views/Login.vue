@@ -73,7 +73,8 @@ export default {
         },
         methods: {
         logIn () {
-            axios.get(`${this.$store.state.localhost}users`, {
+            if (this.username !== '' || this.password !== '') {
+                axios.get(`${this.$store.state.localhost}users`, {
                 headers: {
                     'username': this.username,
                     'password': ""+this.password.hashCode()
@@ -91,6 +92,9 @@ export default {
                 .error((err) => {
                     console.log(err)
                 })
+            } else {
+                alert("Wrong Password or Username")
+            }
         }
     }
 }

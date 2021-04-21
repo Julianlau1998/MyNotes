@@ -1,6 +1,9 @@
 <template>
     <div id="app">
-        <ul id="listParent">
+        <ul
+            id="listParent"
+            v-if="!this.notesModule.notes.loading"
+        >
             <!-- <draggable
                 :delay="200"
                 :delay-on-touch-only="true"
@@ -8,7 +11,10 @@
                 @start="dragging()"
                 @end="save()"
             > -->
-                <li v-for="(note, idx) in storedNotes" v-bind:key="idx">
+                <li
+                    v-for="(note, idx) in storedNotes"
+                    v-bind:key="idx"
+                >
                     <span v-touch:touchhold="touchHoldHandler">
                         <button class="noteDiv" @click="openNote(note.id)">
                             <h5><b>{{note.title.substring(0,11)}}</b></h5>
@@ -18,6 +24,9 @@
                 </li>
             <!-- </draggable> -->
         </ul>
+        <h3 v-else id="loading">
+            Loading...
+        </h3>
         <div 
             @click="newNote()"
             class="plusButton"
@@ -139,6 +148,9 @@ ul li {
 }
 #listParent {
     min-height: 79vh;
+}
+#loading {
+    margin-top: 3rem;
 }
 @media (min-width: 1000px) { 
     .noteDiv {

@@ -1,6 +1,9 @@
 <template>
     <div id="app">
-        <ul id="listParent">
+        <ul 
+            id="listParent"
+            v-if="!this.listsModule.lists.loading"
+        >
             <!-- <draggable
                 :delay="200"
                 :delay-on-touch-only="true"
@@ -16,6 +19,9 @@
                 </li>
             <!-- </draggable> -->
         </ul>
+        <h3 v-else id="loading">
+            Loading...
+        </h3>
         <div 
             class="plusButton"
             ref="plusButton"
@@ -153,6 +159,9 @@ ul li {
 }
 #listParent {
     min-height: 79vh;
+}
+#loading {
+    margin-top: 3rem;
 }
 @media (max-width: 390px) { 
     .noteDiv {
