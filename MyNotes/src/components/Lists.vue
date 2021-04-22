@@ -2,7 +2,6 @@
     <div id="app">
         <ul 
             id="listParent"
-            v-if="!this.listsModule.lists.loading"
         >
             <!-- <draggable
                 :delay="200"
@@ -19,9 +18,9 @@
                 </li>
             <!-- </draggable> -->
         </ul>
-        <h3 v-else id="loading">
+        <!-- <h3 v-else id="loading">
             Loading...
-        </h3>
+        </h3> -->
         <div 
             class="plusButton"
             ref="plusButton"

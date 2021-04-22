@@ -2,7 +2,6 @@
     <div id="app">
         <ul
             id="listParent"
-            v-if="!this.notesModule.notes.loading"
         >
             <!-- <draggable
                 :delay="200"
@@ -24,9 +23,9 @@
                 </li>
             <!-- </draggable> -->
         </ul>
-        <h3 v-else id="loading">
+        <!-- <h3 v-else id="loading">
             Loading...
-        </h3>
+        </h3> -->
         <div 
             @click="newNote()"
             class="plusButton"
