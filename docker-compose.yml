@@ -1,24 +1,24 @@
 version: "3.7"
 services:
-  reverse:
-      image: nginx:1.17.10
-      container_name: reverse_proxy
-      depends_on:
-        - mynotes
-        - backend
-      volumes:
-        - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
-      ports:
-        - 80:80
-        - 443:443
-      restart: on-failure
+  # reverse:
+  #     image: nginx:latest
+  #     container_name: reverse
+  #     depends_on:
+  #       - mynotes
+  #       - backend
+  #     volumes:
+  #     - ./reverse_proxy/nginx.conf:/etc/nginx/nginx.conf
+  #     ports:
+  #       - 80:80
+  #       - 443:443
+  #     restart: on-failure
   mynotes:
     image: mynotes
     container_name: mynotes
     build:
       context: ./MyNotes
     ports:
-      - 8080:8080
+      - 80:8080
     restart: on-failure
   
   backend:
