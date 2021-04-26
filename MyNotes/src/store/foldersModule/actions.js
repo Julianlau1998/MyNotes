@@ -1,91 +1,75 @@
 import axios from 'axios'
 
 export function getAll ({ commit, state }, payload) {
-  commit('GET_NOTES')
+  commit('GET_FOLDERS')
   axios
-    .get(`${state.localhost}notes`, {
+    .get(`${state.localhost}folders`, {
       headers: {
         'userId': payload.userID
       }
     })
     .then(response => {
-      commit('RECEIVE_NOTES', response.data)
-    })
-    .catch(err => {
-      console.log(err)
-    })
-}
-export function getByCategory ({ commit, state }, payload) {
-  commit('GET_FOLDER_NOTES')
-  axios
-    .get(`${state.localhost}notes/foldernotes`, {
-      headers: {
-        'userId': payload.userID,
-        'folderID': payload.folderID
-      }
-    })
-    .then(response => {
-      commit('RECEIVE_FOLDER_NOTES', response.data)
+      commit('RECEIVE_FOLDERS', response.data)
     })
     .catch(err => {
       console.log(err)
     })
 }
 export function getOne ({ commit, state }, payload) {
-  commit('GET_NOTE')
+  commit('GET_FOLDER')
   axios
-    .get(`${state.localhost}note/${payload.id}`, {
+    .get(`${state.localhost}folder/${payload.id}`, {
         headers: {
           'userId': payload.userID
         }
     })
     .then(response => {
-      commit('RECEIVE_NOTE', response.data)
+      commit('RECEIVE_FOLDER', response.data)
     })
     .catch(err => {
       console.log(err)
     })
 }
 export function post ({ commit, state }, payload) {
-  commit('POST_NOTE')
+  commit('POST_FOLDER')
   axios
-    .post(`${state.localhost}notes`, payload.note, {
+    .post(`${state.localhost}folders`, payload.folder, {
       headers: {
         'userId': payload.userID
       }
     })
     .then(function () {
-      commit('NOTE_POSTED')
+      commit('FOLDER_POSTED')
     })
     .catch(function (error) {
       console.log(error)
     })
 }
 export function deleteOne ({ commit, state }, payload) {
-  commit('DELETE_NOTE')
+  commit('DELETE_FOLDER')
   axios
-    .delete(`${state.localhost}note/${payload.id}`, {
+    .delete(`${state.localhost}folder/${payload.id}`, {
       headers: {
         'userId': payload.userID
       }
     })
     .then(function () {
-      commit('NOTE_DELETED')
+      commit('FOLDER_DELETED')
     })
     .catch(function (error) {
       console.log(error)
     })
 }
 export function put ({ commit, state }, payload) {
-  commit('PUT_NOTE')
+  commit('PUT_FOLDER')
   axios
-    .put(`${state.localhost}note/${payload.note.id}`, payload.note, {
+    .put(`${state.localhost}folder/${payload.folder.id}`, payload.folder, {
       headers: {
         'userId': payload.userID
       }
     })
     .then(function () {
-      commit('NOTE_PUT')
+      commit('FOLDER_PUT')
     })
     .catch(function (error) {
       console.log(error)

@@ -65,6 +65,28 @@ func (r *Repository) GetListById(id string) (models.List, error) {
 	return list, err
 }
 
+func (r *Repository) GetByFolder() ([]models.List, error) {
+	var lists []models.List
+
+	jsonFile, err := os.Open("json_files/lists.json")
+	if err != nil {
+		fmt.Println(err)
+		return lists, err
+	}
+	byteValue, err := ioutil.ReadAll(jsonFile)
+	if err != nil {
+		fmt.Println(err)
+		return lists, err
+	}
+
+	err = json.Unmarshal(byteValue, &lists)
+	if err != nil {
+		fmt.Println(err)
+		return lists, err
+	}
+	return lists, err
+}
+
 func (r *Repository) PostList(list *models.List) (*models.List, error) {
 	var lists []models.List
 

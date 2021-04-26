@@ -2,6 +2,8 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import notesModule from './notesModule'
 import listsModule from './listsModule'
+import foldersModule from './foldersModule'
+
 
 Vue.use(Vuex)
 
@@ -12,9 +14,11 @@ export default new Vuex.Store({
     transitionName: 'swipe-left',
     componentTransitionName: 'component-swipe-left',
     currentComponent: localStorage.getItem('currentComponent'),
+    currentFolder: '',
     dragging: false,
-    localhost: 'http://139.162.158.148:1323/api/'
-    // localhost: 'http://192.168.178.58:1324/api/'
+    // localhost: 'http://139.162.158.148:1323/api/'
+    localhost: 'http://192.168.178.58:1323/api/',
+    folder: ''
   },
   mutations: {
   },
@@ -22,6 +26,7 @@ export default new Vuex.Store({
   },
   modules: {
     notesModule,
-    listsModule
+    listsModule,
+    foldersModule
   }
 })

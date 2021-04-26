@@ -15,6 +15,24 @@ export function getAll ({ commit, state }, payload) {
       console.log(err)
     })
 }
+
+export function getByCategory ({ commit, state }, payload) {
+  commit('GET_FOLDER_LISTS')
+  axios
+    .get(`${state.localhost}lists/folderlists`, {
+      headers: {
+        'userId': payload.userID,
+        'folderID': payload.folderID
+      }
+    })
+    .then(response => {
+      commit('RECEIVE_FOLDER_LISTS', response.data)
+    })
+    .catch(err => {
+      console.log(err)
+    })
+}
+
 export function getOne ({ commit, state }, payload) {
   commit('GET_LIST')
   axios

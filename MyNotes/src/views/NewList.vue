@@ -155,6 +155,7 @@ export default {
             postList: {
                 id: '',
                 user_id: '',
+                folder_id: localStorage.getItem('currentFolder'),
                 title: '',
                 listElements: [],
                 doneItems: [],

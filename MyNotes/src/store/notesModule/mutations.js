@@ -3,6 +3,16 @@ export function GET_NOTES (state) {
   state.err = null
 }
 
+export function GET_FOLDER_NOTES (state) {
+  state.notes.loading = true
+  state.err = null
+}
+
+export function RECEIVE_FOLDER_NOTES  (state, notes) {
+  state.notes.data = notes
+  state.notes.loading = false
+}
+
 export function RECEIVE_NOTES  (state, notes) {
   state.notes.data = notes
   state.notes.loading = false

@@ -8,6 +8,8 @@ import Home from '../views/Home.vue'
 import Settings from '../views/Settings.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
+import Folder from '../views/FolderView.vue'
+
 
 Vue.use(VueRouter)
 
@@ -53,6 +55,11 @@ const routes = [
     name: 'Settings',
     component: Settings
   },
+  {
+    path: '/folder/:id',
+    name: 'Folder',
+    component: Folder
+  }
 ]
 
 const router = new VueRouter({

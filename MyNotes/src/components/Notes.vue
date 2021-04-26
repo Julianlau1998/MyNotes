@@ -11,11 +11,32 @@
                 @end="save()"
             > -->
                 <li
+                    v-for="(folder, index) in folders"
+                    v-bind:key="index"
+                >
+                    <span v-touch:touchhold="touchHoldHandler">
+                        <button
+                            class="noteDiv" 
+                            v-bind:style="{backgroundColor: folder.color}"
+                            @click="openFolder(folder.id)"
+                        >
+                            <h5><b>{{folder.title.substring(0,11)}}</b></h5>
+                        </button>
+                    </span>
+                    <hr id="redLine">
+                </li>
+                <li
                     v-for="(note, idx) in storedNotes"
                     v-bind:key="idx"
                 >
-                    <span v-touch:touchhold="touchHoldHandler">
-                        <button class="noteDiv" @click="openNote(note.id)">
+                    <span
+                        v-touch:touchhold="touchHoldHandler"
+                        v-if="note.folder_id === ''"
+                    >
+                        <button
+                            class="noteDiv"
+                            @click="openNote(note.id)"
+                        >
                             <h5><b>{{note.title.substring(0,11)}}</b></h5>
                         </button>
                     </span>
@@ -27,12 +48,41 @@
             Loading...
         </h3> -->
         <div 
-            @click="newNote()"
+            @click="newButton()"
             class="plusButton"
             ref="plusButton"
         >
             +
         </div>
+        <div 
+            class="newFolder"
+            v-if="folderChoice"
+        >   
+            <a
+                id="newFolder"
+                @click="newFolder()"
+            >
+                New Folder
+            </a>
+        </div>
+        <div
+            class="newNote"
+            v-if="folderChoice"
+        >
+            <a
+                id="newNote"
+                @click="newNote()"
+            >
+                New Note
+            </a>
+        </div>
+        <new-folder 
+            v-if="newFolderDiv"
+            v-on:send="reload()"
+            @close="close()"
+            type="Notes"
+        />
+
     </div>
 </template>
 
@@ -42,39 +92,61 @@ import Vue from 'vue'
 // import draggable from 'vuedraggable'
 import Vue2TouchEvents from 'vue2-touch-events'
 import { mapState } from 'vuex' 
+import NewFolder from './NewFolder.vue'
 
 Vue.use(Vue2TouchEvents)
 
 export default {
     name: 'Notes',
     // components: {draggable},
+    components: {NewFolder},
     data () {
         return {
             titles: [],
             notes: [],
-            sorting: false
+            sorting: false,
+            folderChoice: false,
+            newFolderDiv: false,
         }
     },
     created () {
         const payload = {'userID': this.$store.state.userID}
         this.$store.dispatch('notesModule/getAll', payload)
+        this.$store.dispatch('foldersModule/getAll', payload)
 
         localStorage.setItem('currentComponent', 'Notes')
     },
 
     computed: {
     ...mapState(['notesModule']),
+    ...mapState(['foldersModule']),
         storedNotes () {
-            return (!this.notesModule.notes.loading && this.notesModule.notes.data) || []
-        }
+            if (!this.notesModule.notes.loading && this.notesModule.notes.data !== null) {
+                return (!this.notesModule.notes.loading && this.notesModule.notes.data.filter(el => el.folder_id === '')) || []
+            } else {
+                return (!this.notesModule.notes.loading && this.notesModule.notes.data) || []
+            }
+        },
+        folders () {
+            if (!this.foldersModule.folders.loading && this.foldersModule.folders.data !== null) {
+                return (!this.foldersModule.folders.loading && this.foldersModule.folders.data.filter(el => el.type === 'Notes')) || []
+            } else {
+                return (!this.foldersModule.folders.loading && this.foldersModule.folders.data) || []
+            }
+        },
     },
-
     methods: {
         openNote (id) {
             this.$store.state.transitionName = 'swipe-left'
             this.$refs.plusButton.style.opacity = 0
             this.$store.state.id = id
             router.push(`/Note/${id}`)
+        },
+        openFolder (id) {
+            this.$store.state.transitionName = 'fade'
+            this.$store.state.id = id
+            localStorage.setItem('folder', 'Notes')
+            this.$router.push(`/Folder/${id}`)
         },
         swipeHandler () {
             this.$store.state.transitionName = 'fade'
@@ -97,6 +169,34 @@ export default {
         },
         dragging () {
             this.$store.state.dragging = true
+        },
+        newButton () {
+            if (this.$refs.plusButton.innerHTML === ' + ') {
+                this.$refs.plusButton.innerHTML = 'x'
+            } else {
+                this.$refs.plusButton.innerHTML = ' + '
+            }
+            this.folderChoice = !this.folderChoice
+        },
+        newFolder () {
+            this.newFolderDiv=true 
+            this.folderChoice=false
+            this.newFolderDiv = true
+        },
+        reload() {
+            this.newFolderDiv = !this.newFolderDiv
+            this.$router.go()
+        },
+        close () {
+            this.folderChoice = !this.folderChoice
+            this.newFolderDiv=false
+        },
+        closeFolderChoiceDiv () {
+            this.folderChoice=!this.folderChoice
+            alert('test')
+        },
+        closeNewFolderDiv () {
+            this.newFolderDiv=!this.newFolderDiv
         }
     }
 }
@@ -111,19 +211,6 @@ ul {
 }
 ul li {
     display: inline-block;
-}
-.noteDiv {
-    overflow-wrap: break-word; 
-    width: 9rem;
-    height: 8rem;
-    border-radius: 1rem;
-    background-color: transparent;
-    border: none;
-    box-shadow: -1px -1px 3px 0px rgb(133, 133, 133),
-                1px 1px 4px 2px black;
-    margin: 1rem 2rem 2.5rem;
-    margin-left: 0rem;
-    color: lightgray;
 }
 
 .noteDiv:active {
@@ -151,6 +238,11 @@ ul li {
 #loading {
     margin-top: 3rem;
 }
+#folder {
+    width: 2rem;
+    margin-top: -1rem;
+}
+
 @media (min-width: 1000px) { 
     .noteDiv {
         width: 7rem;

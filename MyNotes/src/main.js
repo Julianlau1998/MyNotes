@@ -7,6 +7,12 @@ import VuejsDialog from 'vuejs-dialog';
 import Vue2TouchEvents from 'vue2-touch-events'
 import VueI18n from 'vue-i18n'
 import langs from './lang'
+import { longClickDirective } from 'vue-long-click'
+
+const longClickInstance = longClickDirective({delay: 400, interval: 50})
+Vue.directive('longclick', longClickInstance)
+
+Vue.use(Vue2TouchEvents)
 
 Vue.config.productionTip = false
 
@@ -46,6 +52,23 @@ const i18n = new VueI18n({
   locale: chosenLanguage, // set locale
   messages // set locale messages
 })
+
+Vue.directive('click-outside', {
+  bind(el, binding, vnode) {
+      var vm = vnode.context;
+      var callback = binding.value;
+
+      el.clickOutsideEvent = function (event) {
+          if (!(el == event.target || el.contains(event.target))) {
+              return callback.call(vm, event);
+          }
+      };
+      document.body.addEventListener('click', el.clickOutsideEvent);
+  },
+  unbind(el) {
+      document.body.removeEventListener('click', el.clickOutsideEvent);
+  }
+});
 
 new Vue({
   i18n,

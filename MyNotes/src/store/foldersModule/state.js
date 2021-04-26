@@ -1,10 +1,10 @@
 export default {
-  note: {
+  folder: {
     loading: false,
     submitting: false,
     data: {}
   },
-  notes: {
+  folders: {
     loading: false,
     data: []
   },

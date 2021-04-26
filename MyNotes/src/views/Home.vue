@@ -116,6 +116,8 @@ export default {
         if (this.currentComponent === null) {
             this.currentComponent = 'Notes'
         }
+        localStorage.setItem('currentFolder', '')
+
         this.$store.state.transitionName = 'fade'
         document.getElementById('body').style.overflow = 'visible'
         if(this.storedNotes === null || this.storedNotes === undefined) {

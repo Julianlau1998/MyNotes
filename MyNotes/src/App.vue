@@ -279,6 +279,57 @@ body {
     margin: 1rem;
   }
 
+  #newFolder,
+  #newNote {
+    width: 9.5rem;
+    height: 3.5rem;
+    padding: 0.6rem 0 0rem 0;
+    background-color: aliceblue;
+    position: fixed;
+    bottom: 7.3rem;
+    transform: translate(-50%, -50%);
+    background-color: #0f1820;
+    border: none;
+    box-shadow: -1px -1px 4px 0px rgb(133, 133, 133),
+                 1px 1px 5px 2px black;
+    color: white;
+    font-weight: 700;
+    font-size: 1.5rem;
+    cursor: pointer;
+    border-radius: 5px;
+    z-index: 20;
+  }
+
+#newFolder{
+    left: 50%;
+    margin-left: -6rem;
+}
+#newNote{
+    left: 50%;
+    margin-left: 6rem;
+}
+.newFolderElement {
+    color: lightgray;
+    font-weight: 600;
+    width: 8rem;
+}
+.divide {
+    border: 3px solid black
+}
+.noteDiv {
+    overflow-wrap: break-word; 
+    width: 9rem;
+    height: 8rem;
+    border-radius: 1rem;
+    background-color: transparent;
+    border: none;
+    box-shadow: -1px -1px 3px 0px rgb(133, 133, 133),
+                1px 1px 4px 2px black;
+    margin: 1rem 2rem 2.5rem;
+    margin-left: 0rem;
+    color: lightgray;
+}
+
   /* Route change animation */
   .swipe-left-enter-active,
   .swipe-left-leave-active {
@@ -426,6 +477,21 @@ body {
   @media (max-height: 381px) {
     #note {
         height: 44.5vh;
+    }
+  }
+  @media (max-width: 370px)  {
+    #newFolder,
+    #newNote {
+      width: 7.3rem;
+      height: 1.7rem;
+      padding-bottom: 2rem;
+      font-size: 1.1rem;
+    }
+    #newFolder {
+      margin-left: -5rem;
+    }
+    #newNote {
+      margin-left: 5rem;
     }
   }
 </style>

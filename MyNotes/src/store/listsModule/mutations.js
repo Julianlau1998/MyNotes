@@ -8,6 +8,16 @@ export function RECEIVE_LISTS  (state, lists) {
   state.lists.loading = false
 }
 
+export function GET_FOLDER_LISTS (state) {
+  state.lists.loading = true
+  state.err = null
+}
+
+export function RECEIVE_FOLDER_LISTS  (state, lists) {
+  state.lists.data = lists
+  state.lists.loading = false
+}
+
 export function GET_LIST (state) {
   state.list.loading = true
   state.err = null

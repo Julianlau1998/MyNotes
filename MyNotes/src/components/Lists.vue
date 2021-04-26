@@ -10,8 +10,26 @@
                 @start="dragging()"
                 @end="save()"
             > -->
-                <li v-for="(list, idx) in storedLists" v-bind:key="idx">
-                    <button class="noteDiv" @click="openList(list.id)">
+                <li
+                    v-for="(folder, folderIndex) in folders"
+                    v-bind:key="folderIndex"
+                >
+                    <span v-touch:touchhold="touchHoldHandler">
+                        <button
+                            class="noteDiv" 
+                            v-bind:style="{backgroundColor: folder.color}"
+                            @click="openFolder(folder.id)"
+                        >
+                            <h5><b>{{folder.title.substring(0,11)}}</b></h5>
+                        </button>
+                    </span>
+                    <hr id="redLine">
+                </li>
+                <li v-for="(list, listsIndex) in storedLists" v-bind:key="listsIndex">
+                    <button
+                        class="noteDiv"
+                        @click="openList(list.id)"
+                    >
                         <h5><b>{{list.title.substring(0,11)}}</b></h5>
                     </button>
                     <hr id="redLine">
@@ -24,10 +42,36 @@
         <div 
             class="plusButton"
             ref="plusButton"
-            @click="newList"
+            @click="newButton()"
         >
             +
         </div>
+        <div 
+            id="newFolder"
+            v-if="folderChoice"
+        >   
+            <a
+                @click="newFolder()"
+            >
+                New Folder
+            </a>
+        </div>
+        <div
+            id="newNote"
+            v-if="folderChoice"
+        >
+            <a
+                @click="newList()"
+            >
+                New List
+            </a>
+        </div>
+        <new-folder 
+            v-if="newFolderDiv"
+            v-on:send="reload()"
+            @close="close()"
+            type="Lists" 
+        />
     </div>
 </template>
 
@@ -37,29 +81,46 @@ import router from '../router'
 import Vue from 'vue'
 import Vue2TouchEvents from 'vue2-touch-events'
 import { mapState } from 'vuex' 
+import NewFolder from './NewFolder.vue'
 
 Vue.use(Vue2TouchEvents)
 
 export default {
     name: 'Lists',
     // components: {draggable},
+    components: {NewFolder},
     data () {
         return {
             titles: [],
             lists: [],
-            sorting: false
+            sorting: false,
+            folderChoice: false,
+            newFolderDiv: false,
         }
     },
     created () {
         const payload = {'userID': this.$store.state.userID}
         this.$store.dispatch('listsModule/getAll', payload)
+        this.$store.dispatch('foldersModule/getAll', payload)
 
         localStorage.setItem('currentComponent', 'Notes')
     },
     computed: {
     ...mapState(['listsModule']),
+    ...mapState(['foldersModule']),
         storedLists () {
-            return (!this.listsModule.lists.loading && this.listsModule.lists.data) || []
+            if (!this.listsModule.lists.loading && this.listsModule.lists.data !== null) {
+                return (!this.listsModule.lists.loading && this.listsModule.lists.data.filter(el => el.folder_id === '')) || []
+            } else {
+                return (!this.listsModule.lists.loading && this.listsModule.lists.data) || []
+            }
+        },
+        folders () {
+            if (!this.foldersModule.folders.loading && this.foldersModule.folders.data !== null) {
+                return (!this.foldersModule.folders.loading && this.foldersModule.folders.data.filter(el => el.type ==='Lists')) || []
+            } else {
+                return (!this.foldersModule.folders.loading && this.foldersModule.folders.data) || []
+            }
         }
     },
     methods: {
@@ -67,6 +128,12 @@ export default {
             this.$store.state.transitionName = 'swipe-left'
             this.$store.state.id = id
             router.push(`/list/${id}`)
+        },
+        openFolder (id) {
+            this.$store.state.transitionName = 'fade'
+            this.$store.state.id = id
+            localStorage.setItem('folder', 'Lists')
+            this.$router.push(`/Folder/${id}`)
         },
         swipeHandler () {
             this.$store.state.transitionName = 'fade'
@@ -89,7 +156,28 @@ export default {
         },
         dragging () {
             this.$store.state.dragging = true
-        }
+        },
+        newButton () {
+            if (this.$refs.plusButton.innerHTML === ' + ') {
+                this.$refs.plusButton.innerHTML = 'x'
+            } else {
+                this.$refs.plusButton.innerHTML = ' + '
+            }
+            this.folderChoice = !this.folderChoice
+        },
+        newFolder () {
+            this.newFolderDiv=true 
+            this.folderChoice=false
+            this.newFolderDiv = true
+        },
+        reload() {
+            this.newFolderDiv = !this.newFolderDiv
+            this.$router.go()
+        },
+        close () {
+            this.folderChoice = !this.folderChoice
+            this.newFolderDiv=false
+        },
     },
     mounted () {
         if(this.storedLists === null) {

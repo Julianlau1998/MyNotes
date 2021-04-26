@@ -25,6 +25,20 @@ func (s *Service) GetNotes(userID string) ([]models.Note, error) {
 	return notesOfUser, err
 }
 
+func (s *Service) GetByFolder(folderID string, userID string) ([]models.Note, error) {
+	notes, err := s.noteRepository.GetByFolder()
+	if err != nil {
+		return nil, err
+	}
+	var notesOfUser []models.Note
+	for _, note := range notes {
+		if note.UserID == userID && note.FolderID == folderID {
+			notesOfUser = append(notesOfUser, note)
+		}
+	}
+	return notesOfUser, nil
+}
+
 func (s *Service) GetNoteById(id string, userID string) (models.Note, error) {
 	note, err := s.noteRepository.GetNoteById(id)
 
@@ -53,7 +67,7 @@ func (s *Service) updateNote(id string, note *models.Note, userID string) (model
 	return newNote, err
 }
 
-func (s *Service) deleteNote(ID string, userID string) (models.Note, error) {
+func (s *Service) DeleteNote(ID string, userID string) (models.Note, error) {
 	var note models.Note
 	note.ID = ID
 	return s.noteRepository.deleteNote(note, ID, userID)

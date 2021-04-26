@@ -37,6 +37,28 @@ func (r *Repository) GetNotes() ([]models.Note, error) {
 	return notes, err
 }
 
+func (r *Repository) GetByFolder() ([]models.Note, error) {
+	var notes []models.Note
+
+	jsonFile, err := os.Open("json_files/notes.json")
+	if err != nil {
+		fmt.Println(err)
+		return notes, err
+	}
+	byteValue, err := ioutil.ReadAll(jsonFile)
+	if err != nil {
+		fmt.Println(err)
+		return notes, err
+	}
+
+	err = json.Unmarshal(byteValue, &notes)
+	if err != nil {
+		fmt.Println(err)
+		return notes, err
+	}
+	return notes, err
+}
+
 func (r *Repository) GetNoteById(id string) (models.Note, error) {
 	var note models.Note
 	var notes []models.Note

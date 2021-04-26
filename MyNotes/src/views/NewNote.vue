@@ -76,7 +76,8 @@ export default {
                 id: '',
                 userID: '',
                 title: '',
-                body: ''
+                body: '',
+                folder_id: localStorage.getItem('currentFolder')
             },
             id: this.$uuidKey(),
             save: false,

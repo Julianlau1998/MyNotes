@@ -38,6 +38,16 @@ func (d *Delivery) GetById(c echo.Context) error {
 	return c.JSON(http.StatusOK, list)
 }
 
+func (d *Delivery) GetByFolder(c echo.Context) error {
+	userID := c.Request().Header.Get("userID")
+	folderID := c.Request().Header.Get("folderID")
+	lists, err := d.listService.GetByFolder(folderID, userID)
+	if err != nil {
+		return c.String(http.StatusInternalServerError, err.Error())
+	}
+	return c.JSON(http.StatusOK, lists)
+}
+
 func (d *Delivery) Post(c echo.Context) error {
 	requestBody := new(models.List)
 	userID := c.Request().Header.Get("userID")
@@ -73,7 +83,7 @@ func (d *Delivery) Update(c echo.Context) (err error) {
 func (d *Delivery) Delete(c echo.Context) (err error) {
 	id := c.Param("id")
 	userID := c.Request().Header.Get("userID")
-	list, err := d.listService.deleteList(id, userID)
+	list, err := d.listService.DeleteList(id, userID)
 	if err != nil {
 		fmt.Println(err)
 		return c.String(http.StatusBadRequest, err.Error())

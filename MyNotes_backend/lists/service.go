@@ -39,6 +39,20 @@ func (s *Service) GetListById(id string, userID string) (models.List, error) {
 	return list, err
 }
 
+func (s *Service) GetByFolder(folderID string, userID string) ([]models.List, error) {
+	lists, err := s.listRepository.GetByFolder()
+	if err != nil {
+		return nil, err
+	}
+	var listsOfUser []models.List
+	for _, list := range lists {
+		if list.UserID == userID && list.FolderID == folderID {
+			listsOfUser = append(listsOfUser, list)
+		}
+	}
+	return listsOfUser, nil
+}
+
 func (s *Service) Post(list *models.List, userID string) (*models.List, error) {
 	id, err := uuid.NewV4()
 	if err != nil {
@@ -54,7 +68,7 @@ func (s *Service) UpdateList(id string, list *models.List, userID string) (model
 	return newList, err
 }
 
-func (s *Service) deleteList(ID string, userID string) (models.List, error) {
+func (s *Service) DeleteList(ID string, userID string) (models.List, error) {
 	var list models.List
 	list.ID = ID
 	return s.listRepository.DeleteList(list, ID, userID)
