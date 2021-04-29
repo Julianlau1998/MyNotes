@@ -82,7 +82,6 @@
             @close="close()"
             type="Notes"
         />
-
     </div>
 </template>
 
@@ -242,6 +241,19 @@ ul li {
     width: 2rem;
     margin-top: -1rem;
 }
+#newFolderBackground  {
+    position: absolute;
+    top: -11.3rem;
+    left: 0;
+    width:100vw;
+    height: 100vh;
+    background-color: black;
+    z-index: 0;
+    opacity: 0.5;
+}
+.plusButton {
+    z-index: 10;
+}
 
 @media (min-width: 1000px) { 
     .noteDiv {
@@ -261,14 +273,14 @@ ul li {
  }
 @media (max-width: 390px) { 
     .noteDiv {
-        width: 7rem;
+        width: 8rem;
         height: 7rem;
     }
  }
 @media (max-width: 327px) { 
     .noteDiv {
-        width: 6rem;
-        height: 6rem;
+        width: 8rem;
+        height: 7rem;
     }
     body {
         margin: 100rem;

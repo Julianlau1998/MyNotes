@@ -29,7 +29,6 @@
                         <span class="errorMessage">{{ errors[0] }}</span>
                     </ValidationProvider>
                     <br>
-                    <br>
                     <select 
                         name="color" 
                         id="colorSelect"
@@ -124,14 +123,20 @@ export default {
                     1px 1px 5px 2px black;
         color: lightgray;
         border-radius: 20px;
+        z-index: 10;
     }
     #folderInput,
     #colorSelect {
         background: transparent !important;
-        width: 65%;
-        height: 2rem;
+        width: 80%;
+        height: 2.3rem;
         margin-top: -5rem;
+        outline: none;
     }
+    #colorSelect {
+        margin-top: 0.5rem;
+    }
+
     .whiteLine {
         margin-top: 0.5rem;
     }
@@ -149,5 +154,18 @@ export default {
         position: absolute;
         top: -12rem;
         left: 0;
+        background-color: black;
+        z-index: 10;
+        opacity: 0.5;
+    }
+    @media (max-width: 379px) {
+        .newFolderDiv {
+            width: 20rem;
+        }
+    }
+    @media (max-width: 325px) {
+        .newFolderDiv {
+            width: 16rem;
+        }
     }
 </style>

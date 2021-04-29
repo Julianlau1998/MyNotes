@@ -252,17 +252,14 @@ ul li {
 }
 @media (max-width: 390px) { 
     .noteDiv {
-        width: 7rem;
+        width: 8rem;
         height: 7rem;
     }
  }
 @media (max-width: 327px) { 
     .noteDiv {
-        width: 6rem;
-        height: 6rem;
-    }
-    body {
-        margin: 100rem;
+        width: 8rem;
+        height: 7rem;
     }
  }
 

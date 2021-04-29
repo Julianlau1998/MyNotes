@@ -94,4 +94,13 @@ export default {
     #settingsImage {
         top: 0.5rem !important;
     }
+    .noteDiv {
+        outline: none;
+    }
+    @media (min-width: 1000px) { 
+      .noteDiv {
+          width: 11rem;
+          height: 9rem;
+      }
+    }
 </style>

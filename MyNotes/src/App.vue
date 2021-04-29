@@ -99,6 +99,10 @@ body {
       color: lightgray;
     }
 
+    .noteDiv {
+        outline: none;
+    }
+
     /*** Note / NewNote ***/
     .arrow {
         width: 2.5rem;
