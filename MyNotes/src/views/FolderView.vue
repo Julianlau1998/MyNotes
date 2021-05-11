@@ -1,11 +1,5 @@
 <template>
   <div id="wrapper">
-        <img
-            src="../../public/img/settings.png"
-            alt="settings"
-            v-on:click="settings"
-            id=settingsImage
-        >
         <button id="deleteButton">
             <img
                 src="../assets/trash.png"
@@ -14,6 +8,14 @@
                 @click="deleteFolder"
                 ref="trashcan"
             >
+            <router-link to="/">
+                    <img
+                    src="../assets/arrow.png"
+                    alt="back arrow"
+                    class="arrow"
+                    ref="backArrow"
+                    >
+            </router-link>
         </button>
 
         <h1 class="header">
@@ -42,6 +44,7 @@ export default {
         }
     },
     created () {
+        this.$store.state.transitionName = 'fade'
     },
     computed: {
     },
@@ -66,13 +69,16 @@ export default {
 
 <style scoped>
     .delete {
-        left: 1rem !important;
+        right: 1rem !important;
         top: 0.5rem !important;
         background: #0f1820;
     }
     #deleteButton {
         margin-left: -210rem;
         width: 0;
+    }
+    .arrow {
+        margin-top: 0.4rem;
     }
     #settingsImage {
         margin-top: 0.2rem;

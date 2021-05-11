@@ -1,11 +1,13 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 	"notesBackend/folders"
 	"notesBackend/lists"
 	"notesBackend/notes"
 	"notesBackend/users"
+	"os"
 
 	"github.com/labstack/echo/v4"
 	"github.com/labstack/echo/v4/middleware"
@@ -71,5 +73,9 @@ func main() {
 	e.GET("/api/users", UserDelivery.GetAll)
 	e.POST("/api/users", UserDelivery.Post)
 
-	e.Logger.Fatal(e.Start(":1323"))
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "1323"
+	}
+	e.Logger.Fatal(e.Start(fmt.Sprintf("0.0.0.0:%s", port)))
 }
