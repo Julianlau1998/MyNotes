@@ -76,12 +76,16 @@
                 New Note
             </a>
         </div>
-        <new-folder 
+        <transition
+            name="new-folder"
+        >
+            <new-folder 
             v-if="newFolderDiv"
             v-on:send="reload()"
             @close="close()"
             type="Notes"
         />
+        </transition>
     </div>
 </template>
 

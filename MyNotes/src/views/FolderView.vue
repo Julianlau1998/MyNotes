@@ -70,7 +70,7 @@ export default {
 <style scoped>
     .delete {
         right: 1rem !important;
-        top: 0.5rem !important;
+        top: 0.6rem !important;
         background: #0f1820;
     }
     #deleteButton {

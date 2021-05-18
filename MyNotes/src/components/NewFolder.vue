@@ -132,6 +132,7 @@ export default {
         height: 2.3rem;
         margin-top: -5rem;
         outline: none;
+        padding-left: 0.5rem;
     }
     #colorSelect {
         margin-top: 0.5rem;
@@ -146,6 +147,7 @@ export default {
         height: 2.5rem;
         margin-top: -0.5rem !important;
         bottom: 2.3rem;
+        cursor: pointer;
     }
     .wrapper {
         width: 100vw;

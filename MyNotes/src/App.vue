@@ -380,6 +380,18 @@ body {
   .fade-enter, .fade-leave-to {
     opacity: 0;
   }
+
+  /* New Folder modal animation */
+  .new-folder-enter-active, .fade-leave-active {
+    transition: all .2s;
+  }
+  .new-folder-enter-to, .new-folder-leave {
+    opacity: 1;
+  }
+  .new-folder-enter, .new-folder-leave-to {
+    opacity: 0;
+  }
+
   .dg-main-content {
     position: absolute;
     top: 0rem;
