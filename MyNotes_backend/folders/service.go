@@ -5,6 +5,7 @@ import (
 	"notesBackend/models"
 	"notesBackend/notes"
 
+	"github.com/labstack/gommon/log"
 	uuid "github.com/nu7hatch/gouuid"
 )
 
@@ -23,7 +24,7 @@ func NewService(folderRepository Repository, listsService lists.Service, noteSer
 }
 
 func (s *Service) GetFolders(userID string) ([]models.Folder, error) {
-	folders, err := s.folderRepository.GetFolders()
+	folders, err := s.folderRepository.GetFolders(userID)
 	var foldersOfUser []models.Folder
 	for _, folder := range folders {
 		if folder.UserID == userID {
@@ -34,7 +35,7 @@ func (s *Service) GetFolders(userID string) ([]models.Folder, error) {
 }
 
 func (s *Service) GetById(id string, userID string) (models.Folder, error) {
-	folder, err := s.folderRepository.GetById(id)
+	folder, err := s.folderRepository.GetById(id, userID)
 
 	if folder.UserID == userID {
 		return folder, err
@@ -76,26 +77,14 @@ func (s *Service) Update(id string, folder *models.Folder, userID string) (model
 	return newFolder, err
 }
 
-func (s *Service) Delete(ID string, userID string) (models.Folder, error) {
+func (s *Service) Delete(ID string, userID string) error {
 	var folder models.Folder
 	folder.ID = ID
-
-	// Delete all lists in folder
-	lists, err := s.listsService.GetByFolder(ID, userID)
+	folder.UserID = userID
+	err := s.folderRepository.Delete(folder, ID)
 	if err != nil {
-		return folder, err
+		log.Warnf("folderService.Delete(): Could not delete folder: %s", err)
+		return err
 	}
-	for _, list := range lists {
-		s.listsService.DeleteList(list.ID, userID)
-	}
-
-	//Delete all Notes in folder
-	notes, err := s.noteService.GetByFolder(ID, userID)
-	if err != nil {
-		return folder, err
-	}
-	for _, note := range notes {
-		s.noteService.DeleteNote(note.ID, userID)
-	}
-	return s.folderRepository.Delete(folder, ID, userID)
+	return err
 }

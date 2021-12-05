@@ -172,12 +172,13 @@ export default {
         onSubmit (error) {
             if (error === undefined) {
                 this.postList.id = this.id
-                this.postList.userID = this.$store.state.userID
+                this.postList.userID = this.$auth.user.sub
                 this.postList.title = this.title
                 this.postList.list = this.listElements
                 this.postList.doneItems = this.doneItems
+                console.log(this.doneItems)
 
-                const payload = {'list': this.postList,'userID': this.$store.state.userID}
+                const payload = {'list': this.postList,'userID': this.$auth.user.sub}
                 this.$store.dispatch('listsModule/post', payload)
                 .then (() => {
                     this.save = true

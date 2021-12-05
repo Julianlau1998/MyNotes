@@ -12,7 +12,7 @@
             > -->
                 <li
                     v-for="(folder, folderIndex) in folders"
-                    v-bind:key="folderIndex"
+                    v-bind:key="folder.id + folderIndex"
                 >
                     <span v-touch:touchhold="touchHoldHandler">
                         <button
@@ -25,7 +25,7 @@
                     </span>
                     <hr id="redLine">
                 </li>
-                <li v-for="(list, listsIndex) in storedLists" v-bind:key="listsIndex">
+                <li v-for="(list, listsIndex) in storedLists" v-bind:key="list.id + listsIndex">
                     <button
                         class="noteDiv"
                         @click="openList(list.id)"
@@ -68,8 +68,8 @@
         </div>
         <new-folder 
             v-if="newFolderDiv"
-            v-on:send="reload()"
             @close="close()"
+            v-on:send="newFolderDiv = !newFolderDiv"
             type="Lists" 
         />
     </div>
@@ -99,9 +99,8 @@ export default {
         }
     },
     created () {
-        const payload = {'userID': this.$store.state.userID}
-        this.$store.dispatch('listsModule/getAll', payload)
-        this.$store.dispatch('foldersModule/getAll', payload)
+        this.$store.dispatch('listsModule/getAll')
+        this.$store.dispatch('foldersModule/getAll')
 
         localStorage.setItem('currentComponent', 'Notes')
     },
@@ -110,7 +109,7 @@ export default {
     ...mapState(['foldersModule']),
         storedLists () {
             if (!this.listsModule.lists.loading && this.listsModule.lists.data !== null) {
-                return (!this.listsModule.lists.loading && this.listsModule.lists.data.filter(el => el.folder_id === '')) || []
+                return (!this.listsModule.lists.loading && this.listsModule.lists.data.filter(el => el.folder_id === '' || el.folder_id === '00000000-0000-0000-0000-000000000000')) || []
             } else {
                 return (!this.listsModule.lists.loading && this.listsModule.lists.data) || []
             }
@@ -169,10 +168,6 @@ export default {
             this.newFolderDiv=true 
             this.folderChoice=false
             this.newFolderDiv = true
-        },
-        reload() {
-            this.newFolderDiv = !this.newFolderDiv
-            this.$router.go()
         },
         close () {
             this.folderChoice = !this.folderChoice

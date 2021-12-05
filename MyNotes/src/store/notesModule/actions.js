@@ -1,13 +1,12 @@
 import axios from 'axios'
 
-export function getAll ({ commit, state }, payload) {
+const token = sessionStorage.getItem('token')
+axios.defaults.headers.common['authorization'] = token
+
+export function getAll ({ commit, state }) {
   commit('GET_NOTES')
   axios
-    .get(`${state.localhost}notes`, {
-      headers: {
-        'userId': payload.userID
-      }
-    })
+    .get(`${state.localhost}notes`)
     .then(response => {
       commit('RECEIVE_NOTES', response.data)
     })
@@ -20,7 +19,6 @@ export function getByCategory ({ commit, state }, payload) {
   axios
     .get(`${state.localhost}notes/foldernotes`, {
       headers: {
-        'userId': payload.userID,
         'folderID': payload.folderID
       }
     })
@@ -34,11 +32,7 @@ export function getByCategory ({ commit, state }, payload) {
 export function getOne ({ commit, state }, payload) {
   commit('GET_NOTE')
   axios
-    .get(`${state.localhost}note/${payload.id}`, {
-        headers: {
-          'userId': payload.userID
-        }
-    })
+    .get(`${state.localhost}note/${payload.id}`)
     .then(response => {
       commit('RECEIVE_NOTE', response.data)
     })
@@ -49,11 +43,7 @@ export function getOne ({ commit, state }, payload) {
 export function post ({ commit, state }, payload) {
   commit('POST_NOTE')
   axios
-    .post(`${state.localhost}notes`, payload.note, {
-      headers: {
-        'userId': payload.userID
-      }
-    })
+    .post(`${state.localhost}notes`, payload.note)
     .then(function () {
       commit('NOTE_POSTED')
     })
@@ -64,11 +54,7 @@ export function post ({ commit, state }, payload) {
 export function deleteOne ({ commit, state }, payload) {
   commit('DELETE_NOTE')
   axios
-    .delete(`${state.localhost}note/${payload.id}`, {
-      headers: {
-        'userId': payload.userID
-      }
-    })
+    .delete(`${state.localhost}note/${payload.id}`)
     .then(function () {
       commit('NOTE_DELETED')
     })
@@ -79,11 +65,7 @@ export function deleteOne ({ commit, state }, payload) {
 export function put ({ commit, state }, payload) {
   commit('PUT_NOTE')
   axios
-    .put(`${state.localhost}note/${payload.note.id}`, payload.note, {
-      headers: {
-        'userId': payload.userID
-      }
-    })
+    .put(`${state.localhost}note/${payload.note.id}`, payload.note)
     .then(function () {
       commit('NOTE_PUT')
     })

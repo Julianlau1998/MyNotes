@@ -68,8 +68,9 @@ export default {
                 })
         },
         logout () {
-            localStorage.clear()
-            this.$router.push('/login')
+            this.$auth.logout({
+                returnTo: window.location.origin
+            });
         }
     },
     created () {

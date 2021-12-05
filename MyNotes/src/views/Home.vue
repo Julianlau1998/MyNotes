@@ -124,47 +124,9 @@ export default {
             this.storedNotes = []
         } else {
             for (let i=0; i<this.storedNotes.length; i++) {
-            this.titles.push(this.storedNotes[i].title)
-            this.notes.push(this.storedNotes[i].note)
-        }
-        }
-
-        //Get all elements from localstorage if app was downloaded before backend was available
-        // !!! Remove this after a few weeks !!!
-        if (localStorage.getItem('notes')) {
-            let notes = JSON.parse(localStorage.getItem('notes'))
-            let note = {
-                id: '',
-                userID: '',
-                title: '',
-                body: ''
+                this.titles.push(this.storedNotes[i].title)
+                this.notes.push(this.storedNotes[i].note)
             }
-            for (let i=0; i<notes.length; i++) {
-                note.title = notes[i].title
-                note.body = notes[i].note
-                const payload = {'note': note,'userID': this.$store.state.userID}
-                this.$store.dispatch('notesModule/post', payload)
-            }
-            localStorage.clear('notes')
-        }
-        if (localStorage.getItem('lists')) {
-            let lists = JSON.parse(localStorage.getItem('lists'))
-            let list = {
-                id: '',
-                userID: '',
-                title: '',
-                list: [],
-                doneItems: []
-            }
-            for (let i=0; i<lists.length; i++) {
-                list.title = lists[i].title
-                list.body = lists[i].body
-                list.list = lists[i].listElements
-                list.doneItems = lists[i].doneItems
-                const payload = {'list': list,'userID': this.$store.state.userID}
-                this.$store.dispatch('listsModule/post', payload)
-            }
-            localStorage.clear('lists')
         }
     },
     computed: {

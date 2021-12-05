@@ -44,9 +44,9 @@ export default {
         }
     },
     created () {
-        let payload = {'userID': this.$store.state.userID, 'folderID': this.id}
+        let payload = {'userID': this.$auth.user.sub, 'folderID': this.id}
         this.$store.dispatch('listsModule/getByCategory', payload)
-        payload = {'userID': this.$store.state.userID, 'id': this.id}
+        payload = {'userID': this.$auth.user.sub, 'id': this.id}
         this.$store.dispatch('foldersModule/getOne', payload)
     },
     computed: {

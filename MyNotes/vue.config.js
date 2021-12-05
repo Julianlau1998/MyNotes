@@ -20,7 +20,7 @@ module.exports = {
     compress: true,
     proxy: {
       '^/api/*': {
-        target: 'http://139.162.158.148:1324/',
+        target: 'http://192.168.178.58:8081/',
         //target: 'http://localhost:1324/',
         changeOrigin: true,
         ws: true,

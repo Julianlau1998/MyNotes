@@ -201,7 +201,7 @@ export default {
         this.$store.state.transitionName = 'swipe-right'
     },
     created () {
-        const payload = {'id': this.id,'userID': this.$store.state.userID}
+        const payload = {'id': this.id}
         this.$store.dispatch('listsModule/getOne', payload)
         this.lists = this.listsList
 
@@ -222,7 +222,7 @@ export default {
     watch: {
         storedList: function (val) {
             this.title = val.title
-            this.listElements = val.list
+            this.listElements = val.list || []
             this.doneItems = val.doneItems
             this.originalTitle = this.title
             // this.originalListElements = val.listElements.filter(el => el == el)
@@ -244,11 +244,10 @@ export default {
         onSubmit (error) {
             if (error === undefined) {
                 this.postList.id = this.id
-                this.postList.userID = this.$store.state.userID
                 this.postList.title = this.title
                 this.postList.list = this.listElements
                 this.postList.doneItems = this.doneItems
-                const payload = {'list': this.postList,'userID': this.$store.state.userID}
+                const payload = {'list': this.postList}
                 this.$store.dispatch('listsModule/put', payload)
                 .then (() => {
                     this.save = true
@@ -261,9 +260,10 @@ export default {
         },
         addItem () {
             if (this.$refs.add.value !== '') {
-                this.listElements.unshift(this.listItem)
+                this.listElements.unshift(this.$refs.add.value)
                 this.listItem = ''
-                this.$refs.add.focus()
+                this.$refs.add.value = ''
+                this.$refs.add.focus();
             }
         },
         itemDone(item) {
@@ -277,7 +277,7 @@ export default {
             this.focusValue=true
         },
         deleteList () {
-            const payload = {'id': this.id,'userID': this.$store.state.userID}
+            const payload = {'id': this.id}
             this.$store.dispatch('listsModule/deleteOne', payload)
             this.$router.push('/')
         },

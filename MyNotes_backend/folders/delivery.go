@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"notesBackend/models"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 )
 
@@ -17,7 +18,7 @@ func NewDelivery(folderService Service) Delivery {
 }
 
 func (d *Delivery) GetAll(c echo.Context) error {
-	userID := c.Request().Header.Get("userId")
+	userID := c.Request().Context().Value("currentUser").(jwt.MapClaims)["sub"].(string)
 	folders, err := d.folderService.GetFolders(userID)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
@@ -26,7 +27,7 @@ func (d *Delivery) GetAll(c echo.Context) error {
 }
 
 func (d *Delivery) GetById(c echo.Context) error {
-	userID := c.Request().Header.Get("userID")
+	userID := c.Request().Context().Value("currentUser").(jwt.MapClaims)["sub"].(string)
 	id := c.Param("id")
 	folder, err := d.folderService.GetById(id, userID)
 	if err != nil {
@@ -39,8 +40,8 @@ func (d *Delivery) GetById(c echo.Context) error {
 }
 
 func (d *Delivery) Post(c echo.Context) error {
+	userID := c.Request().Context().Value("currentUser").(jwt.MapClaims)["sub"].(string)
 	requestBody := new(models.Folder)
-	userID := c.Request().Header.Get("userID")
 	if err := c.Bind(requestBody); err != nil {
 		return c.String(http.StatusBadRequest, err.Error())
 	}
@@ -53,8 +54,8 @@ func (d *Delivery) Post(c echo.Context) error {
 }
 
 func (d *Delivery) Update(c echo.Context) (err error) {
+	userID := c.Request().Context().Value("currentUser").(jwt.MapClaims)["sub"].(string)
 	ID := c.Param("id")
-	userID := c.Request().Header.Get("userID")
 	requestBody := new(models.Folder)
 	if err = c.Bind(requestBody); err != nil {
 		return c.String(http.StatusBadRequest, err.Error())
@@ -71,15 +72,12 @@ func (d *Delivery) Update(c echo.Context) (err error) {
 }
 
 func (d *Delivery) Delete(c echo.Context) (err error) {
+	userID := c.Request().Context().Value("currentUser").(jwt.MapClaims)["sub"].(string)
 	id := c.Param("id")
-	userID := c.Request().Header.Get("userID")
-	folder, err := d.folderService.Delete(id, userID)
+	err = d.folderService.Delete(id, userID)
 	if err != nil {
 		fmt.Println(err)
 		return c.String(http.StatusBadRequest, err.Error())
 	}
-	if folder.ID == "unauthorized" {
-		return c.String(http.StatusForbidden, "Not Authorized")
-	}
-	return c.JSON(http.StatusOK, folder)
+	return c.JSON(http.StatusOK, err)
 }

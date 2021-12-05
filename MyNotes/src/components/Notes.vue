@@ -12,7 +12,7 @@
             > -->
                 <li
                     v-for="(folder, index) in folders"
-                    v-bind:key="index"
+                    v-bind:key="folder.id + index"
                 >
                     <span v-touch:touchhold="touchHoldHandler">
                         <button
@@ -27,11 +27,11 @@
                 </li>
                 <li
                     v-for="(note, idx) in storedNotes"
-                    v-bind:key="idx"
+                    v-bind:key="note.id + idx"
                 >
                     <span
                         v-touch:touchhold="touchHoldHandler"
-                        v-if="note.folder_id === ''"
+                        v-if="note.folder_id === '' || note.folder_id == '00000000-0000-0000-0000-000000000000'"
                     >
                         <button
                             class="noteDiv"
@@ -81,7 +81,7 @@
         >
             <new-folder 
             v-if="newFolderDiv"
-            v-on:send="reload()"
+            v-on:send="newFolderDiv = !newFolderDiv"
             @close="close()"
             type="Notes"
         />
@@ -113,9 +113,12 @@ export default {
         }
     },
     created () {
-        const payload = {'userID': this.$store.state.userID}
-        this.$store.dispatch('notesModule/getAll', payload)
-        this.$store.dispatch('foldersModule/getAll', payload)
+        this.$auth.getTokenSilently()
+            .then((token) => {
+                console.log(token)
+            })
+        this.$store.dispatch('notesModule/getAll')
+        this.$store.dispatch('foldersModule/getAll')
 
         localStorage.setItem('currentComponent', 'Notes')
     },
@@ -125,7 +128,8 @@ export default {
     ...mapState(['foldersModule']),
         storedNotes () {
             if (!this.notesModule.notes.loading && this.notesModule.notes.data !== null) {
-                return (!this.notesModule.notes.loading && this.notesModule.notes.data.filter(el => el.folder_id === '')) || []
+                console.log(this.notesModule.notes.data)
+                return (!this.notesModule.notes.loading && this.notesModule.notes.data.filter(el => el.folder_id === '' || el.folder_id === '00000000-0000-0000-0000-000000000000')) || []
             } else {
                 return (!this.notesModule.notes.loading && this.notesModule.notes.data) || []
             }
@@ -186,17 +190,12 @@ export default {
             this.folderChoice=false
             this.newFolderDiv = true
         },
-        reload() {
-            this.newFolderDiv = !this.newFolderDiv
-            this.$router.go()
-        },
         close () {
             this.folderChoice = !this.folderChoice
             this.newFolderDiv=false
         },
         closeFolderChoiceDiv () {
             this.folderChoice=!this.folderChoice
-            alert('test')
         },
         closeNewFolderDiv () {
             this.newFolderDiv=!this.newFolderDiv

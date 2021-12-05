@@ -56,7 +56,7 @@ export default {
             const vm = this
             this.$dialog.confirm(this.$t('text.deleteFolderAlert'))
                 .then (function () {
-                    const payload = {'userID': vm.$store.state.userID, 'id': vm.id}
+                    const payload = {'userID': vm.$auth.user.sub, 'id': vm.id}
                     vm.$store.dispatch('foldersModule/deleteOne', payload)
                     vm.$router.push('/')
                 })

@@ -1,195 +1,89 @@
 package folders
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
+	"database/sql"
 	"notesBackend/models"
-	"os"
+
+	"github.com/labstack/gommon/log"
 )
 
 type Repository struct {
+	dbClient *sql.DB
 }
 
-func NewRepository() Repository {
-	return Repository{}
+func NewRepository(dbClient *sql.DB) Repository {
+	return Repository{dbClient: dbClient}
 }
 
-func (r *Repository) GetFolders() ([]models.Folder, error) {
+func (r *Repository) GetFolders(userID string) ([]models.Folder, error) {
 	var folders []models.Folder
-
-	jsonFile, err := os.Open("json_files/folders.json")
-	if err != nil {
-		fmt.Println(err)
-		return folders, err
-	}
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		fmt.Println(err)
-		return folders, err
-	}
-
-	err = json.Unmarshal(byteValue, &folders)
-	if err != nil {
-		fmt.Println(err)
-		return folders, err
-	}
+	query := `SELECT * FROM folders WHERE userId = $1 ORDER BY createdDate DESC`
+	folders, err := r.fetch(query, userID)
 	return folders, err
 }
 
-func (r *Repository) GetById(id string) (models.Folder, error) {
+func (r *Repository) GetById(id string, userID string) (models.Folder, error) {
 	var folder models.Folder
-	var folders []models.Folder
 
-	jsonFile, err := os.Open("json_files/folders.json")
-	if err != nil {
-		fmt.Println(err)
-		return folder, err
-	}
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		fmt.Println(err)
-		return folder, err
-	}
-	err = json.Unmarshal(byteValue, &folders)
-	if err != nil {
-		fmt.Println(err)
-		return folder, err
-	}
-
-	for i := 0; i < len(folders); i++ {
-		if folders[i].ID == id {
-			folder = folders[i]
-		}
-	}
+	query := `SELECT * FROM folders WHERE id = $1 AND userID = $2`
+	folder, err := r.getOne(query, id, userID)
 	return folder, err
 }
 
 func (r *Repository) Post(folder *models.Folder) (*models.Folder, error) {
-	var folders []models.Folder
-
-	jsonFile, err := os.Open("json_files/folders.json")
-	if err != nil {
-		fmt.Println(err)
-		return folder, err
-	}
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		fmt.Println(err)
-		return folder, err
-	}
-	err = json.Unmarshal(byteValue, &folders)
-	if err != nil {
-		fmt.Println(err)
-		return folder, err
-	}
-
-	folders = append(folders, *folder)
-	byteCategories, err := json.Marshal(folders)
-	if err != nil {
-		fmt.Print(err)
-		return folder, err
-	}
-
-	err = ioutil.WriteFile("json_files/folders.json", byteCategories, 0644)
-	if err != nil {
-		fmt.Println(err)
-		return folder, err
-	}
-	return folder, nil
+	statement := `INSERT INTO folders (id, userid, title, color, folderType, createdDate) VALUES ($1, $2, $3, $4, $5, CURRENT_TIME)`
+	_, err := r.dbClient.Exec(statement, folder.ID, folder.UserID, folder.Title, folder.Color, folder.Type)
+	return folder, err
 }
 
 func (r *Repository) Update(folder *models.Folder, ID string, userID string) (models.Folder, error) {
-	var folders []models.Folder
+	query := `UPDATE folders SET title = $1, color = $2, createdDate = Now() WHERE userid = $3 AND id = $4`
+	_, err := r.dbClient.Exec(query, folder.Title, folder.Color, folder.ID)
 
-	jsonFile, err := os.Open("json_files/folders.json")
-	if err != nil {
-		fmt.Println(err)
-		return *folder, err
-	}
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		fmt.Println(err)
-		return *folder, err
-	}
-	err = json.Unmarshal(byteValue, &folders)
-	if err != nil {
-		fmt.Println(err)
-		return *folder, err
-	}
-	var returnedFolder models.Folder
-	for i := 0; i < len(folders); i++ {
-		if folders[i].ID == ID && folders[i].UserID == userID {
-			folders[i].Title = *&folder.Title
-			folders[i].Color = *&folder.Color
-			folders[i].Type = *&folder.Type
-			returnedFolder = folders[i]
-		}
-	}
-
-	byteCategories, err := json.Marshal(folders)
-	if err != nil {
-		fmt.Print(err)
-		return *folder, err
-	}
-
-	err = ioutil.WriteFile("json_files/folders.json", byteCategories, 0644)
-	if err != nil {
-		fmt.Println(err)
-		return *folder, err
-	}
-
-	return returnedFolder, err
+	return *folder, err
 }
 
-func (r *Repository) Delete(folder models.Folder, id string, userID string) (models.Folder, error) {
-	var folders []models.Folder
+func (r *Repository) Delete(folder models.Folder, id string) error {
+	query := `DELETE FROM folders WHERE id = $1 AND userid = $2`
+	_, err := r.dbClient.Exec(query, folder.ID, folder.UserID)
+	return err
+}
 
-	jsonFile, err := os.Open("json_files/folders.json")
+func (r *Repository) fetch(query string, userID string) ([]models.Folder, error) {
+	var rows *sql.Rows
+	var err error
+	rows, err = r.dbClient.Query(query, userID)
 	if err != nil {
-		fmt.Println(err)
-		return folder, err
+		return nil, err
 	}
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		fmt.Println(err)
-		return folder, err
-	}
-	err = json.Unmarshal(byteValue, &folders)
-	if err != nil {
-		fmt.Println(err)
-		return folder, err
-	}
-	var emptyFolder models.Folder
-	for i := 0; i < len(folders); i++ {
-		if folders[i].ID == folder.ID && folders[i].UserID == userID && len(folders) >= 2 {
-			if i != len(folders)-1 {
-				folders = append(folders[:i], folders[i+1:]...)
-			} else {
-				folders = folders[:len(folders)-1]
-				folders = append(folders, emptyFolder)
+	defer func() {
+		err := rows.Close()
+		if err != nil {
+			log.Errorf("Datenbankverbindung konnte nicht korrekt geschlossen werden: %v", err)
+		}
+	}()
+	result := make([]models.Folder, 0)
+	for rows.Next() {
+		folderDB := models.FolderDB{}
+		err := rows.Scan(&folderDB.ID, &folderDB.UserID, &folderDB.Title, &folderDB.Color, &folderDB.Type, &folderDB.CreatedDate)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				continue
 			}
-		} else if folders[i].ID == folder.ID && folders[i].UserID == userID && len(folders) < 2 {
-			folders = append(folders[:0], emptyFolder)
+			log.Infof("Fehler beim Lesen der Daten: %v", err)
+			return result, err
 		}
-		if folders[i].ID == folder.ID && folders[i].UserID != userID {
-			folder.ID = "unauthorized"
-			return folder, err
-		}
+		result = append(result, folderDB.GetFolder())
 	}
+	return result, nil
+}
 
-	byteCategories, err := json.Marshal(folders)
-	if err != nil {
-		fmt.Println(err)
-		return folder, err
+func (r *Repository) getOne(query string, id string, userID string) (models.Folder, error) {
+	folderDB := models.FolderDB{}
+	var err error
+	err = r.dbClient.QueryRow(query, id, userID).Scan(&folderDB.ID, &folderDB.UserID, &folderDB.Title, &folderDB.Color, &folderDB.Type, &folderDB.CreatedDate)
+	if err != nil && err != sql.ErrNoRows {
+		log.Infof("Fehler beim Lesen der Daten: %v", err)
 	}
-
-	err = ioutil.WriteFile("json_files/folders.json", byteCategories, 0644)
-	if err != nil {
-		fmt.Println(err)
-		return folder, err
-	}
-
-	folder.ID = ""
-	return folder, err
+	return folderDB.GetFolder(), err
 }

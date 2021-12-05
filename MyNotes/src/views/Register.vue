@@ -60,7 +60,6 @@
 
 <script>
 import axios from 'axios'
-import {uuid} from "vue-uuid";
 import { ValidationProvider, ValidationObserver, extend } from 'vee-validate';
 import { required, min } from 'vee-validate/dist/rules';
 
@@ -93,10 +92,6 @@ export default {
             username: '',
             password: '',
             repeatedPassword: '',
-            id: uuid.v4(),
-            params: {
-                client_id: "672669366725-vqgmoki2e0itco3gt51d48b7dpvt5m59.apps.googleusercontent.com"
-            },
             passwordError: false,
             exists: false
         }
@@ -107,11 +102,6 @@ export default {
     },
     methods: {
         onSubmit () {
-            var user = {
-                id: this.id,
-                username: this.username,
-                password: this.password
-            }
             axios.post(`${this.$store.state.localhost}users`, {
                 'username': this.username,
                 'password': ""+this.password.hashCode()
@@ -121,8 +111,8 @@ export default {
                     this.exists = true
                 } else {
                     this.exists = false
-                    this.$store.state.userID = user.id
-                    localStorage.setItem('userID', user.id); 
+                    this.$store.state.userID = response.data
+                    localStorage.setItem('userID', response.data); 
                     this.$router.push('/')
                 }
             })

@@ -46,7 +46,6 @@
                         type="submit"
                         class="saveButton"
                         :disabled="invalid"
-                        @click="onSubmit()"
                     >
                         Save
                     </button>
@@ -84,12 +83,12 @@ export default {
                     this.notesList = []
                 }
             }
-            this.newFolderObject.userID = this.$store.state.userID
+            this.newFolderObject.userID = this.$auth.user.sub
             this.newFolderObject.type = this.type
             if (this.newFolderObject.color === 'Color') {
                 this.newFolderObject.color = '#7B7D7D'
             }
-            const payload = {'folder': this.newFolderObject,'userID': this.$store.state.userID}
+            const payload = {'folder': this.newFolderObject,'userID': this.$auth.user.sub}
             this.$store.dispatch('foldersModule/post', payload)
             .then(() => {
                 this.save = true

@@ -9,6 +9,7 @@ import Settings from '../views/Settings.vue'
 import Login from '../views/Login.vue'
 import Register from '../views/Register.vue'
 import Folder from '../views/FolderView.vue'
+import { authGuard } from "../auth/authGuard";
 
 
 Vue.use(VueRouter)
@@ -17,28 +18,33 @@ const routes = [
   {
     path: '/newNote',
     name: 'newNote',
-    component: NewNote
+    component: NewNote,
+    beforeEnter: authGuard 
   },
   {
     path: '/newList',
     name: 'newList',
-    component: NewList
+    component: NewList,
+    beforeEnter: authGuard
   },
   { 
     path: '/Note/:id',
     name: 'Note',
-    component: Note
+    component: Note,
+    beforeEnter: authGuard
   },
   {
     path: '/List/:id',
     name: 'SingleList',
-    component: SingleList
+    component: SingleList,
+    beforeEnter: authGuard
   }
   ,
   {
     path: '/',
     name: 'Home',
-    component: Home
+    component: Home,
+    beforeEnter: authGuard
   },
   {
     path: '/Login',
@@ -53,12 +59,14 @@ const routes = [
   {
     path: '/settings',
     name: 'Settings',
-    component: Settings
+    component: Settings,
+    beforeEnter: authGuard
   },
   {
     path: '/folder/:id',
     name: 'Folder',
-    component: Folder
+    component: Folder,
+    beforeEnter: authGuard
   }
 ]
 

@@ -74,7 +74,7 @@ export default {
             note: '',
             currentObject: {
                 id: '',
-                userID: '',
+                user_id: '',
                 title: '',
                 body: '',
                 folder_id: localStorage.getItem('currentFolder')
@@ -91,10 +91,10 @@ export default {
                     this.notesList = []
                 }
             }
-            this.currentObject.userID = this.$store.state.userID
+            this.currentObject.user_id = this.$auth.user.sub
             this.currentObject.title = this.title
             this.currentObject.body = this.note
-            const payload = {'note': this.currentObject,'userID': this.$store.state.userID}
+            const payload = {'note': this.currentObject,'userID': this.$auth.user.sub}
             this.$store.dispatch('notesModule/post', payload)
             .then(() => {
                 this.save = true

@@ -5,6 +5,7 @@ import (
 	"net/http"
 	"notesBackend/models"
 
+	"github.com/golang-jwt/jwt"
 	"github.com/labstack/echo/v4"
 )
 
@@ -17,7 +18,7 @@ func NewDelivery(listService Service) Delivery {
 }
 
 func (d *Delivery) GetAll(c echo.Context) error {
-	userID := c.Request().Header.Get("userId")
+	userID := c.Request().Context().Value("currentUser").(jwt.MapClaims)["sub"].(string)
 	lists, err := d.listService.GetLists(userID)
 	if err != nil {
 		return c.String(http.StatusInternalServerError, err.Error())
@@ -26,7 +27,7 @@ func (d *Delivery) GetAll(c echo.Context) error {
 }
 
 func (d *Delivery) GetById(c echo.Context) error {
-	userID := c.Request().Header.Get("userID")
+	userID := c.Request().Context().Value("currentUser").(jwt.MapClaims)["sub"].(string)
 	id := c.Param("id")
 	list, err := d.listService.GetListById(id, userID)
 	if err != nil {
@@ -39,7 +40,7 @@ func (d *Delivery) GetById(c echo.Context) error {
 }
 
 func (d *Delivery) GetByFolder(c echo.Context) error {
-	userID := c.Request().Header.Get("userID")
+	userID := c.Request().Context().Value("currentUser").(jwt.MapClaims)["sub"].(string)
 	folderID := c.Request().Header.Get("folderID")
 	lists, err := d.listService.GetByFolder(folderID, userID)
 	if err != nil {
@@ -49,8 +50,8 @@ func (d *Delivery) GetByFolder(c echo.Context) error {
 }
 
 func (d *Delivery) Post(c echo.Context) error {
+	userID := c.Request().Context().Value("currentUser").(jwt.MapClaims)["sub"].(string)
 	requestBody := new(models.List)
-	userID := c.Request().Header.Get("userID")
 	if err := c.Bind(requestBody); err != nil {
 		return c.String(http.StatusBadRequest, err.Error())
 	}
@@ -63,8 +64,8 @@ func (d *Delivery) Post(c echo.Context) error {
 }
 
 func (d *Delivery) Update(c echo.Context) (err error) {
+	userID := c.Request().Context().Value("currentUser").(jwt.MapClaims)["sub"].(string)
 	ID := c.Param("id")
-	userID := c.Request().Header.Get("userID")
 	requestBody := new(models.List)
 	if err = c.Bind(requestBody); err != nil {
 		return c.String(http.StatusBadRequest, err.Error())
@@ -81,15 +82,12 @@ func (d *Delivery) Update(c echo.Context) (err error) {
 }
 
 func (d *Delivery) Delete(c echo.Context) (err error) {
+	userID := c.Request().Context().Value("currentUser").(jwt.MapClaims)["sub"].(string)
 	id := c.Param("id")
-	userID := c.Request().Header.Get("userID")
-	list, err := d.listService.DeleteList(id, userID)
+	err = d.listService.DeleteList(id, userID)
 	if err != nil {
 		fmt.Println(err)
 		return c.String(http.StatusBadRequest, err.Error())
 	}
-	if list.ID == "unauthorized" {
-		return c.String(http.StatusForbidden, "Not Authorized")
-	}
-	return c.JSON(http.StatusOK, list)
+	return c.JSON(http.StatusOK, err)
 }

@@ -1,13 +1,12 @@
 import axios from 'axios'
 
-export function getAll ({ commit, state }, payload) {
+const token = sessionStorage.getItem('token')
+axios.defaults.headers.common['authorization'] = token
+
+export function getAll ({ commit, state }) {
   commit('GET_FOLDERS')
   axios
-    .get(`${state.localhost}folders`, {
-      headers: {
-        'userId': payload.userID
-      }
-    })
+    .get(`${state.localhost}folders`)
     .then(response => {
       commit('RECEIVE_FOLDERS', response.data)
     })
@@ -39,7 +38,7 @@ export function post ({ commit, state }, payload) {
       }
     })
     .then(function () {
-      commit('FOLDER_POSTED')
+      commit('FOLDER_POSTED', payload.folder)
     })
     .catch(function (error) {
       console.log(error)

@@ -1,85 +1,56 @@
-package users
+// package users
 
-import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
-	"notesBackend/models"
-	"os"
-)
+// import (
+// 	"database/sql"
+// 	"notesBackend/models"
 
-type Repository struct {
-}
+// 	"github.com/labstack/gommon/log"
+// )
 
-func NewRepository() Repository {
-	return Repository{}
-}
+// type Repository struct {
+// 	dbClient *sql.DB
+// }
 
-func (r *Repository) GetUsers() ([]models.User, error) {
-	var users []models.User
+// func NewRepository(dbClient *sql.DB) Repository {
+// 	return Repository{dbClient: dbClient}
+// }
 
-	jsonFile, err := os.Open("json_files/users.json")
-	if err != nil {
-		fmt.Println(err)
-		return users, err
-	}
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		fmt.Println(err)
-		return users, err
-	}
+// func (r *Repository) GetUsers() ([]models.User, error) {
+// 	var users []models.User
+// 	query := `SELECT * FROM users`
+// 	users, err := r.fetch(query)
+// 	return users, err
+// }
 
-	err = json.Unmarshal(byteValue, &users)
-	if err != nil {
-		fmt.Println(err)
-		return users, err
-	}
-	return users, err
-}
+// func (r *Repository) PostUser(user *models.User) (*models.User, error) {
+// 	statement := `INSERT INTO users (id, username, passw) VALUES ($1, $2, $3)`
+// 	_, err := r.dbClient.Exec(statement, user.ID, user.Username, user.Password)
+// 	return user, err
+// }
 
-func (r *Repository) PostUser(user *models.User) (*models.User, error) {
-	var users []models.User
-
-	jsonFile, err := os.Open("json_files/users.json")
-	if err != nil {
-		fmt.Println(err)
-		return user, err
-	}
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		fmt.Println(err)
-		return user, err
-	}
-	err = json.Unmarshal(byteValue, &users)
-	if err != nil {
-		fmt.Println(err)
-		return user, err
-	}
-
-	var exists bool = false
-	for _, storedUser := range users {
-		if storedUser.Username == user.Username {
-			exists = true
-		}
-	}
-
-	if exists {
-		user.Username = "exists"
-		user.ID = ""
-		user.Password = ""
-	} else {
-		users = append(users, *user)
-		byteCategories, err := json.Marshal(users)
-		if err != nil {
-			fmt.Print(err)
-			return user, err
-		}
-
-		err = ioutil.WriteFile("json_files/users.json", byteCategories, 0644)
-		if err != nil {
-			fmt.Println(err)
-			return user, err
-		}
-	}
-	return user, nil
-}
+// func (r *Repository) fetch(query string) ([]models.User, error) {
+// 	rows, err := r.dbClient.Query(query)
+// 	if err != nil {
+// 		return nil, err
+// 	}
+// 	defer func() {
+// 		err := rows.Close()
+// 		if err != nil {
+// 			log.Errorf("Datenbankverbindung konnte nicht korrekt geschlossen werden: %v", err)
+// 		}
+// 	}()
+// 	result := make([]models.User, 0)
+// 	for rows.Next() {
+// 		userDB := models.UserDB{}
+// 		err := rows.Scan(&userDB.ID, &userDB.Username, &userDB.Password)
+// 		if err != nil {
+// 			if err == sql.ErrNoRows {
+// 				continue
+// 			}
+// 			log.Infof("Fehler beim Lesen der Daten: %v", err)
+// 			return result, err
+// 		}
+// 		result = append(result, userDB.GetUser())
+// 	}
+// 	return result, nil
+// }

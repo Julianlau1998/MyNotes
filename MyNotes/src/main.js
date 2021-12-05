@@ -9,6 +9,24 @@ import VueI18n from 'vue-i18n'
 import langs from './lang'
 import { longClickDirective } from 'vue-long-click'
 
+//Auth0
+import { domain, clientId, audience } from '../auth_config.json';
+import { Auth0Plugin } from "./auth";
+
+Vue.use(Auth0Plugin, {
+  domain,
+  clientId,
+  audience,
+  onRedirectCallback: appState => {
+    router.push(
+      appState && appState.targetUrl
+        ? appState.targetUrl
+        : window.location.pathname
+    );
+  }
+});
+
+
 const longClickInstance = longClickDirective({delay: 400, interval: 50})
 Vue.directive('longclick', longClickInstance)
 

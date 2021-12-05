@@ -1,13 +1,12 @@
 import axios from 'axios'
 
-export function getAll ({ commit, state }, payload) {
+const token = sessionStorage.getItem('token')
+axios.defaults.headers.common['authorization'] = token
+
+export function getAll ({ commit, state }) {
   commit('GET_LISTS')
   axios
-    .get(`${state.localhost}lists`, {
-      headers: {
-        'userId': payload.userID
-      }
-    })
+    .get(`${state.localhost}lists`)
     .then(response => {
       commit('RECEIVE_LISTS', response.data)
     })

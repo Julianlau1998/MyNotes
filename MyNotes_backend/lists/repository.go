@@ -1,217 +1,98 @@
 package lists
 
 import (
-	"encoding/json"
-	"fmt"
-	"io/ioutil"
+	"database/sql"
 	"notesBackend/models"
-	"os"
+
+	"github.com/labstack/gommon/log"
 )
 
 type Repository struct {
+	dbClient *sql.DB
 }
 
-func NewRepository() Repository {
-	return Repository{}
+func NewRepository(dbClient *sql.DB) Repository {
+	return Repository{dbClient: dbClient}
 }
 
-func (r *Repository) GetLists() ([]models.List, error) {
+func (r *Repository) GetLists(userID string) ([]models.List, error) {
 	var lists []models.List
-
-	jsonFile, err := os.Open("json_files/lists.json")
-	if err != nil {
-		fmt.Println(err)
-		return lists, err
-	}
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		fmt.Println(err)
-		return lists, err
-	}
-
-	err = json.Unmarshal(byteValue, &lists)
-	if err != nil {
-		fmt.Println(err)
-		return lists, err
-	}
+	query := `SELECT * FROM lists WHERE userId = $1 ORDER BY createdDate DESC`
+	lists, err := r.fetch(query, userID, "")
 	return lists, err
 }
 
-func (r *Repository) GetListById(id string) (models.List, error) {
-	var list models.List
-	var lists []models.List
-
-	jsonFile, err := os.Open("json_files/lists.json")
-	if err != nil {
-		fmt.Println(err)
-		return list, err
-	}
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		fmt.Println(err)
-		return list, err
-	}
-
-	err = json.Unmarshal(byteValue, &lists)
-	if err != nil {
-		fmt.Println(err)
-		return list, err
-	}
-	for i := 0; i < len(lists); i++ {
-		if lists[i].ID == id {
-			list = lists[i]
-		}
-	}
-	return list, err
+func (r *Repository) GetListById(id string, userId string) (models.List, error) {
+	query := `SELECT * FROM lists WHERE id = $1 AND userID = $2`
+	answer, err := r.getOne(query, id, userId)
+	return answer, err
 }
 
-func (r *Repository) GetByFolder() ([]models.List, error) {
+func (r *Repository) GetByFolder(folderID string, userID string) ([]models.List, error) {
 	var lists []models.List
-
-	jsonFile, err := os.Open("json_files/lists.json")
-	if err != nil {
-		fmt.Println(err)
-		return lists, err
-	}
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		fmt.Println(err)
-		return lists, err
-	}
-
-	err = json.Unmarshal(byteValue, &lists)
-	if err != nil {
-		fmt.Println(err)
-		return lists, err
-	}
+	query := `SELECT * FROM lists WHERE userId = $1 AND folderid = $2 ORDER BY createdDate DESC`
+	lists, err := r.fetch(query, userID, folderID)
 	return lists, err
 }
 
 func (r *Repository) PostList(list *models.List) (*models.List, error) {
-	var lists []models.List
-
-	jsonFile, err := os.Open("json_files/lists.json")
-	if err != nil {
-		fmt.Println(err)
-		return list, err
-	}
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		fmt.Println(err)
-		return list, err
-	}
-	err = json.Unmarshal(byteValue, &lists)
-	if err != nil {
-		fmt.Println(err)
-		return list, err
-	}
-
-	lists = append(lists, *list)
-	byteCategories, err := json.Marshal(lists)
-	if err != nil {
-		fmt.Print(err)
-		return list, err
-	}
-
-	err = ioutil.WriteFile("json_files/lists.json", byteCategories, 0644)
-	if err != nil {
-		fmt.Println(err)
-		return list, err
-	}
-	return list, nil
+	statement := `INSERT INTO lists (id, userid, folderid, title, createdDate) VALUES ($1, $2, $3, $4, CURRENT_TIME)`
+	_, err := r.dbClient.Exec(statement, list.ID, list.UserID, list.FolderID, list.Title)
+	return list, err
 }
 
 func (r *Repository) updateList(list *models.List, ID string, userID string) (models.List, error) {
-	var lists []models.List
+	query := `UPDATE lists SET title = $1, createdDate = Now() WHERE userid = $2 AND id = $3`
+	_, err := r.dbClient.Exec(query, list.Title, userID, ID)
 
-	jsonFile, err := os.Open("json_files/lists.json")
-	if err != nil {
-		fmt.Println(err)
-		return *list, err
-	}
-	byteValue, err := ioutil.ReadAll(jsonFile)
-	if err != nil {
-		fmt.Println(err)
-		return *list, err
-	}
-	err = json.Unmarshal(byteValue, &lists)
-	if err != nil {
-		fmt.Println(err)
-		return *list, err
-	}
-	var returnedList models.List
-	for i := 0; i < len(lists); i++ {
-		if lists[i].ID == ID && lists[i].UserID == userID {
-			lists[i].Title = *&list.Title
-			lists[i].List = *&list.List
-			lists[i].DoneItems = *&list.DoneItems
-			returnedList = lists[i]
-		}
-	}
-
-	byteCategories, err := json.Marshal(lists)
-	if err != nil {
-		fmt.Print(err)
-		return *list, err
-	}
-
-	err = ioutil.WriteFile("json_files/lists.json", byteCategories, 0644)
-	if err != nil {
-		fmt.Println(err)
-		return *list, err
-	}
-
-	return returnedList, err
+	return *list, err
 }
 
-func (r *Repository) DeleteList(list models.List, id string, userID string) (models.List, error) {
-	var lists []models.List
+func (r *Repository) DeleteList(list models.List, id string, userID string) error {
+	query := `DELETE FROM lists WHERE id = $1 AND userid = $2`
+	_, err := r.dbClient.Exec(query, id, userID)
+	return err
+}
 
-	jsonFile, err := os.Open("json_files/lists.json")
-	if err != nil {
-		fmt.Println(err)
-		return list, err
+func (r *Repository) fetch(query string, userID string, folderID string) ([]models.List, error) {
+	var rows *sql.Rows
+	var err error
+	if len(folderID) > 0 {
+		rows, err = r.dbClient.Query(query, userID, folderID)
+	} else {
+		rows, err = r.dbClient.Query(query, userID)
 	}
-	byteValue, err := ioutil.ReadAll(jsonFile)
 	if err != nil {
-		fmt.Println(err)
-		return list, err
+		return nil, err
 	}
-	err = json.Unmarshal(byteValue, &lists)
-	if err != nil {
-		fmt.Println(err)
-		return list, err
-	}
-	var emptyList models.List
-	for i := 0; i < len(lists); i++ {
-		if lists[i].ID == list.ID && lists[i].UserID == userID && len(lists) >= 2 {
-			if i != len(lists)-1 {
-				lists = append(lists[:i], lists[i+1:]...)
-			} else {
-				lists = lists[:len(lists)-1]
-				lists = append(lists, emptyList)
+	defer func() {
+		err := rows.Close()
+		if err != nil {
+			log.Errorf("Datenbankverbindung konnte nicht korrekt geschlossen werden: %v", err)
+		}
+	}()
+	result := make([]models.List, 0)
+	for rows.Next() {
+		listDB := models.ListDB{}
+		err := rows.Scan(&listDB.ID, &listDB.UserID, &listDB.FolderID, &listDB.Title, &listDB.CreatedDate)
+		if err != nil {
+			if err == sql.ErrNoRows {
+				continue
 			}
-		} else if lists[i].ID == list.ID && lists[i].UserID == userID && len(lists) < 2 {
-			lists = append(lists[:0], emptyList)
+			log.Infof("Fehler beim Lesen der Daten: %v", err)
+			return result, err
 		}
-		if lists[i].ID == list.ID && lists[i].UserID != userID {
-			list.ID = "unauthorized"
-			return list, err
-		}
+		result = append(result, listDB.GetList())
 	}
+	return result, nil
+}
 
-	byteCategories, err := json.Marshal(lists)
-	if err != nil {
-		fmt.Println(err)
-		return list, err
+func (r *Repository) getOne(query string, id string, userID string) (models.List, error) {
+	listDB := models.ListDB{}
+	var err error
+	err = r.dbClient.QueryRow(query, id, userID).Scan(&listDB.ID, &listDB.UserID, &listDB.FolderID, &listDB.Title, &listDB.CreatedDate)
+	if err != nil && err != sql.ErrNoRows {
+		log.Infof("Fehler beim Lesen der Daten: %v", err)
 	}
-
-	err = ioutil.WriteFile("json_files/lists.json", byteCategories, 0644)
-	if err != nil {
-		fmt.Println(err)
-		return list, err
-	}
-
-	list.ID = ""
-	return list, err
+	return listDB.GetList(), err
 }

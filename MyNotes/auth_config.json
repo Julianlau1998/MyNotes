@@ -1,0 +1,6 @@
+{
+  "domain": "mynotesjl.eu.auth0.com",
+  "clientId": "ocR7fSrspTjt8L3Wp777l7WwNsH5QPLp",
+  "audience": "https://api.app-mynotes.com/",
+  "serverUrl": "http://192.168.178.58:8081"
+}

@@ -15,10 +15,14 @@ export default {
     return {
     }
   },
-  created() {
-    if (!localStorage.getItem('userID')) {
-      this.$router.push('/login')
-    }
+  async created() {
+    setInterval(() => {
+      this.$auth.getTokenSilently()
+      .then((token) => {
+         sessionStorage.setItem('token', `bearer ${token}`)
+      })
+    }, 3600)
+
     if (this.$workbox) {
       this.$workbox.addEventListener("waiting", () => {
         this.showUpgradeUI = true;
@@ -34,9 +38,6 @@ export default {
       this.showUpgradeUI = false
       await this.$workbox.messageSW({ type: "SKIP_WAITING" });
     }
-  },
-  mounted () {
-    console.log(localStorage.getItem('user'))
   },
   computed: {
     transitionName () {

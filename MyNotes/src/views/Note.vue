@@ -99,7 +99,6 @@ export default {
             note: '',
             postNote: {
                 id: '',
-                userID: '',
                 title: '',
                 body: ''
             },
@@ -114,10 +113,9 @@ export default {
     methods: {
         onSubmit () {
             this.postNote.id = this.id
-            this.postNote.userID = this.$store.state.userID
             this.postNote.title = this.title
             this.postNote.body = this.note
-            const payload = {'note': this.postNote,'userID': this.$store.state.userID}
+            const payload = {'note': this.postNote}
             this.$store.dispatch('notesModule/put', payload)
             .then (() => {
                 this.save = true
@@ -129,7 +127,7 @@ export default {
         },
 
         deleteNote () {
-            const payload = {'id': this.id,'userID': this.$store.state.userID}
+            const payload = {'id': this.id }
             this.$store.dispatch('notesModule/deleteOne', payload)
         },
 
@@ -144,7 +142,7 @@ export default {
         this.$store.state.transitionName = 'swipe-right'
     },
     created () {
-        const payload = {'id': this.id,'userID': this.$store.state.userID}
+        const payload = {'id': this.id}
         this.$store.dispatch('notesModule/getOne', payload)
         
         document.getElementById('body').style.overflow = 'hidden'

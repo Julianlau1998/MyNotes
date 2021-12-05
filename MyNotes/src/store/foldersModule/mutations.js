@@ -21,7 +21,8 @@ export function POST_FOLDER (state) {
   state.folder.submitting = true
   state.err = null
 }
-export function FOLDER_POSTED (state) {
+export function FOLDER_POSTED (state, folder) {
+  state.folders.data.unshift(folder)
   state.folder.submitting = false
 }
 export function DELETE_FOLDER (state) {

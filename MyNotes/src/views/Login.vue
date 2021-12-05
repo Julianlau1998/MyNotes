@@ -9,7 +9,7 @@
         <p class="whiteText">
             You can simply log in below.
         </p>
-        <div class="form"> <br><br>
+        <!-- <div class="form"> <br><br>
             <input
                 type="text"
                 placeholder="Username"
@@ -30,7 +30,31 @@
             >
                 Log In
             </button>
-        </div>
+        </div> -->
+
+        <span v-if="!$auth.loading" class="is-log-in-buttons">
+          <button
+            v-if="!$auth.isAuthenticated"
+            @click="login"
+            class="button is-log-in-button is-outlined is-dark mr-3"
+          >
+            Log in
+          </button>
+          <button
+            v-if="!$auth.isAuthenticated"
+            @click="register"
+            id="login"
+          >
+            Register
+          </button>
+          <button
+            v-if="$auth.isAuthenticated"
+            @click="logout"
+            id="login"
+          >
+            Log out
+          </button>
+        </span>
                
         <br><br><br>
         <router-link to="/register" id="register">Or register new Account</router-link>
@@ -42,60 +66,64 @@
 </template>
 
 <script>
-import * as axios from 'axios';
-
-String.prototype.hashCode = function() {
-    var hash = 0;
-    if (this.length == 0) {
-        return hash;
-    }
-    for (var i = 0; i < this.length; i++) {
-        var char = this.charCodeAt(i);
-        hash = ((hash<<5)-hash)+char;
-        hash = hash & hash; // Convert to 32bit integer
-    }
-    return hash;
-}
-
 export default {
-        name: 'App',
-        data() {
-            return {
-                username: '',
-                password: '',
-                correct: false
-            }
-        },
-        created () {
-            if (localStorage.userID) {
-                this.$router.push('/')
-            }
-        },
-        methods: {
-        logIn () {
-            if (this.username !== '' || this.password !== '') {
-                axios.get(`${this.$store.state.localhost}users`, {
-                headers: {
-                    'username': this.username,
-                    'password': ""+this.password.hashCode()
-                }
-                })
-                .then((response) => {
-                    if (response.data.username == this.username) {
-                        this.$store.state.userID = response.data.id
-                        localStorage.setItem('userID',(response.data.id))
-                        this.$router.push('/') 
-                    } else {
-                        alert("Wrong Password or Username")
-                    }
-                })
-                .error((err) => {
-                    console.log(err)
-                })
-            } else {
-                alert("Wrong Password or Username")
-            }
+    name: 'App',
+    data() {
+        return {
+            username: '',
+            password: '',
+            correct: false,
+            isActive: false
         }
+    },
+    computed: {
+        authenticated () {
+            if (this.$auth.isAuthenticated) {
+                // return this.$auth.user.sub
+                return true
+            } 
+            return false
+        }
+    },
+    watch: {
+        authenticated (val) {
+            if (val) this.$router.push('/')
+        }
+    },
+    methods: {
+    login() {
+        this.$auth.loginWithRedirect();
+    },
+    register() {
+        this.$auth.loginWithRedirect({
+        screen_hint: 'signup'
+        });
+    },
+        // logIn () {
+        //     if (this.username !== '' || this.password !== '') {
+        //         axios.get(`${this.$store.state.localhost}users`, {
+        //         headers: {
+        //             'username': this.username,
+        //             'password': ""+this.password.hashCode()
+        //         }
+        //         })
+        //         .then((response) => {
+        //             if (response.data.username == this.username) {
+        //                 this.$store.state.userID = response.data.id
+        //                 alert(response.data.id)
+        //                 localStorage.setItem('userID',(response.data.id))
+        //                 this.$router.push('/') 
+        //             } else {
+        //                 alert("Wrong Password or Username")
+        //             }
+        //         })
+        //         .error((err) => {
+        //             console.log(err)
+        //         })
+        //     } else {
+        //         alert("Wrong Password or Username")
+        //     }
+        // }
     }
 }
 </script>
